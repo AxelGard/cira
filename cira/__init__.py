@@ -1,10 +1,10 @@
 """
 Cira 
 
-A simpler alpaca tradi api 
+A simpler libray for alpaca-trade-api from Alpaca Markets.
 """
 
 __version__ = "0.0.1"
 __author__ = 'Axel Gard'
-__credits__ = 'aplaca markets'
+__credits__ = 'alpacahq markets'
 
