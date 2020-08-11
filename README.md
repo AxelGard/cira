@@ -1,5 +1,6 @@
 # cira
 A simpler libray for alpaca-trade-api from Alpaca Markets. 
+Cira is available [pip](https://pypi.org/project/cira/)
 
 ![a cira](https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.allthingsclipart.com%2F03%2Falpaca.001.jpg&f=1&nofb=1)
 
@@ -11,6 +12,7 @@ So I thought that shuld make this in to a real lib so that you also can get star
 The name [Cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpca and becose this is a simpel and small lib I thoght it would be a prefect fit. 
 
 ## Installation
+You can install by [pip](https://pypi.org/project/cira/)
 ```bash
 pip install cira
 ```
