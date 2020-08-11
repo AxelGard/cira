@@ -11,15 +11,25 @@ So I thought that shuld make this in to a real lib so that you also can get star
 
 The name [Cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpca and becose this is a simpel and small lib I thoght it would be a prefect fit. 
 
-## Installation
+
+## Getting Started
+
+### Installation
 You can install by [pip](https://pypi.org/project/cira/)
 ```bash
 pip install cira
 ```
 
-## Usage
+### Usage
+Becose the alpca trade API need a key. <br> 
+You need to keep your api key in a **json file**. Cira needs the **path** to the file.
+
 ```python
 import cira
+cira.KEY_FILE = "../mypath/key.json"
+cira.buy(1, "TSLA")
+print(cira.get_postion())
+cira.sell(1, "TSLA")
 
 ```
 
@@ -27,11 +37,8 @@ import cira
 
 ### [v.0.0.1]()
 
-
-## Getting Started
-
 ## Development 
-To install cira with all the dev req. 
+To install cira with all the dev req.
 ```bash
 git clone git@github.com:AxelGard/cira.git
 cd cira/
