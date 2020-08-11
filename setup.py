@@ -12,9 +12,17 @@ setup(
     author_email='axel.gard@tutanota.com',
     license='MIT',
     packages=['cira'],
-    install_requires=['alpaca-trade-api'],
     long_description=long_description,
     long_description_content_type="text/markdown",
+
+    install_requires=['alpaca-trade-api'],
+
+    extras_requires = {
+        "dev": [
+            "pytest"
+        ]
+    },
+
 
     classifiers=[
         'Development Status :: 1 - Plannig',
@@ -22,6 +30,8 @@ setup(
         'License :: OSI Approved :: MIT',  
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 3.5',
-
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
 )
