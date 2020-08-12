@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='cira',
-    version='0.0.2',    
+    version='0.0.3',
     description='A simpler library for the alapaca trade api',
     url='https://github.com/AxelGard/cira',
     author='Axel Gard',
@@ -25,10 +25,10 @@ setup(
 
 
     classifiers=[
-        "Development Status :: 1 - Planning",
+        "Development Status :: 2 - Pre-Alpha",
         "Topic :: Office/Business :: Financial",
         "Programming Language :: Python :: 3.5",
-        "License :: OSI Approved :: MIT License",  
+        "License :: OSI Approved :: MIT License",
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
