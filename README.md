@@ -24,6 +24,13 @@ pip install cira
 Becose the alpca trade API need a key. <br> 
 You need to keep your api key in a **json file**. Cira needs the **path** to the file.
 
+```json 
+{
+  "APCA-API-KEY-ID":"your_pub_key",
+  "APCA-API-SECRET-KEY":"your_private_key"
+}
+```
+
 ```python
 import cira
 cira.KEY_FILE = "../mypath/key.json"
