@@ -43,7 +43,11 @@ cira.sell(1, "TSLA")
 
 ## Versioning
 
-### [v.0.0.1]()
+still in some what of early stages. 
+However I have been using this for alomst a year now.<br>
+There will most likey be quite raped updates in the beging due to bug and what not that will ecure due to the move from my own project [paper-trader](https://github.com/AxelGard/paper-trader). 
+
+if you find bug plz let me know with a issue or if you think you know what the problem is you can ofcourse make a pull request an I will take a look at it. :smiley:
 
 ## Development 
 To install cira with all the dev req.
@@ -59,12 +63,11 @@ source env/bin/activate
 pip install -e .[dev]
 ```
 
-
 ### Coding style
 I have been building this i a vary [functional programming style](https://en.wikipedia.org/wiki/Functional_programming). I'm also trying to follow the [pep8](https://pep8.org/) std notation. 
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details
 
 
 ## Acknowledgments
