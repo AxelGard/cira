@@ -63,7 +63,7 @@ git clone git@github.com:AxelGard/cira.git
 cd cira/
 git checkout develop 
 ```
-and know 
+and know you need to  
 ```bash
 python3 -m venv env 
 source env/bin/activate
