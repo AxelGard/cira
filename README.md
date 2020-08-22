@@ -21,7 +21,7 @@ The name [Cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpca
 
 ## Getting Started
 
-### Installation
+### Installation :arrow_down:
 You can install by [pip](https://pypi.org/project/cira/)
 ```bash
 pip install cira
@@ -48,7 +48,7 @@ cira.sell(1, "TSLA")
 
 ```
 
-## Versioning
+## Versioning :page_with_curl:
 
 still in some what of early stages. 
 However I have been using this for alomst a year now.<br>
@@ -56,7 +56,7 @@ There will most likey be quite raped updates in the beging due to bug and what n
 
 if you find bug plz let me know with a issue or if you think you know what the problem is you can ofcourse make a pull request an I will take a look at it. :smiley:
 
-## Development 
+## Development :wrench:
 To install cira with all the dev req.
 ```bash
 git clone git@github.com:AxelGard/cira.git
