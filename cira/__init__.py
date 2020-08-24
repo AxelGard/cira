@@ -10,7 +10,7 @@ import json
 import csv
 import alpaca_trade_api as tradeapi
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 __author__ = 'Axel Gard'
 __credits__ = 'alpacahq markets'
 
