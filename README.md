@@ -1,6 +1,6 @@
 # cira
 A simpler libray for alpaca-trade-api from Alpaca Markets. 
-Cira is available [pip](https://pypi.org/project/cira/)
+Cira is available [pip](https://pypi.org/project/cira/). Plz give it a star if you like it!
 
 ![a cira](https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.allthingsclipart.com%2F03%2Falpaca.001.jpg&f=1&nofb=1)
 
