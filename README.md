@@ -48,6 +48,10 @@ cira.sell(1, "TSLA")
 
 ```
 
+To se more you can what you can do check out the [wiki](https://github.com/AxelGard/cira/wiki)
+
+I also have an exampel of how to build a [index fund with Cira](https://axelgard.github.io/blog/cira/2020/08/20/cira-index-fund.html)
+
 ## Versioning :page_with_curl:
 
 still in some what of early stages. 
