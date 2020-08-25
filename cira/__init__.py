@@ -63,8 +63,7 @@ def order(sym, qty, beh):
 
 
 def buy(qty, sym):
-    """ buys a stock.
-    takes int qty and a string sym """
+    """ buys a stock. Takes int qty and a string sym """
     order_ = order(sym, qty, 'buy')
     if LOGGING:
         log(format_log_action('buy', sym, qty))
@@ -72,8 +71,7 @@ def buy(qty, sym):
 
 
 def sell(qty, sym):
-    """ sells a stock.
-    takes int qty and a string sym"""
+    """ sells a stock. Takes int qty and a string sym"""
     order_ = order(sym, qty, 'sell')
     if LOGGING:
         log(format_log_action('sell', sym, qty))
@@ -145,8 +143,7 @@ def nasdaq_assets():
 
 
 def exchange_lst():
-    """ returns a list of stock exchanges
-    that is supported by alpaca """
+    """ returns a list of stock exchanges that is supported by alpaca """
     lst = ['NASDAQ', 'NYSE', 'ARCA', 'BATS']
     return lst
 
@@ -203,8 +200,7 @@ def stock_plpc(sym):
 
 
 def sell_list(lst):
-    """ takes a list of symbols (str) and
-    sells all stocks in that list """
+    """ takes a list of symbols (str) and sells all stocks in that list """
     for sym in lst:
         qty = int(owned_stock_qty(sym))
         #if not sym == 'GOOGL':  # google has problem selling, to few buyers??
