@@ -2,7 +2,7 @@
 .vscode/
 
 # test
-tests/test_key.json
+#tests/test_key.json
 
 #note
 noteToSelf.txt
