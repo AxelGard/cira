@@ -1,26 +1,21 @@
 """
-Cira 
+Cira pkg
 
 A simpler libray for alpaca-trade-api from Alpaca Markets.
 """
 
-from time import gmtime 
+from time import gmtime
 from time import strftime
 import json
-import csv
 import alpaca_trade_api as tradeapi
+import logging
 
 __version__ = "0.0.5"
 __author__ = 'Axel Gard'
 __credits__ = 'alpacahq markets'
 
+KEY_FILE = "" # user key file path
 
-KEY_FILE = ""
-LOGGING = False
-LOG_FILE = ""
-
-
-# Auth 
 
 def authentication_header():
     """ get's key and returns key in json format """
@@ -50,8 +45,7 @@ def exchange_open():
 
 
 def order(sym, qty, beh):
-    """ submit order and is a
-    template for order """
+    """ submit order and is a template for order """
     order = api().submit_order(
         symbol=sym,
         qty=qty,
@@ -65,16 +59,16 @@ def order(sym, qty, beh):
 def buy(qty, sym):
     """ buys a stock. Takes int qty and a string sym """
     order_ = order(sym, qty, 'buy')
-    if LOGGING:
-        log(format_log_action('buy', sym, qty))
+    if logging.LOGGING:
+        logging.log(logging.format_log_action('buy', sym, qty))
     return order_
 
 
 def sell(qty, sym):
     """ sells a stock. Takes int qty and a string sym"""
     order_ = order(sym, qty, 'sell')
-    if LOGGING:
-        log(format_log_action('sell', sym, qty))
+    if logging.LOGGING:
+        logging.log(logging.format_log_action('sell', sym, qty))
     return order_
 
 
@@ -85,8 +79,7 @@ def is_shortable(sym):
 
 
 def can_borrow(sym):
-    """ check whether the name is currently
-    available to short at Alpaca """
+    """ check whether the name is currently available to short at Alpaca """
     asset = api().get_asset(sym)
     return asset.easy_to_borrow
 
@@ -99,8 +92,7 @@ def get_barset(sym, lim):
 
 
 def value_of_stock(sym):
-    """ takes a string sym.
-    Gets and returns the stock value at close """
+    """ takes a string sym. Gets and returns the stock value at close """
     nr_days = 1
     barset = get_barset(sym, nr_days)
     if barset is None:
@@ -144,7 +136,7 @@ def nasdaq_assets():
 
 def exchange_lst():
     """ returns a list of stock exchanges that is supported by alpaca """
-    lst = ['NASDAQ', 'NYSE', 'ARCA', 'BATS']
+    lst = ['NASDAQ', 'NYSE', 'ARCA', 'BATS'] # TODO: add support for more then NASDAQ
     return lst
 
 
@@ -203,24 +195,6 @@ def sell_list(lst):
     """ takes a list of symbols (str) and sells all stocks in that list """
     for sym in lst:
         qty = int(owned_stock_qty(sym))
-        #if not sym == 'GOOGL':  # google has problem selling, to few buyers??
+        #if not sym == 'GOOGL':  # TODO: fix, google has problem selling, to few buyers??
         sell(qty, sym)
-    return None
-
-# LOG 
-
-def format_log_action(act, sym, qty):
-    """ formats info for logging """
-    time_ = strftime("%Y-%m-%d %H:%M", gmtime())
-    log_data = [act, sym, qty, time_]
-    return log_data
-
-
-def log(log_data):
-    """ writes log data to file """
-    file_path = "trader/log/log.csv"
-    with open(file_path, 'a') as file:
-        # fd.write(log_data)
-        writer = csv.writer(file)
-        writer.writerow(log_data)
     return None

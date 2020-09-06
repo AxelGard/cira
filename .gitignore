@@ -1,5 +1,8 @@
-#vscode 
+#vscode
 .vscode/
+
+# test
+test/test_key.json
 
 #note
 noteToSelf.txt
