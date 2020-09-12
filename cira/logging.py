@@ -1,5 +1,6 @@
 import csv
 import json
+import time 
 
 LOGGING = False
 LOG_FILE = ""
@@ -7,7 +8,7 @@ LOG_FILE = ""
 
 def format_log_action(act, sym, qty):
     """ formats info for logging """
-    time_ = strftime("%Y-%m-%d %H:%M", gmtime())
+    time_ = time.strftime("%Y-%m-%d %H:%M", time.gmtime())
     log_data = [act, sym, qty, time_]
     return log_data
 
