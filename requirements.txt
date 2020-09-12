@@ -5,7 +5,7 @@ certifi==2020.6.20
 cffi==1.14.1
 chardet==3.0.4
 check-manifest==0.42
--e git+git@github.com:AxelGard/cira.git@f9d32a52c9e7ff997d18f9eebd7b99ca325cc806#egg=cira
+cira
 colorama==0.4.3
 cryptography==3.0
 docutils==0.16
