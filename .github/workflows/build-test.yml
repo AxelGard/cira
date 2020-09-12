@@ -9,7 +9,7 @@ on:
 
 jobs: 
   build:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.6, 3.7 3.8]
