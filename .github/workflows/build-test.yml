@@ -28,7 +28,7 @@ jobs:
         pip install pytest
         pip install -r requirements.txt
         pip install -e .[dev]
-      env:
+      set-env:
         APCA_ID: ${{ secrets.APCA_ID }}
         APCA_KEY: ${{ secrets.APCA_KEY }}
     - name: Test with pytest
