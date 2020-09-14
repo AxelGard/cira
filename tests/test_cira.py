@@ -5,9 +5,15 @@ for dev
 import pytest
 #import unittest
 import cira
+import os 
 
-TEST_KEY_FILE = "./tests/test_key.json"
-cira.KEY_FILE = TEST_KEY_FILE
+
+if 'APCA_ID' in os.environ and 'APCA_KEY' in os.environ: # github action 
+    cira.APCA_API_KEY_ID = os.environ['APCA_ID'] 
+    cira.APCA_API_SECRET_KEY = os.environ['APCA_KEY']
+else:
+    TEST_KEY_FILE = "./tests/test_key.json"
+    cira.KEY_FILE = TEST_KEY_FILE
 
 
 def test_set_up():
