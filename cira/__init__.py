@@ -26,8 +26,8 @@ def authentication_header():
 
 def api():
     """ returns object for api """
-    auth_header = authentication_header()
     if KEY_FILE:
+        auth_header = authentication_header()
         APCA_API_KEY_ID = str(auth_header["APCA-API-KEY-ID"])
         APCA_API_SECRET_KEY = str(auth_header["APCA-API-SECRET-KEY"])
 
