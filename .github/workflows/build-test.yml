@@ -19,9 +19,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
-      run: |
-        echo "::set-env name=APCA_ID::${{ secrets.APCA_ID }}"
-        echo "::set-env name=APCA_KEY::${{ secrets.APCA_KEY }}"
+      env:
+        APCA_ID: ${{ secrets.APCA_ID }}
+        APCA_KEY: ${{ secrets.APCA_KEY }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
