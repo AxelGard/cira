@@ -28,8 +28,8 @@ jobs:
         pip install pytest
         pip install -r requirements.txt
         pip install -e .[dev]
-        echo "::set-env name=APCA_ID::${{ secrets.APCA_ID }}"
-        echo "::set-env name=APCA_KEY::${{ secrets.APCA_KEY }}"
     - name: Test with pytest
       run: |
+        echo "::set-env name=APCA_ID::${{ secrets.APCA_ID }}"
+        echo "::set-env name=APCA_KEY::${{ secrets.APCA_KEY }}"
         python -m pytest
