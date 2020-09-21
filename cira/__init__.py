@@ -9,7 +9,7 @@ from time import strftime
 import json
 import alpaca_trade_api as tradeapi
 import logging
-
+import os
 __version__ = "0.0.5"
 __author__ = 'Axel Gard'
 __credits__ = 'alpacahq markets'
@@ -26,15 +26,22 @@ def authentication_header():
 
 def api():
     """ returns object for api """
-    if KEY_FILE:
+    if 'APCA_ID' in os.environ:
+        APCA_ID = os.environ['APCA_ID'] 
+        APCA_KEY = os.environ['APCA_KEY']
+    elif KEY_FILE:
         auth_header = authentication_header()
-        APCA_API_KEY_ID = str(auth_header["APCA-API-KEY-ID"])
-        APCA_API_SECRET_KEY = str(auth_header["APCA-API-SECRET-KEY"])
+        APCA_ID = str(auth_header["APCA-API-KEY-ID"])
+        APCA_KEY = str(auth_header["APCA-API-SECRET-KEY"])
+    else:
+        APCA_ID = APCA_API_KEY_ID
+        APCA_KEY = APCA_API_SECRET_KEY
+    
 
     # Open the API connection
     api = tradeapi.REST(
-        APCA_API_KEY_ID,
-        APCA_API_SECRET_KEY,
+        APCA_ID,
+        APCA_KEY,
         'https://paper-api.alpaca.markets'
     )
     # Get account info
