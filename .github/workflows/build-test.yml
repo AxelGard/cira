@@ -23,6 +23,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
+      env:
+        set-env: APCA_ID::${{ secrets.APCA_ID }}
+        set-env: APCA_KEY::${{ secrets.APCA_KEY }}
       run: |
         python -m pip install --upgrade pip
         pip install pytest
@@ -30,6 +33,4 @@ jobs:
         pip install -e .[dev]
     - name: Test with pytest
       run: |
-        echo "::set-env name=APCA_ID::${{ secrets.APCA_ID }}"
-        echo "::set-env name=APCA_KEY::${{ secrets.APCA_KEY }}"
         python -m pytest
