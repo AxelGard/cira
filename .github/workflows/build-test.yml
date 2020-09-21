@@ -19,12 +19,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
-      with:
-        APCA_ID: ${{ secrets.APCA_ID }}
-        APCA_KEY: ${{ secrets.APCA_KEY }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+        APCA_ID: ${{ secrets.APCA_ID }}
+        APCA_KEY: ${{ secrets.APCA_KEY }}
     - name: Install dependencies 
       run: |
         python -m pip install --upgrade pip
