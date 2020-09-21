@@ -26,16 +26,8 @@ def authentication_header():
 
 def api():
     """ returns object for api """
-    if 'APCA_ID' in os.environ:
-        APCA_ID = os.environ['APCA_ID'] 
-        APCA_KEY = os.environ['APCA_KEY']
-    elif KEY_FILE:
-        auth_header = authentication_header()
-        APCA_ID = str(auth_header["APCA-API-KEY-ID"])
-        APCA_KEY = str(auth_header["APCA-API-SECRET-KEY"])
-    else:
-        APCA_ID = APCA_API_KEY_ID
-        APCA_KEY = APCA_API_SECRET_KEY
+    APCA_ID = os.environ['APCA_ID'] 
+    APCA_KEY = os.environ['APCA_KEY']
     
 
     # Open the API connection
