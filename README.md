@@ -28,9 +28,9 @@ pip install cira
 ```
 
 ### Usage
-Becose the alpca trade API need a key. <br>
+Becose the alpca trade API need a key.
 You need to keep your api key in a **json file**. Cira needs the **path** to the file.
-You can also set the variables directly or a environment variable. But you should use a file. 
+You can also set the variables directly or a environment variable. But you should use a file. <br>
 **key.json**
 ```json
 {
