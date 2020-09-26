@@ -75,6 +75,13 @@ python3 -m venv env
 source env/bin/activate
 pip install -e .[dev]
 ```
+Run tests using pytest. Ensure that you are in the cira dir.
+But you will need a new key. This key should not only be used for testing or if you don't mind if all of the assets in the portfolio being sold.   
+```bash
+touch tests/test_key.json
+pytest
+```
+
 
 ### Coding style
 I have been building this i a vary [functional programming style](https://en.wikipedia.org/wiki/Functional_programming). I'm also trying to follow the [pep8](https://pep8.org/) std notation.
