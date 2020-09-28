@@ -1,6 +1,6 @@
 # cira
 A simpler libray for alpaca-trade-api from Alpaca Markets.
-Cira is available [pip](https://pypi.org/project/cira/). Plz give it a star if you like it!
+Cira is available [pip](https://pypi.org/project/cira/). **Plz give it a star if you like it!**
 
 ![a cira](https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.allthingsclipart.com%2F03%2Falpaca.001.jpg&f=1&nofb=1)
 
@@ -54,11 +54,9 @@ To se more you can what you can do check out the [wiki](https://github.com/AxelG
 
 I also have an exampel of how to build a [index fund with Cira](https://axelgard.github.io/blog/cira/2020/08/20/cira-index-fund.html)
 
-## Versioning :newspaper:
+## Versioning & News :newspaper:
 
-still in some what of early stages.
-However I have been using this for alomst a year now.<br>
-There will most likey be quite raped updates in the beging due to bug and what not that will ecure due to the move from my own project [paper-trader](https://github.com/AxelGard/paper-trader).
+cira still has some things that need be implemented in order to be enter a v0.1.0, for exampel thigs like short;ing stocks and adding support for more stock markets then NASDAQ. 
 
 if you find bug plz let me know with a issue or if you think you know what the problem is you can ofcourse make a pull request an I will take a look at it. :smiley:
 
