@@ -144,6 +144,15 @@ def nasdaq_assets():
     return [a for a in active_assets if a.exchange == 'NASDAQ']
 
 
+def get_all_assets():
+    """ returns a list of all avilabel stocks in exhange list """
+    assets = []
+    active_assets = api().list_assets(status='active')
+    for exchange in exchange_lst():
+        assets += [a for a in active_assets if a.exchange == exchange]
+    return assets
+
+
 def exchange_lst():
     """ returns a list of stock exchanges that is supported by alpaca """
     lst = ['NASDAQ', 'NYSE', 'ARCA', 'BATS'] # TODO: add support for more then NASDAQ
