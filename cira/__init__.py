@@ -153,6 +153,14 @@ def get_all_assets():
     return assets
 
 
+def get_all_sym():
+    """ returns a list of all symbols """
+    lst = []
+    for asset in get_all_assets():
+        lst.append(asset.__dict__['_raw']['symbol'])
+    return lst
+
+
 def exchange_lst():
     """ returns a list of stock exchanges that is supported by alpaca """
     lst = ['NASDAQ', 'NYSE', 'ARCA', 'BATS'] # TODO: add support for more then NASDAQ
