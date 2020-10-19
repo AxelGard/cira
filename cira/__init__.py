@@ -168,8 +168,7 @@ def exchange_lst():
 
 
 def stock_position(sym):
-    """ takes str sym (needs to stock symbol)
-    returns position of stock """
+    """ takes str sym (needs to stock symbol) returns position of stock """
     return api().get_position(sym)
 
 
@@ -222,6 +221,6 @@ def sell_list(lst):
     """ takes a list of symbols (str) and sells all stocks in that list """
     for sym in lst:
         qty = int(owned_stock_qty(sym))
-        #if not sym == 'GOOGL':  # TODO: fix, google has problem selling, to few buyers??
+        #if not sym == 'GOOGL':  # BUG: fix, google has problem selling! 
         sell(qty, sym)
     return None
