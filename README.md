@@ -21,8 +21,8 @@ The name [Cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpca
 
 ## Getting Started
 
-### Installation :arrow_down:
-You can install by [pip](https://pypi.org/project/cira/)
+### Installation
+You can install by [pip](https://pypi.org/project/cira/).
 ```bash
 pip install cira
 ```
@@ -45,22 +45,21 @@ cira.KEY_FILE = "../mypath/key.json"
 cira.buy(1, "TSLA")
 print(cira.get_postion())
 cira.sell(1, "TSLA")
-
 ```
 
-## [Wiki](https://github.com/AxelGard/cira/wiki) and doc's :closed_book:
+## [Wiki](https://github.com/AxelGard/cira/wiki) and doc's 
 
-To se more you can what you can do check out the [wiki](https://github.com/AxelGard/cira/wiki)
+To se more you can what you can do check out the [wiki](https://github.com/AxelGard/cira/wiki).
 
-I also have an exampel of how to build a [index fund with Cira](https://axelgard.github.io/blog/cira/2020/08/20/cira-index-fund.html)
+I also have an exampel of how to build a [index fund with Cira](https://axelgard.github.io/blog/cira/2020/08/20/cira-index-fund.html) or check out [paper-trader](https://github.com/AxelGard/paper-trader) for my usage of cira.
 
-## Versioning & News :newspaper:
+## Versioning & News 
 
 cira still has some things that need be implemented in order to be enter a v0.1.0, for exampel thigs like short;ing stocks and adding support for more stock markets then NASDAQ. 
 
-if you find bug plz let me know with a issue or if you think you know what the problem is you can ofcourse make a pull request an I will take a look at it. :smiley:
+if you find bug plz let me know with a issue or if you think you know what the problem is you can ofcourse make a pull request an I will take a look at it.
 
-## Development :wrench:
+## Development 
 To install cira with all the dev req.
 ```bash
 git clone git@github.com:AxelGard/cira.git
