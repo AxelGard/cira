@@ -10,7 +10,7 @@ import json
 import alpaca_trade_api as tradeapi
 import logging
 import os
-__version__ = "0.0.6"
+__version__ = "1.0.0"
 __author__ = 'Axel Gard'
 __credits__ = 'alpacahq markets'
 
