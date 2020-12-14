@@ -54,7 +54,7 @@ I also have an example of how to build a [index fund trader with cira](https://a
 
 ## Versioning & News 
 
-cira still has some things that need be implemented in order to be enter a v0.1.0, for exampel stock shorting and support for more stock markets  NASDAQ. 
+cira still has some things that need be implemented in order to be enter a v0.1.0, for exampel stock shorting and support for more stock markets than NASDAQ. 
 
 if you find bug plz let me know with a issue. If you know how to solve the problem then you can of course make a pull request and I will take a look at it.
 
