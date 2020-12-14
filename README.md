@@ -1,6 +1,6 @@
 # cira
-A simpler libray for alpaca-trade-api from Alpaca Markets.
-Cira is available [pip](https://pypi.org/project/cira/). **Plz give it a star if you like it!**
+A simpler library for alpaca-trade-api from Alpaca Markets.
+Cira is available on [pip](https://pypi.org/project/cira/). **Plz give it a star if you like it!**
 
 ![a cira](https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.allthingsclipart.com%2F03%2Falpaca.001.jpg&f=1&nofb=1)
 
@@ -11,26 +11,25 @@ Cira is available [pip](https://pypi.org/project/cira/). **Plz give it a star if
 ![PyPI](https://img.shields.io/pypi/v/cira)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/cira)
 
-I was intrested in using the alpaca trade api for building quantitative paper trading.
-The project [paper-trader](https://github.com/AxelGard/paper-trader).<br>
-However after working on this for alomst a year (of and ond agian) I relized that I had alomst build a small libray for using the alpca api.
-So I thought that shuld make this in to a real lib so that you also can get started with quantitative paper trading.
+I was interested in using the Alpaca trade API for building a quantitative paper trader.
+The project is available [here](https://github.com/AxelGard/paper-trader).<br>
+However after working on this for alomst a year (off and on) I realized that I had alomst build a small library for using the Alpaca API.
+So I thought that I would make this into a real library so that you can get started with quantitative paper trading as well.
 
-The name [Cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpca and becose this is a simpel and small lib I thoght it would be a prefect fit.
+The name [cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpaca and because this is a simple and small lib I thought it would be a perfect fit.
 
 
 ## Getting Started
 
 ### Installation
-You can install by [pip](https://pypi.org/project/cira/).
+You can install it using [pip](https://pypi.org/project/cira/).
 ```bash
 pip install cira
 ```
 
 ### Usage
-Becose the alpca trade API need a key.
-You need to keep your api key in a **json file**. Cira needs the **path** to the file.
-You can also set the variables directly or a environment variable. But you should use a file. <br>
+Since the Alpaca trade API need a key, you need to generate your own and keep it in a **JSON file** which cira needs the **path** to.
+You can also set the variables directly or use an environment variable. However, it is recommended that you store it in a file.<br>
 **key.json**
 ```json
 {
@@ -47,17 +46,17 @@ print(cira.get_postion())
 cira.sell(1, "TSLA")
 ```
 
-## [Wiki](https://github.com/AxelGard/cira/wiki) and doc's 
+## [Wiki](https://github.com/AxelGard/cira/wiki) and docs 
 
-To se more you can what you can do check out the [wiki](https://github.com/AxelGard/cira/wiki).
+To see what more you can do check out the [wiki](https://github.com/AxelGard/cira/wiki).
 
-I also have an exampel of how to build a [index fund with Cira](https://axelgard.github.io/blog/cira/2020/08/20/cira-index-fund.html) or check out [paper-trader](https://github.com/AxelGard/paper-trader) for my usage of cira.
+I also have an example of how to build a [index fund trader with cira](https://axelgard.github.io/blog/cira/2020/08/20/cira-index-fund.html) or check out [paper-trader](https://github.com/AxelGard/paper-trader) for my usage of cira.
 
 ## Versioning & News 
 
-cira still has some things that need be implemented in order to be enter a v0.1.0, for exampel thigs like short;ing stocks and adding support for more stock markets then NASDAQ. 
+cira still has some things that need be implemented in order to be enter a v0.1.0, for exampel stock shorting and support for more stock markets  NASDAQ. 
 
-if you find bug plz let me know with a issue or if you think you know what the problem is you can ofcourse make a pull request an I will take a look at it.
+if you find bug plz let me know with a issue. If you know how to solve the problem then you can of course make a pull request and I will take a look at it.
 
 ## Development 
 To install cira with all the dev req.
@@ -81,7 +80,7 @@ pytest
 
 
 ### Coding style
-I have been building this i a vary [functional programming style](https://en.wikipedia.org/wiki/Functional_programming). I'm also trying to follow the [pep8](https://pep8.org/) std notation.
+I have been building this in a very [functional programming style](https://en.wikipedia.org/wiki/Functional_programming). I'm also trying to follow the [pep8](https://pep8.org/) standard notation.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details
@@ -89,5 +88,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) 
 
 ## Acknowledgments
 
-* [alpaca API](https://alpaca.markets/)
+* [Alpaca API](https://alpaca.markets/)
 * [paper-trader](https://github.com/AxelGard/paper-trader)
