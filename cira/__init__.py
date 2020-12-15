@@ -65,6 +65,11 @@ def order(sym, qty, beh):
 
     return order
 
+def list_orders():
+    """ returns a list of all open orders with all diffult args """
+    lst = api().list_orders()
+
+    return lst
 
 def buy(qty, sym):
     """ buys a stock. Takes int qty and a string sym """

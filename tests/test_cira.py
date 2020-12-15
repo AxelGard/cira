@@ -46,3 +46,8 @@ def test_short():
     stock = 'TSLA'
     assert cira.is_shortable(stock) == True
     assert cira.can_borrow(stock) == True
+
+
+def test_lists_orders():
+    """ simple testy to ensure that no orders is till runing """
+    assert cira.list_orders() == []
