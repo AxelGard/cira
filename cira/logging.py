@@ -2,8 +2,6 @@ import csv
 import json
 import time 
 
-LOGGING = False
-LOG_FILE = ""
 
 
 def format_log_action(act, sym, qty):

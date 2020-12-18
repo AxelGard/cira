@@ -8,6 +8,8 @@ test_key.json
 #note
 noteToSelf.txt
 
+cira/env/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
