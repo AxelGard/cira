@@ -49,7 +49,7 @@ stock.sell(1)
 New classes with cira v.2!
 ```python
 portfolio = cira.Portfolio() # methods for your portfolio 
-exchange = cira.Exchange() # methods for exchange, that keeps all stocks 
+exchange = cira.Exchange() # methods for exchange 
 stock = cira.Stock("TSLA") # a class for one stock
 ```
 
