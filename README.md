@@ -46,6 +46,13 @@ stock.buy(1)
 stock.sell(1)
 ```
 
+New classes with cira v.2!
+```python
+portfolio = cira.Portfolio() # methods for your portfolio 
+exchange = cira.Exchange() # methods for exchange, that keeps all stocks 
+stock = cira.Stock("TSLA") # a class for one stock, needs a str of the symbol 
+```
+
 ## [Wiki](https://github.com/AxelGard/cira/wiki) and docs 
 
 To see what more you can do check out the [wiki](https://github.com/AxelGard/cira/wiki).
