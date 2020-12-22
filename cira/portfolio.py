@@ -8,6 +8,7 @@ class Portfolio:
         self.equity = 0
         self._list_orders = []
         self._owned_stocks = []
+        self._position = []
         
 
     @property
@@ -18,15 +19,16 @@ class Portfolio:
 
 
     @property
-    def get_position(): # PREV: get_position
+    def position(self): # PREV: get_position
         """ create a list of all owned position """
         portfolio = alpaca.api().list_positions()
-        portfolio_lst = []
+        self._position = []
         for position in portfolio:
             position_dict = util.reformat_position(position)
             position_dict['symbol'] = position.symbol
-            portfolio_lst.append(position_dict)
-        return portfolio_lst
+            self._position.append(position_dict)
+
+        return self._position
 
 
     
@@ -53,5 +55,9 @@ class Portfolio:
             qty = self.owned_stock_qty(stock)
             #if not stock.symbol == 'GOOGL':  # BUG: fix, google has problem selling! 
             stock.sell(qty)
+
+
+    def __repr__(self):
+        return f"{self.position}"
     
     

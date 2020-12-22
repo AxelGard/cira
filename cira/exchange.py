@@ -33,19 +33,19 @@ class Exchange:
     @property
     def symbols(self):
         """ returns a list of all symbols """
-        lst = []
+        self._symbols = []
         for asset in self.assets_raw():
-            lst.append(asset.__dict__['_raw']['symbol'])
-        self._symbols = lst 
+            self._symbols.append(asset.__dict__['_raw']['symbol'])
+        return self._symbols 
         
 
     @property
     def stocks(self):
         """ returns a list of objects Stocks """
-        self._symbols = []
+        self._stocks = []
         for sym in self.symbols:
-            self._symbols.append(stock.Stock(sym))
-        return self._symbols
+            self._stocks.append(stock.Stock(sym))
+        return self._stocks
             
 
 
