@@ -17,12 +17,16 @@ class Stock:
         self._position = None 
         self._today_plpc = 0
         self._plpc = 0
+        self._is_open = False
         
 
     @property
     def price(self): # PREV: current_price
         """ returns the current price of given symbol (str) """
-        self._price = self.position['current_price']
+        if not self.exchange_is_open:
+            self._price = self.value 
+        else: 
+            self._price = self.position['current_price'] # BUG: gets a 404 assuming due to exchange is close 
         return self._price
 
 
@@ -40,7 +44,7 @@ class Stock:
 
     def buy(self, qty):
         """ buys a stock. Takes int qty and a string sym """
-        order_ = self.order(self.symbol, qty, 'buy')
+        order_ = self.order(qty, 'buy')
         if config.IS_LOGGING:
             logging.log(logging.format_log_action('buy', self.symbol, qty))
         return order_
@@ -125,11 +129,18 @@ class Stock:
         return self._plpc
 
 
+    @property
+    def exchange_is_open(self):
+        """ returns if exchange is open """
+        self._is_open = alpaca.api().get_clock().is_open
+        return self._is_open
+
+
     def __repr__(self):
-        return f"{self.symbol}"
+        return f"{self.symbol}@(${self.price}) "
 
     def __str__(self):
-        return self.symbol
+        return f"{self.symbol}"
 
     # Operators
 

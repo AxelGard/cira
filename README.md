@@ -28,8 +28,8 @@ pip install cira
 ```
 
 ### Usage
-Since the Alpaca trade API need a key, you need to generate your own and keep it in a **JSON file** which cira needs the **path** to.
-You can also set the variables directly or use an environment variable. However, it is recommended that you store it in a file.<br>
+Since the Alpaca trade API need a API key, you need to generate your own key. I recommend keep it in a **JSON file** which cira needs the **path** to.
+You can also set the variables directly or use an environment variable, see the [wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key) for diffrent the ways. However, it is recommended that you store it in a file just make sure not to upload that file on any public repositories. <br>
 **key.json**
 ```json
 {
@@ -41,9 +41,9 @@ then you can start using the lib
 ```python
 import cira
 cira.KEY_FILE = "../mypath/key.json"
-cira.buy(1, "TSLA")
-print(cira.get_postion())
-cira.sell(1, "TSLA")
+stock = cira.Stock("TSLA")
+stock.buy(1)
+stock.sell(1)
 ```
 
 ## [Wiki](https://github.com/AxelGard/cira/wiki) and docs 
@@ -54,7 +54,11 @@ I also have an example of how to build a [index fund trader with cira](https://a
 
 ## Versioning & News 
 
-cira still has some things that need be implemented in order to be enter a v0.1.0, for exampel stock shorting and support for more stock markets than NASDAQ. 
+### v.2.0.0, new structure!
+
+> cira v.2.0.0 is coming soon! Checkout devlop branch for what's coming!
+
+With cira v.2.0.0 has a new structure! If you want the older structure no worris check out [cira-classic](https://github.com/AxelGard/cira-classic) for the old structure. But with cira v.2 you get the new classes!
 
 if you find bug plz let me know with a issue. If you know how to solve the problem then you can of course make a pull request and I will take a look at it.
 
@@ -80,7 +84,9 @@ pytest
 
 
 ### Coding style
-I have been building this in a very [functional programming style](https://en.wikipedia.org/wiki/Functional_programming). I'm also trying to follow the [pep8](https://pep8.org/) standard notation.
+I'm trying to follow the [pep8](https://pep8.org/) standard notation. 
+
+I try to make the library to be so intuitive as possible for easy of use.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details
@@ -90,3 +96,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) 
 
 * [Alpaca API](https://alpaca.markets/)
 * [paper-trader](https://github.com/AxelGard/paper-trader)
+* [cira-classic](https://github.com/AxelGard/cira-classic)
