@@ -41,7 +41,7 @@ class Portfolio:
     @property
     def owned_stocks(self):
         """ returns a list of owned stocks """
-        lst = get_position()
+        lst = self.position
         self._owned_stocks = []
         for dict_ in lst:
             self._owned_stocks.append(dict_['symbol'])
