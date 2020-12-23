@@ -92,7 +92,7 @@ class Stock:
 
     @property
     def week_pl_change(self):
-        """ % change over a week """
+        """ Percentage change over a week """
         nr_days = 5
         bars = self.barset(nr_days)
         week_open = bars[self.symbol][0].o

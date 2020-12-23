@@ -15,39 +15,36 @@ if 'APCA_ID' in os.environ and 'APCA_KEY' in os.environ: # github action
 else:
     cira.KEY_FILE = "./tests/test_key.json"
 
+portfolio = cira.Portfolio() 
+exchange = cira.Exchange() 
 
-def test_set_up():
+def test_setup():
     """ Ensure that position is predictable for testing """
-    if cira.exchange_open():
-        cira.sell_list(cira.owned_stocks()) # clear portfolio
-    assert cira.owned_stocks() == []
+    global exchange
+    global portfolio
+    if exchange.is_open:
+        portfolio.sell_list(portfolio.owned_stocks) # clear portfolio
+    
+    assert exchange.owned_stocks() == []
+    assert portfolio.orders == []
 
+    
 
-def test_portfolio():
-    """ Testing function realating to portfolio """
-    assert cira.owned_stocks() == []
-    assert cira.get_position() == []
+def test_stock():
+    """ test relatied to the stock class """
+    global exchange
+    global portfolio
+    stock = cira.Stock("TSLA")
+    if exchange.is_open: 
+        assert portfolio.owned_stocks == []
+        stock.buy(1)
+        assert portfolio.owned_stocks == ['TSLA']
+        stock.sell(1)
+        assert portfolio.owned_stocks == []
 
+    assert stock.is_shortable == True 
+    assert stock.can_borrow == True 
+    assert stock.is_tradable == True 
+    assert stock == stock
+    assert int(stock) == int(stock.price)
 
-def test_trade():
-    """ buy and sell testing """
-    stock = 'AMZN'
-    cira.logging.LOGGING = False
-    assert cira.is_tradable(stock) == True
-    if cira.exchange_open():
-        cira.buy(1, stock)
-        assert cira.owned_stocks() == [stock]
-        cira.sell(1, stock)
-    assert cira.owned_stocks() == []
-
-
-def test_short():
-    """ testing realating to shorting stocks """
-    stock = 'TSLA'
-    assert cira.is_shortable(stock) == True
-    assert cira.can_borrow(stock) == True
-
-
-def test_lists_orders():
-    """ simple testy to ensure that no orders is till runing """
-    assert cira.list_orders() == []

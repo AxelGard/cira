@@ -2,6 +2,7 @@ import alpaca_trade_api as tradeapi
 from . import config 
 from . import alpaca
 from . import util
+from . import stock
 
 class Portfolio:
     def __init__(self):
@@ -44,13 +45,13 @@ class Portfolio:
         lst = self.position
         self._owned_stocks = []
         for dict_ in lst:
-            self._owned_stocks.append(dict_['symbol'])
+            self._owned_stocks.append(stock.Stock(dict_['symbol']))
         return self._owned_stocks
 
 
     @property
     def sell_list(self, lst):
-        """ takes a list of symbols (str) and sells all stocks in that list """
+        """ takes a list of Stocks and sells all stocks in that list """
         for stock in lst:
             qty = self.owned_stock_qty(stock)
             #if not stock.symbol == 'GOOGL':  # BUG: fix, google has problem selling! 
@@ -58,6 +59,9 @@ class Portfolio:
 
 
     def __repr__(self):
+        return f"my-portfolio({self.equity})"
+
+    def __str__(self):
         return f"{self.position}"
     
     
