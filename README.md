@@ -53,6 +53,7 @@ portfolio = cira.Portfolio() # methods for your portfolio
 exchange = cira.Exchange() # methods for exchange 
 stock = cira.Stock("TSLA") # a class for one stock
 ```
+for a example with the new classes check out this simple [index fund](https://axelgard.github.io/blog/cira/2020/12/23/cira-v2.html)
 
 ## [Wiki](https://github.com/AxelGard/cira/wiki) and docs 
 
@@ -64,13 +65,13 @@ I also have an example of how to build a [index fund trader with cira](https://a
 
 ### v.2.0.0, new structure!
 
-> cira v.2.0.0 is coming soon! Checkout devlop branch for what's coming!
-
 With cira v.2.0.0 has a new structure! If you want the older structure no worris check out [cira-classic](https://github.com/AxelGard/cira-classic) for the old structure. But with cira v.2 you get the new classes!
 
 if you find bug plz let me know with a issue. If you know how to solve the problem then you can of course make a pull request and I will take a look at it.
 
 ## Development 
+If you want to help develop cira you are more then welcome to do so. 
+Feel free to make a pull request or issue. 
 To install cira with all the dev req.
 ```bash
 git clone git@github.com:AxelGard/cira.git
