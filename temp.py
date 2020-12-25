@@ -8,7 +8,11 @@ cira.alpaca.KEY_FILE = "../paper-trader/key.json"
 
 portfolio = cira.Portfolio()
 exchange = cira.Exchange()
-qty = 1
+
+stock = cira.Stock("TSLA")
+print(stock.historical_data())
+
+"""qty = 1
 print(exchange.is_open)
 while exchange.is_open:
     for stock in random.choices(exchange.stocks, k=qty):
@@ -19,5 +23,5 @@ while exchange.is_open:
         print(stock)
     time.sleep(2)
 
-
+"""
     

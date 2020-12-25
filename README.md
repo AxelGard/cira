@@ -64,7 +64,8 @@ I also have an example of how to build a [index fund trader with cira](https://a
 
 ## v.2.0.0, new structure!
 
-With cira v.2.0.0 has a new structure! If you want the older structure no worris check out [cira-classic](https://github.com/AxelGard/cira-classic) for the old structure. But with cira v.2 you get the new classes!
+With cira v.2.0.0 has a new structure and classes! 
+With this new classes and structure you will be able to use the library more simply. Checkout the [example page on the wiki](https://github.com/AxelGard/cira/wiki/Examples). The main classes are the Stock, Portfolio and Exchange.
 
 ## want the old version?
 

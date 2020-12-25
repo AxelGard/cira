@@ -90,6 +90,15 @@ class Stock:
         return self._barset
 
 
+    def historical_data(self, nr_days=1000):
+        """ returns a list of the stocks closing value, range of 1 to 1000 days """
+        lst = []
+        nr_days = max(1, min(nr_days, 1000)) 
+        for bar in self.barset(nr_days)[self.symbol]:
+            lst.append(bar.c)
+        return lst 
+        
+
     @property
     def week_pl_change(self):
         """ Percentage change over a week """
