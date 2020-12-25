@@ -16,4 +16,4 @@ from .portfolio import Portfolio
 
 __version__ = "2.0.1"
 __author__ = "Axel Gard"
-__credits__ = "alpacahq markets"
+__credits__ = "alpaca.markets"
