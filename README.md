@@ -73,6 +73,10 @@ For backwards compatibility I made sure to fork cira in to [cira-classic](https:
 
 if you find bug plz let me know with a issue. If you know how to solve the problem then you can of course make a pull request and I will take a look at it.
 
+## Have a question? 
+If you have a question about cira, want to share what you built with cira or want to talk to others using cira, 
+you can checkout the [discussions page](https://github.com/AxelGard/cira/discussions).
+
 ## Development 
 If you want to help develop cira you are more then welcome to do so. 
 Feel free to make a pull request or issue. 
