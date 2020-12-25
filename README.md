@@ -63,9 +63,13 @@ I also have an example of how to build a [index fund trader with cira](https://a
 
 ## Versioning & News 
 
-### v.2.0.0, new structure!
+## v.2.0.0, new structure!
 
 With cira v.2.0.0 has a new structure! If you want the older structure no worris check out [cira-classic](https://github.com/AxelGard/cira-classic) for the old structure. But with cira v.2 you get the new classes!
+
+## want the old version?
+
+For backwards compatibility I made sure to fork cira in to [cira-classic](https://github.com/AxelGard/cira-classic) and cira-classic is also available on [pypi with pip](https://pypi.org/project/cira-classic/). 
 
 if you find bug plz let me know with a issue. If you know how to solve the problem then you can of course make a pull request and I will take a look at it.
 
