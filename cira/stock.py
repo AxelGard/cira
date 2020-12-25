@@ -42,24 +42,25 @@ class Stock:
             self._value = barset[self.symbol][0].c  # get stock at close
         return self._value
 
-    def buy(self, qty):
+    def buy(self, qty: int):
         """ buys a stock. Takes int qty and a string sym """
         order_ = self.order(qty, "buy")
         if config.IS_LOGGING:
             logging.log(logging.format_log_action("buy", self.symbol, qty))
         return order_
 
-    def sell(self, qty):
+    def sell(self, qty: int):
         """ sells a stock. Takes int qty and a string sym"""
         order_ = self.order(qty, "sell")
         if config.IS_LOGGING:
             logging.log(logging.format_log_action("sell", self.symbol, qty))
         return order_
 
-    def order(self, qty, beh):
+    def order(self, qty: int, beh: str):
         """ submit order and is a template for order """
         order = alpaca.api().submit_order(
-            symbol=self.symbol, qty=qty, side=beh, type="market", time_in_force="gtc"
+            symbol=self.symbol, qty=qty, side=beh,
+            type="market", time_in_force="gtc"
         )
         return order
 
@@ -76,9 +77,10 @@ class Stock:
         self._can_borrow = alpaca.api().get_asset(self.symbol).easy_to_borrow
         return self._can_borrow
 
-    def barset(self, limit):
+    def barset(self, limit: int):
         """ returns barset for stock for time period lim """
-        self._barset = alpaca.api().get_barset(self.symbol, "day", limit=int(limit))
+        self._barset = alpaca.api().get_barset(self.symbol,
+             "day", limit=int(limit))
         return self._barset
 
     def historical_data(self, nr_days=1000):
