@@ -2,8 +2,7 @@
 A simpler library for alpaca-trade-api from Alpaca Markets.
 Cira is available on [pip](https://pypi.org/project/cira/). **Plz give it a star if you like it!**
 
-<p align="center"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F236x%2Fb6%2F42%2F3c%2Fb6423cfea7f6fcfeceeb9f852fa52ced--llama-drawing-drawing-art.jpg&f=1&nofb=1"></p>
-
+![a cira](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F236x%2Fb6%2F42%2F3c%2Fb6423cfea7f6fcfeceeb9f852fa52ced--llama-drawing-drawing-art.jpg&f=1&nofb=1)
 
 ![GitHub stars](https://img.shields.io/github/stars/AxelGard/Cira?style=social)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/Axel_Gard)
