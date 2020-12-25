@@ -1,5 +1,4 @@
 import cira
-import os
 import random
 import time
 
@@ -12,7 +11,7 @@ exchange = cira.Exchange()
 stock = cira.Stock("TSLA")
 print(stock.historical_data())
 
-"""qty = 1
+qty = 1
 print(exchange.is_open)
 while exchange.is_open:
     for stock in random.choices(exchange.stocks, k=qty):
@@ -22,6 +21,3 @@ while exchange.is_open:
         stock.sell(1)
         print(stock)
     time.sleep(2)
-
-"""
-    

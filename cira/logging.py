@@ -1,7 +1,6 @@
 import csv
-import json
-import time 
-
+from . import config
+import time
 
 
 def format_log_action(act, sym, qty):
@@ -13,7 +12,7 @@ def format_log_action(act, sym, qty):
 
 def log(log_data):
     """ writes log data to file """
-    with open(LOG_FILE, 'a') as file:
+    with open(config.LOG_FILE, "a") as file:
         # fd.write(log_data)
         writer = csv.writer(file)
         writer.writerow(log_data)

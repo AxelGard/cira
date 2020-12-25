@@ -1,8 +1,7 @@
-import alpaca_trade_api as tradeapi
-from . import config 
 from . import alpaca
 from . import util
 from . import stock
+
 
 class Portfolio:
     def __init__(self):
@@ -10,7 +9,6 @@ class Portfolio:
         self._list_orders = []
         self._owned_stocks = []
         self._position = []
-        
 
     @property
     def orders(self):
@@ -18,26 +16,22 @@ class Portfolio:
         self._list_orders = alpaca.api().list_orders()
         return self._list_orders
 
-
     @property
-    def position(self): # PREV: get_position
+    def position(self):  # PREV: get_position
         """ create a list of all owned position """
         portfolio = alpaca.api().list_positions()
         self._position = []
         for position in portfolio:
             position_dict = util.reformat_position(position)
-            position_dict['symbol'] = position.symbol
+            position_dict["symbol"] = position.symbol
             self._position.append(position_dict)
 
         return self._position
 
-
-    
-    def owned_stock_qty(self, stock): # maby shuld be in stock.Stock 
+    def owned_stock_qty(self, stock):  # maby shuld be in stock.Stock
         """ returns quantity of owned of a stock Stock (obj) """
         position = util.reformat_position(stock.position)
-        return position['qty']
-
+        return position["qty"]
 
     @property
     def owned_stocks(self):
@@ -45,23 +39,20 @@ class Portfolio:
         lst = self.position
         self._owned_stocks = []
         for dict_ in lst:
-            self._owned_stocks.append(stock.Stock(dict_['symbol']))
+            self._owned_stocks.append(stock.Stock(dict_["symbol"]))
         return self._owned_stocks
-
 
     @property
     def sell_list(self, lst):
         """ takes a list of Stocks and sells all stocks in that list """
-        for stock in lst:
-            qty = self.owned_stock_qty(stock)
-            #if not stock.symbol == 'GOOGL':  # BUG: fix, google has problem selling! 
+        for stock_ in lst:
+            qty = self.owned_stock_qty(stock_)
+            # if not stock.symbol == 'GOOGL':
+            # # BUG: fix, google has problem selling!
             stock.sell(qty)
 
-
     def __repr__(self):
-        return f"my-portfolio({self.equity})"
+        return f"portfolio({self.equity})"
 
     def __str__(self):
         return f"{self.position}"
-    
-    

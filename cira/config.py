@@ -1,8 +1,6 @@
-
-
-# logging 
+# logging
 IS_LOGGING = False
 LOG_FILE = ""
 
-# debugging 
+# debugging
 DEBUG = False

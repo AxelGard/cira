@@ -1,9 +1,6 @@
-import alpaca_trade_api as tradeapi
-
-
 def reformat_position(position):
     """ reformat position to be float values """
-    raw_position = vars(position)['_raw']
+    raw_position = vars(position)["_raw"]
     position_dict = {}
     for key in raw_position.keys():
         try:
