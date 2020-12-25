@@ -6,7 +6,7 @@ A simpler libray for alpaca-trade-api from Alpaca Markets.
 
 import alpaca_trade_api as tradeapi
 
-from .alpaca import alpaca
+from . import alpaca
 from . import config
 from . import util
 from . import logging
