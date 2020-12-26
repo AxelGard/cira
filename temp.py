@@ -10,7 +10,7 @@ exchange = cira.Exchange()
 
 stock = cira.Stock("TSLA")
 print(stock.historical_data())
-print(stock.buy(1))
+#print(stock.buy(1))
 
 qty = 1
 print(exchange.is_open)
