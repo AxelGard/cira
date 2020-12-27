@@ -18,9 +18,6 @@ So I thought that I would make this into a real library so that you can get star
 
 The name [cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpaca and because this is a simple and small lib I thought it would be a perfect fit.
 
-
-## Getting Started
-
 Things to checkout: 
 
 * [News](https://github.com/AxelGard/cira/discussions/categories/news)
@@ -28,6 +25,8 @@ Things to checkout:
 * [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
 * [Examples of how to use cira](https://github.com/AxelGard/cira/wiki/Examples)
 * [Discussions](https://github.com/AxelGard/cira/discussions)
+
+## Getting Started
 
 ### Installation
 You can install it using [pip](https://pypi.org/project/cira/).
