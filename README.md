@@ -69,18 +69,18 @@ I also have an example of how to build a [index fund trader with cira](https://a
 
 ## Versioning & News 
 
-## v.2.0.0, new structure!
+### v.2.0.0, new structure!
 
 With cira v.2.0.0 has a new structure and classes! 
 With this new classes and structure you will be able to use the library more simply. Checkout the [example page on the wiki](https://github.com/AxelGard/cira/wiki/Examples). The main classes are the Stock, Portfolio and Exchange.
 
-## want the old version?
+### Want the old version?
 
 For backwards compatibility I made sure to fork cira in to [cira-classic](https://github.com/AxelGard/cira-classic) and cira-classic is also available on [pypi with pip](https://pypi.org/project/cira-classic/). 
 
 if you find bug plz let me know with a issue. If you know how to solve the problem then you can of course make a pull request and I will take a look at it.
 
-## Have a question? 
+### Have a question? 
 If you have a question about cira, want to share what you built with cira or want to talk to others using cira, 
 you can checkout the [discussions page](https://github.com/AxelGard/cira/discussions).
 
@@ -105,7 +105,6 @@ But you will need a new key. This key should not only be used for testing or if 
 touch tests/test_key.json
 pytest
 ```
-
 
 ### Coding style
 I'm trying to follow the [pep8](https://pep8.org/) standard notation. 
