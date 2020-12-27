@@ -21,6 +21,14 @@ The name [cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpac
 
 ## Getting Started
 
+Things to checkout: 
+
+* [News](https://github.com/AxelGard/cira/discussions/categories/news)
+* [wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
+* [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
+* [Examples of how to use cira](https://github.com/AxelGard/cira/wiki/Examples)
+* [discussions](https://github.com/AxelGard/cira/discussions)
+
 ### Installation
 You can install it using [pip](https://pypi.org/project/cira/).
 ```bash
@@ -52,7 +60,7 @@ portfolio = cira.Portfolio() # methods for your portfolio
 exchange = cira.Exchange() # methods for exchange 
 stock = cira.Stock("TSLA") # a class for one stock
 ```
-for a example with the new classes check out this simple [index fund](https://axelgard.github.io/blog/cira/2020/12/23/cira-v2.html)
+for a example with the new classes check out this simple **[index fund](https://axelgard.github.io/blog/cira/2020/12/23/cira-v2.html)**
 
 ## [Wiki](https://github.com/AxelGard/cira/wiki) and docs 
 
