@@ -24,10 +24,10 @@ The name [cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpac
 Things to checkout: 
 
 * [News](https://github.com/AxelGard/cira/discussions/categories/news)
-* [wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
+* [Wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
 * [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
 * [Examples of how to use cira](https://github.com/AxelGard/cira/wiki/Examples)
-* [discussions](https://github.com/AxelGard/cira/discussions)
+* [Discussions](https://github.com/AxelGard/cira/discussions)
 
 ### Installation
 You can install it using [pip](https://pypi.org/project/cira/).
