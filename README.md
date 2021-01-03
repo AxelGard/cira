@@ -69,7 +69,7 @@ I also have an example of how to build a [index fund trader with cira](https://a
 
 ## Versioning & News 
 
-For more [news](https://github.com/AxelGard/cira/discussions/categories/news)
+To find out more about the latest in cira checkout [news discussion page](https://github.com/AxelGard/cira/discussions/categories/news)
 
 ### v.2.0.0, new structure!
 
