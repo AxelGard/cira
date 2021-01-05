@@ -47,7 +47,7 @@ You can also set the variables directly or use an environment variable, see the 
 then you can start using the lib
 ```python
 import cira
-cira.KEY_FILE = "../mypath/key.json"
+cira.alpaca.KEY_FILE = "../mypath/key.json"
 stock = cira.Stock("TSLA")
 stock.buy(1)
 stock.sell(1)
