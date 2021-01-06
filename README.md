@@ -18,7 +18,7 @@ So I thought that I would make this into a real library so that you can get star
 
 The name [cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpaca and because this is a simple and small lib I thought it would be a perfect fit.
 
-[Axel Gard](https://github.com/AxelGard) is BDFL for cira.
+[Axel Gard](https://github.com/AxelGard) is [BDFL](https://en.wikipedia.org/wiki/Benevolent_dictator_for_life) for cira.
 
 Things to checkout: 
 
