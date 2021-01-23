@@ -15,6 +15,7 @@ class Exchange:
         self._assets = []
         self._symbols = []  # ["sym", ... ]
         self._stocks = []  # [Stock(sym), ... ] obj
+        self._historical_data = {}
 
     @property
     def is_open(self):
@@ -46,3 +47,11 @@ class Exchange:
         for sym in self.symbols:
             self._stocks.append(stock.Stock(sym))
         return self._stocks
+
+    @property
+    def historical_data(self):
+        """ gathers all historical data on all stocks, {"sym":[data]} """
+        self._historical_data = {}
+        for stk self.stocks:
+            self._historical_data[stk.symbol] = stk.historical_data()
+        return self._historical_data

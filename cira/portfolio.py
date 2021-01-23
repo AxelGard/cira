@@ -42,7 +42,7 @@ class Portfolio:
             self._owned_stocks.append(stock.Stock(dict_["symbol"]))
         return self._owned_stocks
 
-    @property
+    
     def sell_list(self, lst):
         """ takes a list of Stocks and sells all stocks in that list """
         for stock_ in lst:
