@@ -67,7 +67,7 @@ for a example with the new classes check out this simple **[index fund](https://
 
 To see what more you can do check out the [wiki](https://github.com/AxelGard/cira/wiki).
 
-I also have an example of how to build a [index fund trader with cira](https://axelgard.github.io/blog/cira/2020/12/23/cira-v2.html).
+I also have an example of how to build a [index fund trader with cira](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund).
 
 ## Versioning & News 
 
