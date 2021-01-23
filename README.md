@@ -37,7 +37,7 @@ pip install cira
 ```
 
 ### Usage
-Since the Alpaca trade API need a API key, you need to generate your own key. I recommend keep it in a **JSON file** which cira needs the **path** to.
+Since the Alpaca trade API need a API key, you need to generate your own key at [alpaca markets website](https://app.alpaca.markets/signup). If you want to play around with it you can try paper trading (recommended for beginners). I recommend keep it in a **JSON file** which cira needs the **path** to.
 You can also set the variables directly or use an environment variable, see the [wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key) for diffrent the ways. However, it is recommended that you store it in a file just make sure not to upload that file on any public repositories. <br>
 **key.json**
 ```json
