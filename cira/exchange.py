@@ -52,6 +52,6 @@ class Exchange:
     def historical_data(self):
         """ gathers all historical data on all stocks, {"sym":[data]} """
         self._historical_data = {}
-        for stk self.stocks:
+        for stk in self.stocks:
             self._historical_data[stk.symbol] = stk.historical_data()
         return self._historical_data
