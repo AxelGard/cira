@@ -27,8 +27,11 @@ Things to checkout:
 * [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
 * [Examples of how to use cira](https://github.com/AxelGard/cira/wiki/Examples)
 * [Discussions](https://github.com/AxelGard/cira/discussions)
+* [Cira-group](https://github.com/cira-group)
 
 ## Getting Started
+
+You can get started fast by using the [cira-group boilerplate](https://github.com/cira-group/cira-boilerplate)
 
 ### Installation
 You can install it using [pip](https://pypi.org/project/cira/).
