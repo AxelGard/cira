@@ -31,7 +31,7 @@ Things to checkout:
 
 ## Getting Started
 
-You can get started fast by using the [cira-group boilerplate](https://github.com/cira-group/cira-boilerplate)
+You can get started fast by using the **[cira-group boilerplate](https://github.com/cira-group/cira-boilerplate)**
 
 ### Installation
 You can install it using [pip](https://pypi.org/project/cira/).
