@@ -66,7 +66,7 @@ portfolio = cira.Portfolio() # methods for your portfolio
 exchange = cira.Exchange() # methods for exchange 
 stock = cira.Stock("TSLA") # a class for one stock
 ```
-for a example with the new classes check out this simple **[index fund](https://axelgard.github.io/blog/cira/2020/12/23/cira-v2.html)**
+for a example with the new classes check out this simple **[index fund](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund)**
 
 ## [Wiki](https://github.com/AxelGard/cira/wiki) and docs 
 
