@@ -111,7 +111,9 @@ class Stock:
     @property
     def position(self):
         """ returns position of stock """
-        self._position = alpaca.api().get_position(self.symbol)
+        
+        pos = alpaca.api().get_position(self.symbol)
+        self._position = util.reformat_position(pos)
         return self._position
 
     @property

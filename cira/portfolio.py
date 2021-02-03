@@ -49,7 +49,7 @@ class Portfolio:
             qty = self.owned_stock_qty(stock_)
             # if not stock.symbol == 'GOOGL':
             # # BUG: fix, google has problem selling!
-            stock.sell(qty)
+            stock_.sell(qty)
 
     def __repr__(self):
         return f"portfolio({self.equity})"
