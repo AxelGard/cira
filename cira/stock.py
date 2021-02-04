@@ -35,12 +35,14 @@ class Stock:
     def value(self):  # prev: value_of_stock
         """ takes a string sym. Gets and returns the stock value at close """
         nr_days = 1
-        barset = self.barset(nr_days)
-        if barset is None:
+        bars = self.barset(nr_days)
+        if bars is None:
             self._value = 0
         else:
-            self._value = barset[self.symbol][0].c  # get stock at close
+            self._value = bars[self.symbol][0].c  # get stock at close
         return self._value
+        
+
 
     def buy(self, qty: int):
         """ buys a stock. Takes int qty and a string sym """
@@ -58,11 +60,14 @@ class Stock:
 
     def order(self, qty: int, beh: str):
         """ submit order and is a template for order """
-        order = alpaca.api().submit_order(
-            symbol=self.symbol, qty=qty, side=beh,
-            type="market", time_in_force="gtc"
-        )
-        return order
+        if not self.is_tradable:
+            raise Exception(f"Sorry, {self.symbol} is currantly not tradable on https://alpaca.markets/")
+        else: 
+            order = alpaca.api().submit_order(
+                symbol=self.symbol, qty=qty, side=beh,
+                type="market", time_in_force="gtc"
+            )
+            return order
 
     @property
     def is_shortable(self):
@@ -77,10 +82,9 @@ class Stock:
         self._can_borrow = alpaca.api().get_asset(self.symbol).easy_to_borrow
         return self._can_borrow
 
-    def barset(self, limit: int):
+    def barset(self, limit):
         """ returns barset for stock for time period lim """
-        self._barset = alpaca.api().get_barset(self.symbol,
-             "day", limit=int(limit))
+        self._barset = alpaca.api().get_barset(self.symbol, "minute", limit=int(limit))
         return self._barset
 
     def historical_data(self, nr_days=1000):

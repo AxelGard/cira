@@ -2,10 +2,17 @@ import cira
 import random
 import time
 
-cira.alpaca.KEY_FILE = "./tests/test_key.json"
+cira.alpaca.KEY_FILE = "../paper-trader/key.json"
 
 
 portfolio = cira.Portfolio()
 exchange = cira.Exchange()
+print(exchange.is_open)
 
-print(portfolio.owned_stocks)
+
+for stk in exchange.stocks: 
+    print(f"{stk}@{stk.price }")
+
+
+stk = cira.Stock("TSLA")
+print(stk.barset)
