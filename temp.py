@@ -10,8 +10,8 @@ exchange = cira.Exchange()
 print(exchange.is_open)
 
 
-for stk in exchange.stocks: 
-    print(f"{stk}@{stk.price }")
+for stk in exchange.stocks[:3]: 
+    print(f"{stk.price} // 2 = {stk // 2}")
 
 
 stk = cira.Stock("TSLA")

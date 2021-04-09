@@ -149,38 +149,60 @@ class Stock:
     # Operators
 
     def __eq__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price == other
         return self.price == other.price
 
     def __ne__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price != other
         return self.price != other.price
 
     def __lt__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price < other
         return self.price < other.price
 
     def __le__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price <= other
         return self.price <= other.price
 
     def __gt__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price > other
         return self.price > other.price
 
     def __ge__(self, other):
-        return self.price > other.price
+        if isinstance(other,(int,float)):
+            return self.price >= other
+        return self.price >= other.price
 
     # Arithmetic Operators
 
     def __add__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price + other
         return self.price + other.price
 
     def __sub__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price - other
         return self.price - other.price
 
     def __mul__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price * other
         return self.price * other.price
 
     def __truediv__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price / other
         return self.price / other.price
 
     def __floordiv__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price // other
         return self.price // other.price
 
     # Type Conversion
