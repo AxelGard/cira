@@ -14,6 +14,6 @@ from .exchange import Exchange
 from .stock import Stock
 from .portfolio import Portfolio
 
-__version__ = "2.0.3"
+__version__ = "2.1.0"
 __author__ = "Axel Gard"
 __credits__ = "alpaca.markets"
