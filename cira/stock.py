@@ -26,9 +26,8 @@ class Stock:
         if not self.exchange_is_open:
             self._price = self.value
         else:
-            self._price = self.position[
-                "current_price"
-            ]  # BUG: gets a 404 assuming due to exchange is close
+            # OBS: due to API change no diffrence btween price and value 
+            self._price = self.barset(1)[self.symbol][0].c 
         return self._price
 
     @property
@@ -42,8 +41,6 @@ class Stock:
             self._value = bars[self.symbol][0].c  # get stock at close
         return self._value
         
-
-
     def buy(self, qty: int):
         """ buys a stock. Takes int qty and a string sym """
         order_ = self.order(qty, "buy")
@@ -115,7 +112,6 @@ class Stock:
     @property
     def position(self):
         """ returns position of stock """
-        
         pos = alpaca.api().get_position(self.symbol)
         self._position = util.reformat_position(pos)
         return self._position
@@ -141,7 +137,7 @@ class Stock:
         return self._is_open
 
     def __repr__(self):
-        return f"{self.symbol}@(${self.price}) "
+        return f"{self.symbol}@(${self.price})"
 
     def __str__(self):
         return f"{self.symbol}"
@@ -184,27 +180,42 @@ class Stock:
         if isinstance(other,(int,float)):
             return self.price + other
         return self.price + other.price
+    
+    def __radd__(self, other):
+        return self.price + other
 
     def __sub__(self, other):
         if isinstance(other,(int,float)):
             return self.price - other
         return self.price - other.price
 
+    def __rsub__(self, other):
+        return self.price - other
+
     def __mul__(self, other):
         if isinstance(other,(int,float)):
             return self.price * other
         return self.price * other.price
 
+    def __rmul__(self, other):
+        return self.price * other
+        
     def __truediv__(self, other):
         if isinstance(other,(int,float)):
             return self.price / other
         return self.price / other.price
+
+    def __rdiv__(self, other):
+        return self.price / other
 
     def __floordiv__(self, other):
         if isinstance(other,(int,float)):
             return self.price // other
         return self.price // other.price
 
+    def __rfloordiv__(self, other):
+        return self.price // other
+        
     # Type Conversion
 
     def __abs__(self):
