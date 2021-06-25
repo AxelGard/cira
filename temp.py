@@ -3,7 +3,7 @@ import random
 import time
 import operator
 
-cira.alpaca.KEY_FILE = "./tests/test_key.json"
+cira.alpaca.KEY_FILE = "../paper-trader/key.json"
 
 
 portfolio = cira.Portfolio()
@@ -12,7 +12,8 @@ print(exchange.is_open)
 
 
 for stk in exchange.stocks[:3]: 
-    print(stk.price)
+    for op in (operator.add, operator.sub, operator.mul, operator.truediv, operator.floordiv):
+        assert op(stk, 2) == op(stk.price, 2), f"test of op {op}"
 
 stk = cira.Stock("TSLA")
 print(stk.price)

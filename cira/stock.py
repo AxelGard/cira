@@ -6,7 +6,11 @@ from . import util
 
 
 class Stock:
-    def __init__(self, symbol):
+    """
+    This is the class instence of a Stock. 
+    This class is for interaction of a Stock  
+    """
+    def __init__(self, symbol:str):
         self.symbol = symbol
         self._price = 0
         self._value = 0
@@ -21,7 +25,7 @@ class Stock:
         self._is_open = False
 
     @property
-    def price(self):  # PREV: current_price
+    def price(self) -> float:  # PREV: current_price
         """ returns the current price of given symbol (str) """
         if not self.exchange_is_open:
             self._price = self.value
@@ -31,12 +35,12 @@ class Stock:
         return self._price
 
     @property
-    def value(self):  # prev: value_of_stock
+    def value(self) -> float:  # prev: value_of_stock
         """ takes a string sym. Gets and returns the stock value at close """
         nr_days = 1
         bars = self.barset(nr_days)
         if bars is None:
-            self._value = 0
+            self._value = 0.0
         else:
             self._value = bars[self.symbol][0].c  # get stock at close
         return self._value
@@ -55,7 +59,7 @@ class Stock:
             logging.log(logging.format_log_action("sell", self.symbol, qty))
         return order_
 
-    def order(self, qty: int, beh: str):
+    def order(self, qty: int, beh: str) -> float:
         """ submit order and is a template for order """
         if not self.is_tradable:
             raise Exception(f"Sorry, {self.symbol} is currantly not tradable on https://alpaca.markets/")
@@ -67,19 +71,19 @@ class Stock:
             return order
 
     @property
-    def is_shortable(self):
+    def is_shortable(self) -> bool:
         """ checks if stock can be shorted """
         self._is_shortable = alpaca.api().get_asset(self.symbol).shortable
         return self._is_shortable
 
     @property
-    def can_borrow(self):
+    def can_borrow(self) -> bool:
         """check whether the name is currently
         available to short at Alpaca"""
         self._can_borrow = alpaca.api().get_asset(self.symbol).easy_to_borrow
         return self._can_borrow
 
-    def barset(self, limit):
+    def barset(self, limit:int):
         """ returns barset for stock for time period lim """
         self._barset = alpaca.api().get_barset(self.symbol, "minute", limit=int(limit))
         return self._barset
@@ -131,7 +135,7 @@ class Stock:
         return self._plpc
 
     @property
-    def exchange_is_open(self):
+    def exchange_is_open(self) -> bool:
         """ returns if exchange is open """
         self._is_open = alpaca.api().get_clock().is_open
         return self._is_open

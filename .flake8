@@ -1,4 +1,0 @@
-per-file-ignores =
-    cira/__init__.py:F401
-    setup.py:E121
-    cira/*:W9

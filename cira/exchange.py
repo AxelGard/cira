@@ -3,6 +3,11 @@ from . import stock
 
 
 class Exchange:
+    """ 
+    This is the class instence of the Exchange.         
+    This class is used for interaction with the exchanges, 
+    for exampel NYSE. The exchange returns data and list of Stocks. 
+    """
     def __init__(self):
         self.name = ""
         self.exchanges = [

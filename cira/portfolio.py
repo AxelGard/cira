@@ -4,6 +4,11 @@ from . import stock
 
 
 class Portfolio:
+    """
+    The class Portfolio, is for 
+    interacting with your own protfolio. 
+    """
+    
     def __init__(self):
         self.equity = 0
         self._list_orders = []

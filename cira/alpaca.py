@@ -2,6 +2,11 @@ import json
 import alpaca_trade_api as tradeapi
 import os
 
+"""
+This function let's you interact 
+with the Alpaca trade API 
+"""
+
 KEY_FILE = ""  # user key file path
 APCA_API_KEY_ID = ""
 APCA_API_SECRET_KEY = ""

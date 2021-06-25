@@ -2,8 +2,11 @@ import csv
 from . import config
 import time
 
+"""
+This functions is logging trades
+"""
 
-def format_log_action(act, sym, qty):
+def format_log_action(act:str, sym:str, qty:int):
     """ formats info for logging """
     time_ = time.strftime("%Y-%m-%d %H:%M", time.gmtime())
     log_data = [act, sym, qty, time_]
