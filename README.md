@@ -31,6 +31,7 @@ Things to checkout:
 * [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
 * [Examples of how to use cira](https://github.com/AxelGard/cira/wiki/Examples)
 * [Discussions](https://github.com/AxelGard/cira/discussions)
+* [r/cira](https://www.reddit.com/r/cira/)
 * [Cira-group](https://github.com/cira-group)
 
 ## Getting Started
