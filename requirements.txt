@@ -10,6 +10,7 @@ cryptography==3.3.2
 docutils==0.16
 idna==2.10
 isort==4.3.21
+inkpot==2.0.1
 jeepney==0.4.3
 keyring==21.3.0
 lazy-object-proxy==1.4.3
