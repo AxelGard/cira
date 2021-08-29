@@ -1,6 +1,6 @@
 # cira
 
-Cira algorithmic trading made easy. A simpler library for alpaca-trade-API from Alpaca Markets.
+Cira algorithmic trading made easy. A Façade library for simpler interaction with alpaca-trade-API from Alpaca Markets.
 
 Cira is available on [pip](https://pypi.org/project/cira/). **Please give it a star if you like it!**
 
