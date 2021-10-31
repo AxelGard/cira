@@ -7,8 +7,8 @@ from . import util
 
 class Stock:
     """
-    This is the class instence of a Stock. 
-    This class is for interaction of a Stock  
+    This is the class instence of a Stock.
+    This class is for interaction of a Stock
     """
     def __init__(self, symbol:str):
         self.symbol = symbol
@@ -30,8 +30,8 @@ class Stock:
         if not self.exchange_is_open:
             self._price = self.value
         else:
-            # OBS: due to API change no diffrence btween price and value 
-            self._price = self.barset(1)[self.symbol][0].c 
+            # OBS: due to API change no diffrence btween price and value
+            self._price = self.barset(1)[self.symbol][0].c
         return self._price
 
     @property
@@ -44,7 +44,7 @@ class Stock:
         else:
             self._value = bars[self.symbol][0].c  # get stock at close
         return self._value
-        
+
     def buy(self, qty: int):
         """ buys a stock. Takes int qty and a string sym """
         order_ = self.order(qty, "buy")
@@ -63,7 +63,7 @@ class Stock:
         """ submit order and is a template for order """
         if not self.is_tradable:
             raise Exception(f"Sorry, {self.symbol} is currantly not tradable on https://alpaca.markets/")
-        else: 
+        else:
             order = alpaca.api().submit_order(
                 symbol=self.symbol, qty=qty, side=beh,
                 type="market", time_in_force="gtc"
@@ -98,7 +98,7 @@ class Stock:
         return lst
 
     @property
-    def week_pl_change(self):
+    def week_pl_change(self) -> float:
         """ Percentage change over a week """
         nr_days = 5
         bars = self.barset(nr_days)
@@ -108,7 +108,7 @@ class Stock:
         return self._week_pl_change
 
     @property
-    def is_tradable(self):
+    def is_tradable(self) -> bool:
         """ return if the stock can be traded  """
         self._is_tradable = alpaca.api().get_asset(self.symbol).tradable
         return self._is_tradable
@@ -121,17 +121,17 @@ class Stock:
         return self._position
 
     @property
-    def today_plpc(self):
+    def today_plpc(self) -> float:
         """ stock today's profit/loss percent """
-        self._today_plpc = util.reformat_position(self.position)[
+        self._today_plpc = self.position[
             "unrealized_intraday_plpc"
         ]
         return self._today_plpc
 
     @property
-    def plpc(self):
+    def plpc(self) -> float:
         """ stock sym (str) Unrealized profit/loss percentage """
-        self._plpc = util.reformat_position(self.position)["unrealized_plpc"]
+        self._plpc = self.position["unrealized_plpc"]
         return self._plpc
 
     @property
@@ -184,7 +184,7 @@ class Stock:
         if isinstance(other,(int,float)):
             return self.price + other
         return self.price + other.price
-    
+
     def __radd__(self, other):
         return self.price + other
 
@@ -203,7 +203,7 @@ class Stock:
 
     def __rmul__(self, other):
         return self.price * other
-        
+
     def __truediv__(self, other):
         if isinstance(other,(int,float)):
             return self.price / other
@@ -219,7 +219,7 @@ class Stock:
 
     def __rfloordiv__(self, other):
         return self.price // other
-        
+
     # Type Conversion
 
     def __abs__(self):

@@ -5,10 +5,10 @@ from . import stock
 
 class Portfolio:
     """
-    The class Portfolio, is for 
-    interacting with your own protfolio. 
+    The class Portfolio, is for
+    interacting with your own protfolio.
     """
-    
+
     def __init__(self):
         self.equity = 0
         self._list_orders = []
@@ -35,7 +35,7 @@ class Portfolio:
 
     def owned_stock_qty(self, stock):  # maby shuld be in stock.Stock
         """ returns quantity of owned of a stock Stock (obj) """
-        position = util.reformat_position(stock.position)
+        position = stock.position
         return position["qty"]
 
     @property
@@ -47,10 +47,13 @@ class Portfolio:
             self._owned_stocks.append(stock.Stock(dict_["symbol"]))
         return self._owned_stocks
 
-    
+
     def sell_list(self, lst):
         """ takes a list of Stocks and sells all stocks in that list """
+        owned_stocks = self.owned_stocks
+        print(lst)
         for stock_ in lst:
+            # if stock_ in owned_stocks:
             qty = self.owned_stock_qty(stock_)
             # if not stock.symbol == 'GOOGL':
             # # BUG: fix, google has problem selling!
