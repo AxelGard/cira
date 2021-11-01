@@ -17,7 +17,5 @@ for stk in exchange.stocks[:3]:
 """
 
 
-stk = cira.Stock("MMLP")
-stks = [stk]
-
-portfolio.sell_list(lst=stks)
+stk = cira.Stock("TSLA")
+print(stk.historical_data(10))
