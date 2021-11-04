@@ -3,10 +3,10 @@ from . import stock
 
 
 class Exchange:
-    """ 
-    This is the class instence of the Exchange.         
-    This class is used for interaction with the exchanges, 
-    for exampel NYSE. The exchange returns data and list of Stocks. 
+    """
+    This is the class instence of the Exchange.
+    This class is used for interaction with the exchanges,
+    for exampel NYSE. The exchange returns data and list of Stocks.
     """
     def __init__(self):
         self.name = ""
@@ -23,7 +23,7 @@ class Exchange:
         self._historical_data = {}
 
     @property
-    def is_open(self):
+    def is_open(self) -> bool:
         """ returns if exchange is open """
         self._is_open = alpaca.api().get_clock().is_open
         return self._is_open

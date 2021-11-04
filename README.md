@@ -20,11 +20,11 @@ The project is available [here](https://github.com/AxelGard/paper-trader).<br>
 However after working on this for alomst a year (off and on) I realized that I had alomst build a small library for using the Alpaca API.
 So I thought that I would make this into a real library so that you can get started with quantitative paper trading as well.
 
-The name [cira](https://en.wikipedia.org/wiki/Cria) is the word for a baby alpaca and because this is a simple and small lib I thought it would be a perfect fit.
+The name [cira](https://en.wikipedia.org/wiki/Cria) is a miss spelling of the word for a baby alpaca cria and because this is a simple and small lib I thought it would be a perfect fit.
 
 [Axel Gard](https://github.com/AxelGard) is main developer for cira.
 
-Things to checkout: 
+Things to checkout:
 
 * [News](https://github.com/AxelGard/cira/discussions/categories/news)
 * [Wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
@@ -66,41 +66,41 @@ stock.sell(1)
 
 New classes with cira v.2!
 ```python
-portfolio = cira.Portfolio() # methods for your portfolio 
-exchange = cira.Exchange() # methods for exchange 
+portfolio = cira.Portfolio() # methods for your portfolio
+exchange = cira.Exchange() # methods for exchange
 stock = cira.Stock("TSLA") # a class for one stock
 ```
 for a example with the new classes check out this simple **[index fund](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund)**
 
-## [Wiki](https://github.com/AxelGard/cira/wiki) and docs 
+## [Wiki](https://github.com/AxelGard/cira/wiki) and docs
 
 To see what more you can do check out the [wiki](https://github.com/AxelGard/cira/wiki).
 
 I also have an example of how to build a [index fund trader with cira](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund).
 
-## Versioning & News 
+## Versioning & News
 
 For more [news](https://github.com/AxelGard/cira/discussions/categories/news)
 
 ### v.2.0.0, new structure!
 
-With cira v.2.0.0 has a new structure and classes! 
+With cira v.2.0.0 has a new structure and classes!
 With this new classes and structure you will be able to use the library more simply. Checkout the [example page on the wiki](https://github.com/AxelGard/cira/wiki/Examples). The main classes are the Stock, Portfolio and Exchange.
 
 ### Want the old version?
 
-For backwards compatibility I made sure to fork cira in to [cira-classic](https://github.com/AxelGard/cira-classic) and cira-classic is also available on [pypi with pip](https://pypi.org/project/cira-classic/). 
+For backwards compatibility I made sure to fork cira in to [cira-classic](https://github.com/AxelGard/cira-classic) and cira-classic is also available on [pypi with pip](https://pypi.org/project/cira-classic/).
 
 if you find bug plz let me know with a issue. If you know how to solve the problem then you can of course make a pull request and I will take a look at it.
 
-### Have a question? 
+### Have a question?
 
-If you have a question about cira, want to share what you built with cira or want to talk to others using cira, 
-you can checkout the [discussions page](https://github.com/AxelGard/cira/discussions) or make issue if that is more fitting. 
+If you have a question about cira, want to share what you built with cira or want to talk to others using cira,
+you can checkout the [discussions page](https://github.com/AxelGard/cira/discussions) or make issue if that is more fitting.
 
-## Development 
-If you want to help develop cira you are more then welcome to do so. 
-Feel free to make a pull request or issue. 
+## Development
+If you want to help develop cira you are more then welcome to do so.
+Feel free to make a pull request or issue.
 To install cira with all the dev req.
 ```bash
 git clone git@github.com:AxelGard/cira.git
@@ -121,7 +121,7 @@ pytest
 ```
 
 ### Coding style
-I'm trying to follow the [pep8](https://pep8.org/) standard notation. 
+I'm trying to follow the [pep8](https://pep8.org/) standard notation.
 I try to make the library to be so intuitive as possible for easy of use.
 
 ## License

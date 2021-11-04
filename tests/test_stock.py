@@ -35,5 +35,4 @@ def test_historical_data():
     """ Test that we historical data can be collected """
     stk = cira.Stock("PYPL")
     days = 10
-    print(stk.historical_data(days))
     assert len(stk.historical_data(days)) == days
