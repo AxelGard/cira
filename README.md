@@ -1,6 +1,6 @@
 # cira
 
-Cira algorithmic trading made easy. A Façade library for simpler interaction with alpaca-trade-API from Alpaca Markets.
+Cira algorithmic trading made easy. A [Façade library](https://refactoring.guru/design-patterns/facade) for simpler interaction with alpaca-trade-API from Alpaca Markets.
 
 Cira is available on [pip](https://pypi.org/project/cira/). **Please give it a star if you like it!**
 
@@ -20,7 +20,7 @@ The project is available [here](https://github.com/AxelGard/paper-trader).<br>
 However after working on this for alomst a year (off and on) I realized that I had alomst build a small library for using the Alpaca API.
 So I thought that I would make this into a real library so that you can get started with quantitative paper trading as well.
 
-The name [cira](https://en.wikipedia.org/wiki/Cria) is a miss spelling of the word for a baby alpaca cria and because this is a simple and small lib I thought it would be a perfect fit.
+The name **cira** is a miss spelling of the word for a [baby alpaca cria](https://en.wikipedia.org/wiki/Cria) and because this is a simple and small lib I thought it would be a perfect fit.
 
 [Axel Gard](https://github.com/AxelGard) is main developer for cira.
 
