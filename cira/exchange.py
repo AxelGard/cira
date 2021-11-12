@@ -31,7 +31,6 @@ class Exchange:
         self._is_open = alpaca.api().get_clock().is_open
         return self._is_open
 
-    @property
     def calendar(self, start='2018-12-01', end='2018-12-01'):
         self._calendar = alpaca.api().get_calendar(start=start, end=end)[0].__dict__["_raw"]
         return self._calendar
