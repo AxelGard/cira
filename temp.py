@@ -8,8 +8,9 @@ cira.alpaca.KEY_FILE = "../paper-trader/key.json"
 
 portfolio = cira.Portfolio()
 exchange = cira.Exchange()
-print(exchange.is_open)
-
+#print(exchange.is_open)
+print(portfolio.account)
+print(portfolio.cash)
 """
 for stk in exchange.stocks[:3]:
     for op in (operator.add, operator.sub, operator.mul, operator.truediv, operator.floordiv):
@@ -17,5 +18,5 @@ for stk in exchange.stocks[:3]:
 """
 
 
-stk = cira.Stock("TSLA")
-print(stk.historical_data(10))
+#stk = cira.Stock("TSLA")
+#print(stk.historical_data(10))

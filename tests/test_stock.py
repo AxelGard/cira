@@ -5,6 +5,7 @@ import pytest
 import cira
 import os
 import operator
+import time
 
 
 def test_stock_oprators():
@@ -36,3 +37,32 @@ def test_historical_data():
     stk = cira.Stock("PYPL")
     days = 10
     assert len(stk.historical_data(days)) == days
+
+
+# ------------------- #
+#   no assert tests
+# ------------------- #
+
+def test_buy_sell(): # no assert !
+    """ test that a stock can be bought and sold """
+    exchange = cira.Exchange()
+    if exchange.is_open:
+        stk = cira.Stock("PYPL")
+        stk.buy(1)
+        time.sleep(1)
+        stk.sell(1)
+
+def test_position(): # no assert !
+    exchange = cira.Exchange()
+    if exchange.is_open:
+        stk = cira.Stock("PYPL")
+        stk.position
+
+
+def test_percentage_change(): # no assert !
+    exchange = cira.Exchange()
+    if exchange.is_open:
+        stk = cira.Stock("PYPL")
+        stk.week_pl_change
+        stk.today_plpc
+        stk.plpc

@@ -10,10 +10,15 @@ class Portfolio:
     """
 
     def __init__(self):
-        self.equity = 0
+        self._equity = 0.0
+        self._equity_yesterday = 0.0
+        self._equity_change = 0.0
+        self._cash = 0.0
+        self._buying_power = 0.0
         self._list_orders = []
         self._owned_stocks = []
         self._position = []
+        self._account = {}
 
     @property
     def orders(self):
@@ -30,7 +35,6 @@ class Portfolio:
             position_dict = util.reformat_position(position)
             position_dict["symbol"] = position.symbol
             self._position.append(position_dict)
-
         return self._position
 
     def owned_stock_qty(self, stock):  # maby shuld be in stock.Stock
@@ -51,13 +55,45 @@ class Portfolio:
     def sell_list(self, lst):
         """ takes a list of Stocks and sells all stocks in that list """
         owned_stocks = self.owned_stocks
-        print(lst)
         for stock_ in lst:
             # if stock_ in owned_stocks:
             qty = self.owned_stock_qty(stock_)
             # if not stock.symbol == 'GOOGL':
             # # BUG: fix, google has problem selling!
             stock_.sell(qty)
+
+    @property
+    def account(self):
+        self._account = util.reformat_position(alpaca.api().get_account())
+        return self._account
+
+    @property
+    def buying_power(self):
+        self._buying_power = self.account["buying_power"]
+        return self._buying_power
+
+    def is_blocked(self):
+        return self.account["trading_blocked"]
+
+    @property
+    def cash(self):
+        self._cash = self.account["cash"]
+        return self._cash
+
+    @property
+    def equity(self):
+        self._equity = self.account["equity"]
+        return self._equity
+
+    @property
+    def equity_yesterday(self):
+        self._equity_yesterday = self.account["last_equity"]
+        return self._equity_yesterday
+
+    @property
+    def equity_change(self):
+        self._equity_change = self.equity - self.equity_yesterday
+        return self._equity
 
     def __repr__(self):
         return f"portfolio({self.equity})"
