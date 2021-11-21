@@ -27,7 +27,7 @@ class Portfolio:
         return self._list_orders
 
     @property
-    def position(self):  # PREV: get_position
+    def position(self):  # PREV: get_position # TODO: change to positions 
         """ create a list of all owned position """
         portfolio = alpaca.api().list_positions()
         self._position = []
@@ -64,34 +64,42 @@ class Portfolio:
 
     @property
     def account(self):
+        """ returns the dict of user account details"""
         self._account = util.reformat_position(alpaca.api().get_account())
         return self._account
 
     @property
     def buying_power(self):
+        """ returns the amount of current buying_power that the user have"""
         self._buying_power = self.account["buying_power"]
         return self._buying_power
 
     def is_blocked(self):
+        """ checks if the users has been blocked from trading """
         return self.account["trading_blocked"]
 
     @property
     def cash(self):
+        """ returns the amount of a available liquid chash in account """
         self._cash = self.account["cash"]
         return self._cash
 
     @property
     def equity(self):
+        """ returns the amount of equity that users has """
         self._equity = self.account["equity"]
         return self._equity
 
     @property
     def equity_yesterday(self):
+        """ returns the amount of equity that was
+        available at market close yesterday """
         self._equity_yesterday = self.account["last_equity"]
         return self._equity_yesterday
 
     @property
     def equity_change(self):
+        """ returns the change in equity from yesterday to now """
         self._equity_change = self.equity - self.equity_yesterday
         return self._equity
 
