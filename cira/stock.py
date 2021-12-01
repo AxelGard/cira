@@ -24,6 +24,7 @@ class Stock:
         self._plpc = 0
         self._is_open = False
 
+
     @property
     def price(self) -> float:  # PREV: current_price
         """ returns the current price of given symbol (str) """
@@ -33,6 +34,7 @@ class Stock:
             # OBS: due to API change no diffrence btween price and value
             self._price = self.barset(1)[self.symbol][0].c
         return self._price
+
 
     @property
     def value(self) -> float:  # prev: value_of_stock
@@ -45,6 +47,7 @@ class Stock:
             self._value = bars[self.symbol][0].c  # get stock at close
         return self._value
 
+
     def buy(self, qty: int):
         """ buys a stock. Takes int qty and a string sym """
         order_ = self.order(qty, "buy")
@@ -52,12 +55,14 @@ class Stock:
             logging.log(logging.format_log_action("buy", self.symbol, qty))
         return order_
 
+
     def sell(self, qty: int):
         """ sells a stock. Takes int qty and a string sym"""
         order_ = self.order(qty, "sell")
         if config.IS_LOGGING:
             logging.log(logging.format_log_action("sell", self.symbol, qty))
         return order_
+
 
     def order(self, qty: int, beh: str) -> float:
         """ submit order and is a template for order """
@@ -70,11 +75,13 @@ class Stock:
             )
             return order
 
+
     @property
     def is_shortable(self) -> bool:
         """ checks if stock can be shorted """
         self._is_shortable = alpaca.api().get_asset(self.symbol).shortable
         return self._is_shortable
+
 
     @property
     def can_borrow(self) -> bool:
@@ -83,10 +90,12 @@ class Stock:
         self._can_borrow = alpaca.api().get_asset(self.symbol).easy_to_borrow
         return self._can_borrow
 
+
     def barset(self, limit:int):
         """ returns barset for stock for time period lim """
         self._barset = alpaca.api().get_barset(self.symbol, "minute", limit=int(limit))
         return self._barset
+
 
     def historical_data(self, nr_days=1000):
         """returns a list of the stocks closing value,
@@ -96,6 +105,7 @@ class Stock:
         for bar in self.barset(nr_days)[self.symbol]:
             lst.append(bar.c)
         return lst
+
 
     @property
     def week_pl_change(self) -> float:
@@ -107,11 +117,13 @@ class Stock:
         self._week_pl_change = (week_close - week_open) / week_open
         return self._week_pl_change
 
+
     @property
     def is_tradable(self) -> bool:
         """ return if the stock can be traded  """
         self._is_tradable = alpaca.api().get_asset(self.symbol).tradable
         return self._is_tradable
+
 
     @property
     def position(self):
@@ -119,6 +131,7 @@ class Stock:
         pos = alpaca.api().get_position(self.symbol)
         self._position = util.reformat_position(pos)
         return self._position
+
 
     @property
     def today_plpc(self) -> float:
@@ -128,11 +141,13 @@ class Stock:
         ]
         return self._today_plpc
 
+
     @property
     def plpc(self) -> float:
         """ stock sym (str) Unrealized profit/loss percentage """
         self._plpc = self.position["unrealized_plpc"]
         return self._plpc
+
 
     @property
     def exchange_is_open(self) -> bool:
@@ -140,8 +155,10 @@ class Stock:
         self._is_open = alpaca.api().get_clock().is_open
         return self._is_open
 
+
     def __repr__(self):
         return f"{self.symbol}@(${self.price})"
+
 
     def __str__(self):
         return f"{self.symbol}"
@@ -153,25 +170,30 @@ class Stock:
             return self.price == other
         return self.price == other.price
 
+
     def __ne__(self, other):
         if isinstance(other,(int,float)):
             return self.price != other
         return self.price != other.price
+
 
     def __lt__(self, other):
         if isinstance(other,(int,float)):
             return self.price < other
         return self.price < other.price
 
+
     def __le__(self, other):
         if isinstance(other,(int,float)):
             return self.price <= other
         return self.price <= other.price
 
+
     def __gt__(self, other):
         if isinstance(other,(int,float)):
             return self.price > other
         return self.price > other.price
+
 
     def __ge__(self, other):
         if isinstance(other,(int,float)):
@@ -185,37 +207,46 @@ class Stock:
             return self.price + other
         return self.price + other.price
 
+
     def __radd__(self, other):
         return self.price + other
+
 
     def __sub__(self, other):
         if isinstance(other,(int,float)):
             return self.price - other
         return self.price - other.price
 
+
     def __rsub__(self, other):
         return self.price - other
+
 
     def __mul__(self, other):
         if isinstance(other,(int,float)):
             return self.price * other
         return self.price * other.price
 
+
     def __rmul__(self, other):
         return self.price * other
+
 
     def __truediv__(self, other):
         if isinstance(other,(int,float)):
             return self.price / other
         return self.price / other.price
 
+
     def __rdiv__(self, other):
         return self.price / other
+
 
     def __floordiv__(self, other):
         if isinstance(other,(int,float)):
             return self.price // other
         return self.price // other.price
+
 
     def __rfloordiv__(self, other):
         return self.price // other
@@ -227,11 +258,14 @@ class Stock:
         # be neg but might be good to have
         return abs(self.price)
 
+
     def __int__(self):
         return int(self.price)
 
+
     def __float__(self):
         return float(self.price)
+
 
     def __round__(self, nDigits):
         return round(self.price, nDigits)

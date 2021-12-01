@@ -20,14 +20,16 @@ class Portfolio:
         self._position = []
         self._account = {}
 
+
     @property
     def orders(self):
         """ returns a list of all open orders with all diffult args """
         self._list_orders = alpaca.api().list_orders()
         return self._list_orders
 
+
     @property
-    def position(self):  # PREV: get_position # TODO: change to positions 
+    def position(self):  # PREV: get_position # TODO: change to positions
         """ create a list of all owned position """
         portfolio = alpaca.api().list_positions()
         self._position = []
@@ -37,10 +39,12 @@ class Portfolio:
             self._position.append(position_dict)
         return self._position
 
+
     def owned_stock_qty(self, stock):  # maby shuld be in stock.Stock
         """ returns quantity of owned of a stock Stock (obj) """
         position = stock.position
         return position["qty"]
+
 
     @property
     def owned_stocks(self):
@@ -62,11 +66,13 @@ class Portfolio:
             # # BUG: fix, google has problem selling!
             stock_.sell(qty)
 
+
     @property
     def account(self):
         """ returns the dict of user account details"""
         self._account = util.reformat_position(alpaca.api().get_account())
         return self._account
+
 
     @property
     def buying_power(self):
@@ -74,9 +80,11 @@ class Portfolio:
         self._buying_power = self.account["buying_power"]
         return self._buying_power
 
+
     def is_blocked(self):
         """ checks if the users has been blocked from trading """
         return self.account["trading_blocked"]
+
 
     @property
     def cash(self):
@@ -84,11 +92,13 @@ class Portfolio:
         self._cash = self.account["cash"]
         return self._cash
 
+
     @property
     def equity(self):
         """ returns the amount of equity that users has """
         self._equity = self.account["equity"]
         return self._equity
+
 
     @property
     def equity_yesterday(self):
@@ -97,14 +107,17 @@ class Portfolio:
         self._equity_yesterday = self.account["last_equity"]
         return self._equity_yesterday
 
+
     @property
     def equity_change(self):
         """ returns the change in equity from yesterday to now """
         self._equity_change = self.equity - self.equity_yesterday
         return self._equity
 
+
     def __repr__(self):
         return f"portfolio({self.equity})"
+
 
     def __str__(self):
         return f"{self.position}"

@@ -25,15 +25,18 @@ class Exchange:
         self._historical_data = {}
         self._calendar = {}
 
+
     @property
     def is_open(self) -> bool:
         """ returns if exchange is open """
         self._is_open = alpaca.api().get_clock().is_open
         return self._is_open
 
+
     def calendar(self, start='2018-12-01', end='2018-12-01'):
         self._calendar = alpaca.api().get_calendar(start=start, end=end)[0].__dict__["_raw"]
         return self._calendar
+
 
     def assets_raw(self):
         """ returns a list of all avilabel stocks in exchanges list """
@@ -44,6 +47,7 @@ class Exchange:
         self._assets = all_assets
         return self._assets
 
+
     @property
     def symbols(self):
         """ returns a list of all symbols """
@@ -52,6 +56,7 @@ class Exchange:
             self._symbols.append(asset.__dict__["_raw"]["symbol"])
         return self._symbols
 
+
     @property
     def stocks(self):
         """ returns a list of objects Stocks """
@@ -59,6 +64,7 @@ class Exchange:
         for sym in self.symbols:
             self._stocks.append(stock.Stock(sym))
         return self._stocks
+
 
     @property
     def historical_data(self):
