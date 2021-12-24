@@ -1,4 +1,5 @@
 # import alpaca_trade_api as tradeapi
+import datetime
 from . import config
 from . import alpaca
 from . import logging
@@ -32,7 +33,7 @@ class Stock:
             self._price = self.value
         else:
             # OBS: due to API change no diffrence btween price and value
-            self._price = self.barset(1)[self.symbol][0].c
+            self._price = self.barset(1)[0].c
         return self._price
 
 
@@ -44,7 +45,7 @@ class Stock:
         if bars is None:
             self._value = 0.0
         else:
-            self._value = bars[self.symbol][0].c  # get stock at close
+            self._value = bars[0].c  # get stock at close
         return self._value
 
 
@@ -93,17 +94,24 @@ class Stock:
 
     def barset(self, limit:int):
         """ returns barset for stock for time period lim """
-        self._barset = alpaca.api().get_barset(self.symbol, "minute", limit=int(limit))
+        self._barset = alpaca.api().get_barset(self.symbol, "minute", limit=int(limit))[self.symbol]
         return self._barset
 
 
-    def historical_data(self, nr_days=1000):
+    def historical_data(self, nr_days=365):
         """returns a list of the stocks closing value,
         range of 1 to 1000 days"""
         lst = []
         nr_days = max(1, min(nr_days, 1000))
-        for bar in self.barset(nr_days)[self.symbol]:
-            lst.append(bar.c)
+        for bar in self.barset(nr_days):
+            data = {
+                "date": bar.t.strftime('%Y-%m-%d'),
+                "open": bar.o,
+                "high": bar.h,
+                "low": bar.l,
+                "close": bar.c
+            }
+            lst.append(data)
         return lst
 
 
@@ -112,8 +120,8 @@ class Stock:
         """ Percentage change over a week """
         nr_days = 5
         bars = self.barset(nr_days)
-        week_open = bars[self.symbol][0].o
-        week_close = bars[self.symbol][-1].c
+        week_open = bars[0].o
+        week_close = bars[-1].c
         self._week_pl_change = (week_close - week_open) / week_open
         return self._week_pl_change
 
