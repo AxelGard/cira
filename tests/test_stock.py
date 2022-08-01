@@ -48,7 +48,7 @@ def test_buy_sell(): # no assert !
     exchange = cira.Exchange()
     if exchange.is_open:
         stk = cira.Stock("PYPL")
-        stk.buy(1)
+        stk.buy(2)
         time.sleep(1)
         stk.sell(1)
 
