@@ -60,11 +60,11 @@ portfolio = cira.Portfolio() # methods for your portfolio
 exchange = cira.Exchange() # methods for exchange
 stock = cira.Stock("TSLA") # a class for one stock
 ```
-for a example with the new classes check out this simple **[index fund](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund)**
 
-## A simple algorithm  
+### A simple algorithm  
 
-In just a couple of lines you are up and running, a super simple algorithm can be built in just few lines. Make sure to store you'r key safely, you can set up your key in some different ways checkout the wiki on how to [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key).
+In just a couple of lines you are up and running, with a super simple algorithm. 
+
 ```python 
 import cira
 import random
@@ -84,6 +84,8 @@ while True:
             stock.sell(1)
         time.sleep(60*30) # 30 min timer    
 ```
+
+you can find more examples on the **[wiki/examples](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund)**
 
 ## Things to checkout
 
