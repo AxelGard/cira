@@ -1,5 +1,6 @@
 # import alpaca_trade_api as tradeapi
 import datetime
+from alpaca_trade_api import TimeFrame
 from . import config
 from . import alpaca
 from . import logging
@@ -94,7 +95,7 @@ class Stock:
 
     def barset(self, limit:int):
         """ returns barset for stock for time period lim """
-        self._barset = alpaca.api().get_barset(self.symbol, "minute", limit=int(limit))[self.symbol]
+        self._barset = alpaca.api().get_bars(self.symbol, TimeFrame.Minute, limit=int(limit))
         return self._barset
 
 
