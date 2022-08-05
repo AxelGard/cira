@@ -24,29 +24,6 @@ The name **cira** is a miss spelling of the word for a [baby alpaca cria](https:
 
 [Axel Gard](https://github.com/AxelGard) is main developer for cira.
 
-## How simple is cira? 
-
-In just a couple of lines you are up and running, a super simple algorithm can be built in just few lines. Make sure to store you'r key safely, you can set up your key in some different ways checkout the wiki on how to [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key).
-```python 
-import cira
-import random
-import time
-
-cira.alpaca.KEY_FILE = "../mypath/key.json"
-
-portfolio = cira.Portfolio()
-exchange = cira.Exchange()
-
-qty = 1 # choose how many stocks should be handled in one session 
-while True:
-    while exchange.is_open:
-        for stock in random.choices(exchange.stocks, k=qty):
-            stock.buy(1)
-        for stock in random.choices(portfolio.owned_stocks, k=qty):
-            stock.sell(1)
-        time.sleep(60*30) # 30 min timer    
-```
-
 ## Getting Started
 
 You can get started fast by using the **[cira-group boilerplate](https://github.com/cira-group/cira-boilerplate)**.
@@ -84,6 +61,29 @@ exchange = cira.Exchange() # methods for exchange
 stock = cira.Stock("TSLA") # a class for one stock
 ```
 for a example with the new classes check out this simple **[index fund](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund)**
+
+## A simple algorithm  
+
+In just a couple of lines you are up and running, a super simple algorithm can be built in just few lines. Make sure to store you'r key safely, you can set up your key in some different ways checkout the wiki on how to [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key).
+```python 
+import cira
+import random
+import time
+
+cira.alpaca.KEY_FILE = "../mypath/key.json"
+
+portfolio = cira.Portfolio()
+exchange = cira.Exchange()
+
+qty = 1 # choose how many stocks should be handled in one session 
+while True:
+    while exchange.is_open:
+        for stock in random.choices(exchange.stocks, k=qty):
+            stock.buy(1)
+        for stock in random.choices(portfolio.owned_stocks, k=qty):
+            stock.sell(1)
+        time.sleep(60*30) # 30 min timer    
+```
 
 ## Things to checkout
 
