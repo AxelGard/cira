@@ -12,3 +12,8 @@ def reformat_position(position):
         except ValueError:
             continue
     return position_dict
+
+
+
+def date_to_days_back(date:str):
+    pass

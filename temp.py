@@ -3,7 +3,7 @@ import random
 import time
 import operator
 import datetime
-cira.alpaca.KEY_FILE = "../more-cira/paper-trader/key.json"
+cira.alpaca.KEY_FILE = "../paper-trader/key.json"
 
 
 portfolio = cira.Portfolio()
@@ -19,7 +19,9 @@ for stk in exchange.stocks[:3]:
 """
 
 stk = cira.Stock("TSLA")
-print(stk.historical_data(1))
+print(stk.barset(10))
+hist = stk.historical_data_range()
+print([d["date"] for d in hist])
 
 #print(str(datetime.datetime.utcfromtimestamp(stk.barset(1).__dict__['_raw'][0]['t']).strftime("%Y-%m-%d")))
 

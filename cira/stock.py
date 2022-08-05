@@ -94,7 +94,7 @@ class Stock:
 
     def barset(self, limit:int):
         """ returns barset for stock for time period lim """
-        self._barset = alpaca.api().get_barset(self.symbol, "minute", limit=int(limit))[self.symbol]
+        self._barset = alpaca.api().get_barset(self.symbol, "day", limit=int(limit))[self.symbol]
         return self._barset
 
 
@@ -109,9 +109,32 @@ class Stock:
                 "open": bar.o,
                 "high": bar.h,
                 "low": bar.l,
-                "close": bar.c
+                "close": bar.c,
+                "volume": bar.v
             }
             lst.append(data)
+        return lst
+
+
+    def historical_data_range(self, start=365, end=180):
+        """returns a list of the stocks closing value in 
+        the given range, start can only be a 1000 back """
+        lst = []
+        nr_days = max(1, min(start, 1000))
+        now = datetime.datetime.now()
+        for bar in self.barset(nr_days):
+            cur = (now - datetime.datetime.strptime(bar.t.strftime('%Y-%m-%d'), '%Y-%m-%d')).days
+            if cur <= end:
+                data = {
+                    "date": bar.t.strftime('%Y-%m-%d'),
+                    "open": bar.o,
+                    "high": bar.h,
+                    "low": bar.l,
+                    "close": bar.c,
+                    "volume": bar.v
+                }
+                lst.append(data)
+            else: break
         return lst
 
 
