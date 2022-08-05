@@ -24,15 +24,28 @@ The name **cira** is a miss spelling of the word for a [baby alpaca cria](https:
 
 [Axel Gard](https://github.com/AxelGard) is main developer for cira.
 
-Things to checkout:
+## How simple is cira? 
 
-* [News](https://github.com/AxelGard/cira/discussions/categories/news)
-* [Wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
-* [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
-* [Examples of how to use cira](https://github.com/AxelGard/cira/wiki/Examples)
-* [Discussions](https://github.com/AxelGard/cira/discussions)
-* [r/cira](https://www.reddit.com/r/cira/)
-* [Cira-group](https://github.com/cira-group)
+In just a couple of lines you are up and running, a super simple algorithm can be built in just few lines. Make sure to store you'r key safely, you can set up your key in some different ways checkout the wiki on how to [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key).
+```python 
+import cira
+import random
+import time
+
+cira.alpaca.KEY_FILE = "../mypath/key.json"
+
+portfolio = cira.Portfolio()
+exchange = cira.Exchange()
+
+qty = 1 # choose how many stocks should be handled in one session 
+while True:
+    while exchange.is_open:
+        for stock in random.choices(exchange.stocks, k=qty):
+            stock.buy(1)
+        for stock in random.choices(portfolio.owned_stocks, k=qty):
+            stock.sell(1)
+        time.sleep(60*30) # 30 min timer    
+```
 
 ## Getting Started
 
@@ -72,20 +85,20 @@ stock = cira.Stock("TSLA") # a class for one stock
 ```
 for a example with the new classes check out this simple **[index fund](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund)**
 
+## Things to checkout
+
+* [News](https://github.com/AxelGard/cira/discussions/categories/news)
+* [Wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
+* [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
+* [Examples of how to use cira](https://github.com/AxelGard/cira/wiki/Examples)
+* [Discussions](https://github.com/AxelGard/cira/discussions)
+* [Cira-group](https://github.com/cira-group)
+
 ## [Wiki](https://github.com/AxelGard/cira/wiki) and docs
 
 To see what more you can do check out the [wiki](https://github.com/AxelGard/cira/wiki).
 
 I also have an example of how to build a [index fund trader with cira](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund).
-
-## Versioning & News
-
-For more [news](https://github.com/AxelGard/cira/discussions/categories/news)
-
-### v.2.0.0, new structure!
-
-With cira v.2.0.0 has a new structure and classes!
-With this new classes and structure you will be able to use the library more simply. Checkout the [example page on the wiki](https://github.com/AxelGard/cira/wiki/Examples). The main classes are the Stock, Portfolio and Exchange.
 
 ### Want the old version?
 
@@ -111,7 +124,7 @@ and know you need to
 ```bash
 python3 -m venv env
 source env/bin/activate
-pip install -e .[dev]
+pip install -e .
 ```
 Run tests using pytest. Ensure that you are in the cira dir.
 But you will need a new key. This key should not only be used for testing or if you don't mind if all of the assets in the portfolio being sold.   
