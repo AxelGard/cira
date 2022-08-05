@@ -80,7 +80,7 @@ while True:
         time.sleep(60*30) # 30 min timer    
 ```
 
-you can find more examples on the **[wiki/examples](https://github.com/AxelGard/cira/wiki/Examples) and the [wiki/tutorial](https://github.com/AxelGard/cira/wiki/Tutorial)** for even more information. 
+you can find more examples on the **[wiki/examples](https://github.com/AxelGard/cira/wiki/Examples)** and the **[wiki/tutorial](https://github.com/AxelGard/cira/wiki/Tutorial)** for even more information. 
 
 ## Things to checkout
 
