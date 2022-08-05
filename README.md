@@ -80,12 +80,13 @@ while True:
         time.sleep(60*30) # 30 min timer    
 ```
 
-you can find more examples on the **[wiki/examples](https://github.com/AxelGard/cira/wiki/Examples)**
+you can find more examples on the **[wiki/examples](https://github.com/AxelGard/cira/wiki/Examples) and the [wiki/tutorial](https://github.com/AxelGard/cira/wiki/Tutorial)** for even more information. 
 
 ## Things to checkout
 
 * [News](https://github.com/AxelGard/cira/discussions/categories/news)
-* [Wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
+* [Wiki](https://github.com/AxelGard/cira/wiki/)
+* [Tutorial](https://github.com/AxelGard/cira/wiki/Tutorial)
 * [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
 * [Examples of how to use cira](https://github.com/AxelGard/cira/wiki/Examples)
 * [Discussions](https://github.com/AxelGard/cira/discussions)
