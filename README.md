@@ -15,11 +15,6 @@ Cira is available on [pip](https://pypi.org/project/cira/). **Please give it a s
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/cira)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/cira)
 
-I was interested in using the Alpaca trade API for building a quantitative paper trader.
-The project is available [here](https://github.com/AxelGard/paper-trader).<br>
-However after working on this for alomst a year (off and on) I realized that I had alomst build a small library for using the Alpaca API.
-So I thought that I would make this into a real library so that you can get started with quantitative paper trading as well.
-
 The name **cira** is a miss spelling of the word for a [baby alpaca cria](https://en.wikipedia.org/wiki/Cria) and because this is a simple and small lib I thought it would be a perfect fit.
 
 [Axel Gard](https://github.com/AxelGard) is main developer for cira.
@@ -112,6 +107,13 @@ if you find bug plz let me know with a issue. If you know how to solve the probl
 
 If you have a question about cira, want to share what you built with cira or want to talk to others using cira,
 you can checkout the [discussions page](https://github.com/AxelGard/cira/discussions) or make issue if that is more fitting.
+
+### History of cira 
+
+I was interested in using the Alpaca trade API for building a quantitative paper trader.
+The project is available [here](https://github.com/AxelGard/paper-trader).<br>
+However after working on this for alomst a year (off and on) I realized that I had alomst build a small library for using the Alpaca API.
+So I thought that I would make this into a real library so that you can get started with quantitative paper trading as well.
 
 ## Development
 If you want to help develop cira you are more then welcome to do so.
