@@ -85,7 +85,7 @@ while True:
         time.sleep(60*30) # 30 min timer    
 ```
 
-you can find more examples on the **[wiki/examples](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund)**
+you can find more examples on the **[wiki/examples](https://github.com/AxelGard/cira/wiki/Examples)**
 
 ## Things to checkout
 
