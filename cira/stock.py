@@ -70,12 +70,11 @@ class Stock:
         """ submit order and is a template for order """
         if not self.is_tradable:
             raise Exception(f"Sorry, {self.symbol} is currantly not tradable on https://alpaca.markets/")
-        else:
-            order = alpaca.api().submit_order(
-                symbol=self.symbol, qty=qty, side=beh,
-                type="market", time_in_force="gtc"
-            )
-            return order
+        order = alpaca.api().submit_order(
+            symbol=self.symbol, qty=qty, side=beh,
+        type="market", time_in_force="gtc"
+        )
+        return order
 
 
     @property

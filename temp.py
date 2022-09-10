@@ -3,7 +3,7 @@ import random
 import time
 import operator
 import datetime
-cira.alpaca.KEY_FILE = "../paper-trader/key.json"
+cira.alpaca.KEY_FILE = "../alpc_key.json"
 
 
 portfolio = cira.Portfolio()

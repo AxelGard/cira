@@ -37,7 +37,7 @@ def api():
         APCA_KEY = APCA_API_SECRET_KEY
 
     # Open the API connection
-    api = tradeapi.REST(APCA_ID, APCA_KEY, "https://paper-api.alpaca.markets")
+    api = tradeapi.REST(APCA_ID, APCA_KEY, "https://paper-api.alpaca.markets", "v2")
     # Get account info
     api.get_account()
     return api
