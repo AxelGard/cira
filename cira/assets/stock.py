@@ -1,10 +1,10 @@
 # import alpaca_trade_api as tradeapi
 import datetime
 from alpaca_trade_api import TimeFrame
-from . import config
-from . import alpaca
-from . import logging
-from . import util
+from .. import config
+from .. import auth
+from .. import logging
+from .. import util
 
 
 class Stock:
@@ -70,7 +70,7 @@ class Stock:
         """ submit order and is a template for order """
         if not self.is_tradable:
             raise Exception(f"Sorry, {self.symbol} is currantly not tradable on https://alpaca.markets/")
-        order = alpaca.api().submit_order(
+        order = auth.api().submit_order(
             symbol=self.symbol, qty=qty, side=beh,
         type="market", time_in_force="gtc"
         )
@@ -80,7 +80,7 @@ class Stock:
     @property
     def is_shortable(self) -> bool:
         """ checks if stock can be shorted """
-        self._is_shortable = alpaca.api().get_asset(self.symbol).shortable
+        self._is_shortable = auth.api().get_asset(self.symbol).shortable
         return self._is_shortable
 
 
@@ -88,13 +88,13 @@ class Stock:
     def can_borrow(self) -> bool:
         """check whether the name is currently
         available to short at Alpaca"""
-        self._can_borrow = alpaca.api().get_asset(self.symbol).easy_to_borrow
+        self._can_borrow = auth.api().get_asset(self.symbol).easy_to_borrow
         return self._can_borrow
 
 
     def barset(self, limit:int):
         """ returns barset for stock for time period lim """
-        self._barset = alpaca.api().get_bars(self.symbol, TimeFrame.Minute, limit=int(limit))
+        self._barset = auth.api().get_bars(self.symbol, TimeFrame.Minute, limit=int(limit))
         return self._barset
 
 
@@ -152,14 +152,14 @@ class Stock:
     @property
     def is_tradable(self) -> bool:
         """ return if the stock can be traded  """
-        self._is_tradable = alpaca.api().get_asset(self.symbol).tradable
+        self._is_tradable = auth.api().get_asset(self.symbol).tradable
         return self._is_tradable
 
 
     @property
     def position(self):
         """ returns position of stock """
-        pos = alpaca.api().get_position(self.symbol)
+        pos = auth.api().get_position(self.symbol)
         self._position = util.reformat_position(pos)
         return self._position
 
@@ -183,7 +183,7 @@ class Stock:
     @property
     def exchange_is_open(self) -> bool:
         """ returns if exchange is open """
-        self._is_open = alpaca.api().get_clock().is_open
+        self._is_open = auth.api().get_clock().is_open
         return self._is_open
 
 

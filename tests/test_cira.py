@@ -8,11 +8,11 @@ import os
 import operator
 
 if 'APCA_ID' in os.environ and 'APCA_KEY' in os.environ: # github action
-    cira.alpaca.APCA_API_KEY_ID = os.environ['APCA_ID']
-    cira.alpaca.APCA_API_SECRET_KEY = os.environ['APCA_KEY']
-    cira.alpaca.KEY_FILE = ""
+    cira.auth.APCA_API_KEY_ID = os.environ['APCA_ID']
+    cira.auth.APCA_API_SECRET_KEY = os.environ['APCA_KEY']
+    cira.auth.KEY_FILE = ""
 else:
-    cira.alpaca.KEY_FILE = "../paper-trader/key.json"
+    cira.auth.KEY_FILE = "../paper-trader/key.json"
 
 
 def test_setup():

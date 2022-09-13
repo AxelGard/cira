@@ -1,6 +1,6 @@
-from . import alpaca
+from . import auth
 from . import util
-from . import stock
+from .assets import stock
 
 
 class Portfolio:
@@ -24,14 +24,14 @@ class Portfolio:
     @property
     def orders(self):
         """ returns a list of all open orders with all diffult args """
-        self._list_orders = alpaca.api().list_orders()
+        self._list_orders = auth.api().list_orders()
         return self._list_orders
 
 
     @property
     def position(self):  # PREV: get_position # TODO: change to positions
         """ create a list of all owned position """
-        portfolio = alpaca.api().list_positions()
+        portfolio = auth.api().list_positions()
         self._position = []
         for position in portfolio:
             position_dict = util.reformat_position(position)
@@ -70,7 +70,7 @@ class Portfolio:
     @property
     def account(self):
         """ returns the dict of user account details"""
-        self._account = util.reformat_position(alpaca.api().get_account())
+        self._account = util.reformat_position(auth.api().get_account())
         return self._account
 
 
