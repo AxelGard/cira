@@ -21,11 +21,15 @@ class Asset:
         self.asset_class = str(self.alpaca_model_asset.asset_class)
         self.exchange = str(self.alpaca_model_asset.exchange)
         self.name = str(self.alpaca_model_asset.name)
+        
+    def price(self) -> float:
+        raise NotImplementedError("Please Implement a price function")
 
     def submit(self, order): 
         market_order = self.trading_client.submit_order(
                 order_data=order
                 )
+        return market_order
         
         
     def buy(self, qty:int):
@@ -39,6 +43,26 @@ class Asset:
                     time_in_force=TimeInForce.DAY
                     )
         self.submit(market_order_data)
+
+    def sell(self, qty:int): 
+        from alpaca.trading.requests import MarketOrderRequest
+        from alpaca.trading.enums import OrderSide, TimeInForce
+
+        market_order_data = MarketOrderRequest(
+                    symbol=self.symbol,
+                    qty=qty,
+                    side=OrderSide.SELL,
+                    time_in_force=TimeInForce.DAY
+                    )
+        self.submit(market_order_data)
+   
+    
+    def to_dict(self):
+        return {
+            "symbol":self.symbol,
+            "name":self.name,
+            "price":self.price(),
+        }
 
     def __str__(self) -> str:
         return str(self.symbol)

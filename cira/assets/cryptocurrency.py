@@ -18,12 +18,7 @@ class Cryptocurrency(Asset):
         lat_quo = self.historical_data_client.get_crypto_latest_quote(request_params=req_pram)
         self._price = float(lat_quo[self.symbol].ask_price)
         return self._price
-
-                
         
-    def sell(self, qty:int):
-        pass 
-    
     def historical_data(self, start="2022-01-01", end=""):
         """
             returns bars (formatted as dicts), in the given dates. 
