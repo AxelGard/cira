@@ -27,11 +27,14 @@ class Exchange:
         return self._symbols
         
     def cryptocurrencies(self) -> List[Cryptocurrency]:
-        assets = self.trading_client.get_all_assets()
+        from alpaca.trading.requests import GetAssetsRequest
+        from alpaca.trading.enums import AssetClass
+
+        search_params = GetAssetsRequest(asset_class=AssetClass.CRYPTO)
+        assets = self.trading_client.get_all_assets(search_params)
+
         self._cryptocurrencies = []
         for asset in assets: 
             if asset.asset_class == alpaca.trading.enums.AssetClass.CRYPTO:
                 self._cryptocurrencies.append(Cryptocurrency(alpaca_model_asset=asset))
         return self._cryptocurrencies
-    
-
