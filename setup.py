@@ -15,7 +15,10 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
 
-    install_requires=['alpaca-trade-api'],
+    install_requires=[
+        'alpaca-py==0.5.4', 
+        'alpaca-trade-api==2.3.0', 
+    ],
 
     extras_requires = {
         "dev": [

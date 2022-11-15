@@ -1,17 +1,17 @@
 from alpaca.trading import TradingClient
-import alpaca
+from alpaca import trading
 from ..auth import get_api_keys
 
 class Asset: 
     
     def __init__(self, symbol="", alpaca_model_asset=None) -> None:  
         self.alpaca_model_asset = alpaca_model_asset
-        assert symbol != "" or type(alpaca_model_asset) == alpaca.trading.models.Asset, "An asset needs a symbol or a alpaca "
+        assert symbol != "" or type(alpaca_model_asset) == trading.models.Asset, "An asset needs a symbol or a alpaca "
         _id, _key = get_api_keys()
         self.trade_client = TradingClient(_id, _key)
         
         self.symbol=None
-        if type(alpaca_model_asset) == alpaca.trading.models.Asset: 
+        if type(alpaca_model_asset) == trading.models.Asset: 
             self.symbol = alpaca_model_asset.symbol
         else: 
             self.symbol = symbol 
@@ -30,8 +30,7 @@ class Asset:
                 order_data=order
                 )
         return market_order
-        
-        
+       
     def buy(self, qty:int):
         from alpaca.trading.requests import MarketOrderRequest
         from alpaca.trading.enums import OrderSide, TimeInForce

@@ -1,4 +1,4 @@
-import time
+import datetime
 from . import auth
 from .assets import stock
 from alpaca.trading.client import TradingClient
@@ -25,7 +25,14 @@ class Exchange:
         for asset in assets: 
             self._symbols.append(asset.symbol)
         return self._symbols
-        
+   
+    def is_open(self) -> bool:
+        from alpaca.trading.models import Clock
+        now = datetime.datetime.now()
+        _clock = Clock(timestamp=now, is_open=True, next_open=now,next_close=now)
+        return _clock.is_open
+    
+    @property 
     def cryptocurrencies(self) -> List[Cryptocurrency]:
         from alpaca.trading.requests import GetAssetsRequest
         from alpaca.trading.enums import AssetClass
