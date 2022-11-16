@@ -1,15 +1,14 @@
-from alpaca.trading import TradingClient
 from alpaca import trading
-from ..auth import get_api_keys
+from ..alpaca_utils import get_trading_client
+
 
 class Asset: 
     
-    def __init__(self, symbol="", alpaca_model_asset=None) -> None:  
+    def __init__(self, symbol:str="", alpaca_model_asset:trading.models.Asset=None) -> None:  
         self.alpaca_model_asset = alpaca_model_asset
         assert symbol != "" or type(alpaca_model_asset) == trading.models.Asset, "An asset needs a symbol or a alpaca "
-        _id, _key = get_api_keys()
-        self.trade_client = TradingClient(_id, _key)
-        
+
+        self.trade_client = get_trading_client() 
         self.symbol=None
         if type(alpaca_model_asset) == trading.models.Asset: 
             self.symbol = alpaca_model_asset.symbol

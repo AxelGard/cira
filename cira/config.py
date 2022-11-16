@@ -9,3 +9,6 @@ LOG_FILE = ""
 
 # debugging
 DEBUG = False
+
+# paper trading 
+PAPER_TRADING = True 

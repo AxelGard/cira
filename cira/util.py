@@ -30,3 +30,4 @@ def bars_to_dict(bars):
 
 def date_to_days_back(date:str):
     pass
+

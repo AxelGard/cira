@@ -5,6 +5,7 @@ from alpaca.trading.client import TradingClient
 from .assets import Cryptocurrency
 import alpaca
 from typing import List
+from .config import PAPER_TRADING
 
 class Exchange:
     """
@@ -17,7 +18,7 @@ class Exchange:
         self._cryptocurrencies = []
         self.stocks = []
         self.apca_id, self.apca_key = auth.get_api_keys()
-        self.trading_client = TradingClient(self.apca_id, self.apca_key)
+        self.trading_client = TradingClient(self.apca_id, self.apca_key, paper=PAPER_TRADING)
         
     def symbols(self):
         assets = self.trading_client.get_all_assets()
