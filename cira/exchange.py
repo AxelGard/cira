@@ -30,7 +30,7 @@ class Exchange:
     def is_open(self) -> bool:
         from alpaca.trading.models import Clock
         now = datetime.datetime.now()
-        _clock = Clock(timestamp=now, is_open=True, next_open=now,next_close=now)
+        _clock = Clock()
         return _clock.is_open
     
     @property 
