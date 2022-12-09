@@ -12,11 +12,11 @@ APCA_API_KEY_ID = ""
 APCA_API_SECRET_KEY = ""
 
 
-def get_api_keys(): 
+def get_api_keys():
     global KEY_FILE
     global APCA_API_KEY_ID
     global APCA_API_SECRET_KEY
- 
+
     if "APCA_ID" in os.environ:
         APCA_ID = os.environ["APCA_ID"]
         APCA_KEY = os.environ["APCA_KEY"]
@@ -27,15 +27,16 @@ def get_api_keys():
     else:
         APCA_ID = APCA_API_KEY_ID
         APCA_KEY = APCA_API_SECRET_KEY
-    
+
     return APCA_ID, APCA_KEY
 
+
 def check_keys():
-    pass  
+    pass
 
 
 def authentication_header():
-    """ get's key and returns key in json format """
+    """get's key and returns key in json format"""
     global KEY_FILE
     with open(KEY_FILE, "r") as file:
         header = json.load(file)
@@ -43,7 +44,7 @@ def authentication_header():
 
 
 def api(version="v2"):
-    """ returns object for api """
+    """returns object for api"""
     APCA_ID, APCA_KEY = get_api_keys()
     # Open the API connection
     api = tradeapi.REST(APCA_ID, APCA_KEY, "https://paper-api.alpaca.markets", version)

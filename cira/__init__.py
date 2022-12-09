@@ -14,6 +14,7 @@ from . import logging
 from .exchange import Exchange
 from .protfolio.portfolio import Portfolio
 from . import assets
+
 __version__ = "3.0.0"
 __author__ = "Axel Gard"
 __credits__ = "alpaca.markets"

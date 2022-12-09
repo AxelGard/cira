@@ -1,6 +1,6 @@
 from .position import Position
 from ..alpaca_utils import get_trading_client
-from typing import List 
+from typing import List
 
 
 class Portfolio:
@@ -28,36 +28,33 @@ class Portfolio:
         return self._cash
 
     def positions(self) -> List[Position]:
-        """ returns a list of all the portfolios positions """
+        """returns a list of all the portfolios positions"""
         positions = self.trading_client.get_all_positions()
         self._position = []
         for position in positions:
-           pass  
+            pass
         print(positions[0].dict)
         return self._positions
-        
+
     def close_all_positions(self) -> list[Position]:
-        """ will close all open positions """
+        """will close all open positions"""
         closed_positions = self.trading_client.close_all_positions()
         positions = []
         for position in closed_positions:
             positions.append(Position(position))
-        return positions 
+        return positions
 
     @property
     def equity(self) -> float:
         self._equity = float(self.account.equity)
         return self._equity
-        
-    def to_dict(self)->dict:
-        """ returns attributes of portfolio in a dict """
-        return {
-            
-        }
-    
+
+    def to_dict(self) -> dict:
+        """returns attributes of portfolio in a dict"""
+        return {}
+
     def __repr__(self):
         return f"portfolio({self.equity})"
-
 
     def __str__(self):
         return f"{self.position}"
