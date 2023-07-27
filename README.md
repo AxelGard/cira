@@ -19,6 +19,8 @@ The name **cira** is a miss spelling of the word for a [baby alpaca cria](https:
 
 [Axel Gard](https://github.com/AxelGard) is main developer for cira.
 
+**A new version v3.0.0 is comming, it will have breaking changes!**
+
 ## Getting Started
 
 You can get started fast by using the **[cira-group boilerplate](https://github.com/cira-group/cira-boilerplate)**.
