@@ -2,6 +2,8 @@ import json
 import alpaca_trade_api as tradeapi
 import os
 
+from alpaca.data import StockHistoricalDataClient
+
 """
 This function let's you interact 
 with the Alpaca trade API 
@@ -31,9 +33,13 @@ def get_api_keys():
     return APCA_ID, APCA_KEY
 
 
-def check_keys():
-    pass
-
+def check_keys() -> bool:
+    try: 
+        APCA_ID, APCA_KEY = get_api_keys()
+        stock_client = StockHistoricalDataClient(APCA_ID, APCA_KEY) 
+        return True 
+    except: 
+        return False
 
 def authentication_header():
     """get's key and returns key in json format"""
