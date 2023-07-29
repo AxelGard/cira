@@ -56,6 +56,13 @@ exchange = cira.Exchange() # methods for exchange
 stock = cira.Stock("TSLA") # a class for one stock
 ```
 
+### Sci-kit learn + cira 
+
+I have made a simple example on how to use cira together with Sci-kit learn, using linear regression.
+This model is just a toy example and should not be used. 
+
+Checkout the [./example.ipynb](./example.ipynb)
+
 ### A simple algorithm  
 
 In just a couple of lines you are up and running, with a super simple algorithm. 
