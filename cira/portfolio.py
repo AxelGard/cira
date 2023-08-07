@@ -32,8 +32,8 @@ class Position:
 class Portfolio:
     def __init__(self) -> None:
         APCA_ID, APCA_SECRET = auth.get_api_keys()
-        self.client = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
-        self.account = self.client.get_account()
+        self.trading = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
+        self.account = self.trading.get_account()
         self.positions:List[Position] = []
 
     def cash(self)->float: 
@@ -41,15 +41,20 @@ class Portfolio:
         return float(self.account.cash)
     
     def all_positions(self)->List[Position]:
-        positions = self.client.get_all_positions() 
+        positions = self.trading.get_all_positions() 
         for p in positions:
             self.positions.append(Position(p.symbol))
         return self.positions
         
     def close_all_positions(self)->None:
         """ WARNING: This closes all your open positions """
-        self.client.close_all_positions(cancel_orders=True)
+        self.trading.close_all_positions(cancel_orders=True)
 
     def position_in(self, symbol:str) -> Position:
         return Position(symbol)
+
+    def cancel_all_orders(self)->None:
+        self.trading.cancel_orders()
+
+
 

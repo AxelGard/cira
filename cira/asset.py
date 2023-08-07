@@ -4,11 +4,18 @@ import alpaca
 from alpaca.data import CryptoHistoricalDataClient, StockHistoricalDataClient
 from alpaca.data.requests import StockLatestQuoteRequest
 from alpaca.data.requests import CryptoLatestQuoteRequest
-from alpaca.data.requests import CryptoBarsRequest
+from alpaca.data.requests import CryptoBarsRequest, StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
+from alpaca.trading.requests import MarketOrderRequest
+from alpaca.trading.enums import OrderSide, TimeInForce
+from alpaca.data.live import StockDataStream
+from alpaca.trading.client import TradingClient
+from alpaca.trading.requests import LimitOrderRequest
+
 import pandas as pd
 
 from . import auth
+from . import config
 
 class Asset: 
     def __init__(self, symbol:str) -> None:
@@ -33,18 +40,81 @@ class Stock(Asset):
     def __init__(self, symbol:str) -> None:
         """ Exchange for trading stocks """ 
         APCA_ID, APCA_SECRET = auth.get_api_keys()
-        self.client = StockHistoricalDataClient(APCA_ID, APCA_SECRET)
+        self.live_client = StockDataStream(APCA_ID,APCA_SECRET)
+        self.history = StockHistoricalDataClient(APCA_ID, APCA_SECRET)
+        self.trade = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
         self.symbol = symbol
-
-    def historical_data(self)->list:
-        perms = StockLatestQuoteRequest(symbol_or_symbols=self.symbols)
-        self.client.get_stock_bars
 
     def current_price(self) -> float:
         """ gets the asking price of the symbol """
         perms = StockLatestQuoteRequest(symbol_or_symbols=self.symbol)
-        return float(self.client.get_stock_latest_quote(perms)[self.symbol].ask_price)
+        return float(self.history.get_stock_latest_quote(perms)[self.symbol].ask_price)
 
+    def live_data(self, async_function_to_resolve_to, run:bool=True):
+        self.live_client.subscribe_quotes(async_function_to_resolve_to, self.symbol)
+        if run: 
+            self.live_client.run()
+
+    def _get_bars(self, start_date:datetime, end_date:datetime):
+        params = StockBarsRequest(
+            symbol_or_symbols=self.symbol,
+            timeframe=TimeFrame.Day,
+            start=start_date,
+            end=end_date
+        )
+        return self.history.get_stock_bars(params)
+
+    def historical_data_df(self, start_date:datetime, end_date:datetime)->pd.DataFrame:
+        return self._get_bars(start_date, end_date).df
+
+    def historical_data(self, start_date:datetime, end_date:datetime)->dict:
+        return self._get_bars(start_date, end_date).dict()
+
+    def buy(self,qty:float) -> None:
+        market_order = MarketOrderRequest(
+                    symbol=self.symbol,
+                    qty=qty,
+                    side=OrderSide.BUY,
+                    time_in_force=TimeInForce.DAY
+                    )
+        self.trade.submit_order(market_order)
+
+    def sell(self,qty:float) -> None:
+        market_order = MarketOrderRequest(
+                    symbol=self.symbol,
+                    qty=qty,
+                    side=OrderSide.SELL,
+                    time_in_force=TimeInForce.DAY
+                    )
+        self.trade.submit_order(market_order)
+
+    def buy_at(self, qty:int, price:float) -> None:
+        limit_order_data = LimitOrderRequest(
+                            symbol=self.symbol,
+                            limit_price=price,
+                            notional=qty,
+                            side=OrderSide.BUY,
+                            time_in_force=TimeInForce.FOK
+                        )
+        self.trade.submit_order(
+                        order_data=limit_order_data
+                    )
+
+    def buy_at(self, qty:int, price:float) -> None:
+        limit_order_data = LimitOrderRequest(
+                            symbol=self.symbol,
+                            limit_price=price,
+                            notional=qty,
+                            side=OrderSide.SELL,
+                            time_in_force=TimeInForce.FOK
+                        )
+        self.trade.submit_order(
+                        order_data=limit_order_data
+                    )
+
+
+    
+        
 
 class Cryptocurrency(Asset):
     def __init__(self, symbol:str) -> None:
