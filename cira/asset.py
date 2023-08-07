@@ -68,3 +68,4 @@ class Cryptocurrency(Asset):
         """ gets the asking price of the symbol """
         perms = CryptoLatestQuoteRequest(symbol_or_symbols=self.symbol)
         return float(self.client.get_crypto_latest_quote(perms)[self.symbol].ask_price)
+
