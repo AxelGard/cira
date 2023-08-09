@@ -11,6 +11,7 @@ from alpaca.trading.enums import OrderSide, TimeInForce
 from alpaca.data.live import StockDataStream
 from alpaca.trading.client import TradingClient
 from alpaca.trading.requests import LimitOrderRequest
+from alpaca.data.models import Bar
 
 import pandas as pd
 
@@ -50,12 +51,13 @@ class Stock(Asset):
         perms = StockLatestQuoteRequest(symbol_or_symbols=self.symbol)
         return float(self.history.get_stock_latest_quote(perms)[self.symbol].ask_price)
 
-    def live_data(self, async_function_to_resolve_to, run:bool=True):
+    def live_data(self, async_function_to_resolve_to, run:bool=True) -> None:
         self.live_client.subscribe_quotes(async_function_to_resolve_to, self.symbol)
         if run: 
             self.live_client.run()
 
     def _get_bars(self, start_date:datetime, end_date:datetime):
+        """ returns aplc bars from the given dates """
         params = StockBarsRequest(
             symbol_or_symbols=self.symbol,
             timeframe=TimeFrame.Day,
@@ -65,10 +67,12 @@ class Stock(Asset):
         return self.history.get_stock_bars(params)
 
     def historical_data_df(self, start_date:datetime, end_date:datetime)->pd.DataFrame:
+        """ takes two dates, and returns a data frame with bars from the given dates """
         return self._get_bars(start_date, end_date).df
 
-    def historical_data(self, start_date:datetime, end_date:datetime)->dict:
-        return self._get_bars(start_date, end_date).dict()
+    def historical_data(self, start_date:datetime, end_date:datetime)->List[dict]:
+        """ takes two dates, and returns a list of dicts with bars from the given dates """
+        return self._get_bars(start_date, end_date).dict()[self.symbol]
 
     def buy(self,qty:float) -> None:
         market_order = MarketOrderRequest(

@@ -17,7 +17,7 @@ class Exchange:
     def to_assets(self, symbols: List[str]) -> List[asset.Asset]:
         return [self.to_asset(s) for s in symbols]
 
-    def to_asset(symbol:str)->asset.Asset:
+    def to_asset(self, symbol:str)->asset.Asset:
         return asset.Stock(symbol) 
     
     def get_all_stocks(self, is_tradeable:bool=True, force_reload:bool=False) -> List[asset.Stock]:
