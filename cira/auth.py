@@ -30,6 +30,9 @@ def get_api_keys():
         APCA_ID = APCA_API_KEY_ID
         APCA_KEY = APCA_API_SECRET_KEY
 
+    if  not APCA_ID or not APCA_KEY: 
+        url = "https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key"
+        raise ValueError("Alpaca market keys were not given, " + url)
     return APCA_ID, APCA_KEY
 
 
