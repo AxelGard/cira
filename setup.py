@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='cira',
-    version='2.3.0',
+    version='2.3.1',
     description='A simpler library for the alapaca trade api',
     url='https://github.com/AxelGard/cira',
     author='Axel Gard',

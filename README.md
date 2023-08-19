@@ -19,7 +19,12 @@ The name **cira** is a miss spelling of the word for a [baby alpaca cria](https:
 
 [Axel Gard](https://github.com/AxelGard) is main developer for cira.
 
-**A new version v3.0.0 is comming, it will have breaking changes!**
+## A new version v3.0.0 is comming, it will have breaking changes!
+Im working the new version with more **machine learning support** and moving the underlying SDK to [Alpaca-py](https://alpaca.markets/docs/python-sdk/).
+If you want to take a look, [here is the branch](https://github.com/AxelGard/cira/tree/mv-aplc-py-sdk) but this is still under quite have development. 
+It will have some breaking changes, sorry for that. 
+I will change some of the interfaces to make it more clear when things are happening.
+
 
 ## Getting Started
 
