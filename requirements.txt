@@ -1,7 +1,7 @@
 alpaca-trade-api==2.3.0
 astroid==2.4.2
 bleach==3.3.0
-certifi==2020.6.20
+certifi==2023.7.22
 cffi==1.14.1
 chardet==3.0.4
 check-manifest==0.42
