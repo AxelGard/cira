@@ -17,6 +17,7 @@ setup(
     install_requires=[
         "alpaca-py==0.5.4",
         "alpaca-trade-api==2.3.0",
+        "schedule==1.2.0",
     ],
     extras_requires={"dev": ["pytest"]},
     classifiers=[
