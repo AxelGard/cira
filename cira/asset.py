@@ -68,7 +68,10 @@ class Stock(Asset):
 
     def historical_data_df(self, start_date:datetime, end_date:datetime)->pd.DataFrame:
         """ takes two dates, and returns a data frame with bars from the given dates """
-        return self._get_bars(start_date, end_date).df
+        data = self._get_bars(start_date, end_date).df
+        data = data.reset_index(level='symbol')
+        data.index = pd.to_datetime(data.index.get_level_values('timestamp'))
+        return data
 
     def historical_data(self, start_date:datetime, end_date:datetime)->List[dict]:
         """ takes two dates, and returns a list of dicts with bars from the given dates """
