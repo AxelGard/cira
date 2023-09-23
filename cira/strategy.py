@@ -5,11 +5,15 @@ class Strategy:
     def __init__(self) -> None: 
         pass
 
-    def train(self, X_train:np.ndarray, y_train:np.ndarray) -> None:
+    def fit(self, X_train:np.ndarray, y_train:np.ndarray) -> None:
         raise NotImplementedError
 
     def predict(self,  X_test:np.ndarray) -> np.ndarray: 
         raise NotImplementedError
+
+    def size_position(self, entry_price) -> int:
+        raise NotImplementedError
+
     
     def save(self, file_path):
         """

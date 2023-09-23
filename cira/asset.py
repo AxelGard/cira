@@ -70,7 +70,8 @@ class Stock(Asset):
         """ takes two dates, and returns a data frame with bars from the given dates """
         data = self._get_bars(start_date, end_date).df
         data = data.reset_index(level='symbol')
-        data.index = pd.to_datetime(data.index.get_level_values('timestamp'))
+        data["timestamp"] = pd.to_datetime(data.index.get_level_values('timestamp'))
+        data.set_index('timestamp', inplace=True)
         return data
 
     def historical_data(self, start_date:datetime, end_date:datetime)->List[dict]:
@@ -119,6 +120,23 @@ class Stock(Asset):
                         order_data=limit_order_data
                     )
 
+
+    def save_historical_data(self, file_path, start_date:datetime, end_date:datetime) -> None: 
+        data = self.historical_data_df(start_date=start_date, end_date=end_date)
+        data.to_csv(file_path)
+
+    @classmethod
+    def load_historical_data(cls, file_path) -> pd.DataFrame:
+        """
+        Load in model from pickle file
+        usage: 
+            model = Strategy.load('./model.pkl')
+            predictions = model.predict(X_test)
+        """
+        data = pd.read_csv(file_path)
+        data["timestamp"] = pd.to_datetime(data['timestamp'])
+        data.set_index('timestamp', inplace=True)
+        return data
 
     
         
