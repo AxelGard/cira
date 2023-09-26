@@ -1,23 +1,26 @@
 import pandas as pd
 import numpy as np
 from typing import List
+from .strategy import Strategy
 
 fees = lambda price, qty: .004 * price * qty
 
-def buy_and_hold(data_set:pd.DataFrame, capital, use_fees:bool = True) -> pd.DataFrame:
+def buy_and_hold(data_set:pd.DataFrame, capital, entry_price_name:str="close", use_fees:bool = True) -> pd.DataFrame:
     _portfolio = {
         "capital":[],
-        "timestamp":[]
+        "timestamp":[],
+        "allocation":[],
     }  
-    init_price = data_set["close"].values[0]
+    init_price = data_set[entry_price_name].values[0]
     stk_q = capital // init_price 
     capital -= (use_fees * fees(init_price, stk_q))
     stk_q = capital // init_price 
     
     for t, row in data_set.iterrows():
-        cur_price = row["close"]
+        cur_price = row[entry_price_name]
         _portfolio["capital"].append(stk_q*cur_price)
         _portfolio["timestamp"].append(t)
+        _portfolio["allocation"].append(stk_q)
 
     df = pd.DataFrame(_portfolio)
     df = df.set_index("timestamp")
@@ -25,12 +28,14 @@ def buy_and_hold(data_set:pd.DataFrame, capital, use_fees:bool = True) -> pd.Dat
     return df
     
 
-def back_test(model, position_sizer, data_set:pd.DataFrame, x_features_names:List[str], y_name:str, capital=100_000.0, threshold = 0.01, use_fees:bool = True):
+def back_test(strategy:Strategy, data_set:pd.DataFrame, entry_price_name:str="close", capital=100_000.0, use_fees:bool = True):
     """
     
     usage: 
         back_test(model, position_sizer test_data, ["open", "high", "low"], "close")
     """
+    #assert any(item  == False  for item in [f in data_set.keys().to_list() for f in strategy.get_features_names()]), "the given data set dose not have the features that the strategy needs"
+
     _portfolio = {
         "capital":[],
         "timestamp":[],
@@ -41,12 +46,10 @@ def back_test(model, position_sizer, data_set:pd.DataFrame, x_features_names:Lis
 
     for t, row in data_set.iterrows():
         if len(data_set) == i+1: break
-        cur_price = row["close"]
-        hist = data_set[x_features_names].iloc[:i+1] 
-        y_pred = model.predict(hist)
-        diff = y_pred[-1] - data_set[y_name].iloc[1+i]
-        buy_sig = diff > threshold
-        pos = position_sizer.size(capital, cur_price, buy_sig, stk_q)
+        cur_price = row[entry_price_name]
+        hist = data_set[strategy.get_features_names()].iloc[:i+1] 
+        y_pred = strategy.predict(hist)
+        pos = strategy.size(cur_price, y_pred, stk_q, capital)
         if stk_q + pos <= 0: 
             pos = -stk_q
         stk_q += pos
@@ -63,7 +66,7 @@ def back_test(model, position_sizer, data_set:pd.DataFrame, x_features_names:Lis
     return df
         
 
-def model_vs_buy_and_hold(model, sizer, data_set:pd.DataFrame, x_features_names:List[str], y_name:str, capital=100_000.0, threshold = 0.01, use_fees:bool = True):
+def model_vs_buy_and_hold(strategy:Strategy, data_set:pd.DataFrame, entry_price_name:str="close", capital=100_000.0, use_fees:bool = True):
     """
     
     usage: 
@@ -74,6 +77,6 @@ def model_vs_buy_and_hold(model, sizer, data_set:pd.DataFrame, x_features_names:
         plt.show()
     """
 
-    bh_res = buy_and_hold(data_set.copy(), capital, use_fees)
-    model_res = back_test(model, sizer, data_set.copy(), x_features_names, y_name, threshold=threshold, capital=capital, use_fees=use_fees)
+    bh_res = buy_and_hold(data_set=data_set.copy(), entry_price_name=entry_price_name, capital=capital, use_fees=use_fees)
+    model_res = back_test(strategy=strategy, data_set=data_set.copy(), entry_price_name=entry_price_name, capital=capital, use_fees=use_fees)
     return bh_res, model_res
