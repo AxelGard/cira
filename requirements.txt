@@ -15,7 +15,6 @@ cffi==1.14.1
 chardet==3.0.4
 charset-normalizer==2.1.0
 check-manifest==0.42
--e git+git@github.com:AxelGard/cira.git@0fc9c7a015ace7719c2731cdebc95f84e2a0a453#egg=cira
 click==8.1.6
 colorama==0.4.3
 comm==0.1.3
