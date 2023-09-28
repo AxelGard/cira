@@ -14,7 +14,7 @@ def format_log_action(act: str, sym: str, qty: int) -> list:
     return log_data
 
 
-def log(log_data:list) -> None:
+def log(log_data: list) -> None:
     """writes log data to file"""
     with open(config.LOG_FILE, "a") as file:
         # fd.write(log_data)

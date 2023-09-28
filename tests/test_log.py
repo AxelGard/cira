@@ -1,8 +1,9 @@
 from datetime import datetime
-import cira 
+import cira
 
-def is_valid_time_format(val:str, time_format:str) -> bool:
-    """ Checks if time format is the same as given """
+
+def is_valid_time_format(val: str, time_format: str) -> bool:
+    """Checks if time format is the same as given"""
     try:
         datetime.strptime(val, time_format)
         return True
@@ -11,12 +12,12 @@ def is_valid_time_format(val:str, time_format:str) -> bool:
 
 
 def test_logging():
-    """ simple test for checking logging format """
+    """simple test for checking logging format"""
     act = "buy"
     sym = "BTC/USD"
     qty = 1
     res = cira.logging.format_log_action(act, sym, qty)
     assert isinstance(res[3], str), "time was not included"
-    assert is_valid_time_format(res[3], "%Y-%m-%d %H:%M"), \
-        "time dose not follow the correct time format"
-    
+    assert is_valid_time_format(
+        res[3], "%Y-%m-%d %H:%M"
+    ), "time dose not follow the correct time format"

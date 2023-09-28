@@ -9,7 +9,7 @@ from . import config
 from . import util
 from . import logging
 
-from .exchange import Exchange, DemoExchange 
+from .exchange import Exchange, DemoExchange
 from .asset import Asset, Stock, Cryptocurrency
 from .portfolio import Portfolio, Position
 
