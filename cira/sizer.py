@@ -1,4 +1,17 @@
-class PositionSizer:
+class IPositionSizer:
+    def __init__(self) -> None:
+        pass 
+
+    def size(
+        self,
+        capital: float,
+        entry_price: float,
+        is_buy_signal: bool,
+        current_position: int,
+    ) -> int:
+        raise NotImplementedError
+
+class PositionSizer(IPositionSizer):
     def __init__(
         self,
         risk_percentage: float,

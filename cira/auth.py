@@ -2,7 +2,7 @@ import json
 import alpaca_trade_api as tradeapi
 import os
 
-from alpaca.data import StockHistoricalDataClient
+from alpaca.data import StockHistoricalDataClient, StockLatestQuoteRequest
 
 """
 This function let's you interact 
@@ -40,6 +40,9 @@ def check_keys() -> bool:
     try:
         APCA_ID, APCA_KEY = get_api_keys()
         stock_client = StockHistoricalDataClient(APCA_ID, APCA_KEY)
+        perms = StockLatestQuoteRequest(symbol_or_symbols="SPY")
+        ask = float(stock_client.get_stock_latest_quote(perms)["SPY"].ask_price)
+        
         return True
     except:
         return False

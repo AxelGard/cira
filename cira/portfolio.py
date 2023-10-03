@@ -45,9 +45,10 @@ class Portfolio:
         self.trading = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
         self.account = self.trading.get_account()
         self.positions: List[Position] = []
-        self.account.crypto_status
+        self.account.portfolio_value
 
-        assert not self.is_blocked(), "Account is blocked"
+    def total_value(self) -> float:
+        return float(self.account.portfolio_value)
 
     def is_blocked(self) -> bool:
         return self.account.account_blocked()
@@ -74,6 +75,9 @@ class Portfolio:
 
     def position_in(self, symbol: str) -> Position:
         return Position(symbol)
+    
+    def get_allocation(self, symbol:str) -> int:
+        return Position(symbol).quantity()
 
     def cancel_all_orders(self) -> None:
         self.trading.cancel_orders()
