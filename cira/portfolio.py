@@ -51,7 +51,7 @@ class Portfolio:
         return float(self.account.portfolio_value)
 
     def is_blocked(self) -> bool:
-        return self.account.account_blocked()
+        return self.account.account_blocked
 
     def buying_power(self) -> float:
         """gets the amount of cash currently available"""
@@ -64,6 +64,7 @@ class Portfolio:
     def all_positions(self) -> List[Position]:
         """Returns all positions of portfolio"""
         positions = self.trading.get_all_positions()
+        self.positions = []
         for p in positions:
             self.positions.append(Position(p.symbol))
         return self.positions

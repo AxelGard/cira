@@ -4,6 +4,9 @@ import os
 
 from alpaca.data import StockHistoricalDataClient, StockLatestQuoteRequest
 
+from .portfolio import Portfolio
+
+
 """
 This function let's you interact 
 with the Alpaca trade API 

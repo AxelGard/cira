@@ -1,5 +1,6 @@
 import csv
 import time
+import logging
 from . import config
 
 """
@@ -20,3 +21,7 @@ def log(log_data: list) -> None:
         # fd.write(log_data)
         writer = csv.writer(file)
         writer.writerow(log_data)
+
+def set_logging():
+    if config.IS_LOGGING:
+        logging.basicConfig(filename='./cira.log', level=config.LOGGING_LEVEL)

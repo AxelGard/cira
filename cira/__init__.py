@@ -7,7 +7,7 @@ A simpler libray for alpaca-trade-api from Alpaca Markets.
 from . import auth
 from . import config
 from . import util
-from . import logging
+from . import log
 
 from .exchange import Exchange, DemoExchange
 from .asset import Asset, Stock, Cryptocurrency

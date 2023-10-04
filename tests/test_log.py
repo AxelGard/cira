@@ -16,7 +16,7 @@ def test_logging():
     act = "buy"
     sym = "BTC/USD"
     qty = 1
-    res = cira.logging.format_log_action(act, sym, qty)
+    res = cira.log.format_log_action(act, sym, qty)
     assert isinstance(res[3], str), "time was not included"
     assert is_valid_time_format(
         res[3], "%Y-%m-%d %H:%M"

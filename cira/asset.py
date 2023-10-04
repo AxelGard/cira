@@ -1,5 +1,6 @@
 from typing import List
 from datetime import datetime
+import logging
 import alpaca
 from alpaca.data import CryptoHistoricalDataClient, StockHistoricalDataClient
 from alpaca.data.requests import StockLatestQuoteRequest
@@ -18,7 +19,6 @@ import pandas as pd
 from . import auth
 from . import config
 
-
 class Asset:
     def __init__(self, symbol: str) -> None:
         """Interface class"""
@@ -29,7 +29,7 @@ class Asset:
     ) -> pd.DataFrame:
         raise NotImplementedError
 
-    def current_price(self) -> float:
+    def price(self) -> float:
         raise NotImplementedError
 
     def __str__(self) -> str:
@@ -37,8 +37,15 @@ class Asset:
 
     def __repr__(self) -> str:
         return self.symbol
+    
+    def __eq__(self, other):
+        if not isinstance(other, Asset):
+            raise ValueError
+        return self.symbol == other.symbol
 
-
+    def __ne__(self, other):
+        return not self.__eq__(other)
+        
 class Stock(Asset):
     def __init__(self, symbol: str) -> None:
         """Exchange for trading stocks"""
@@ -48,7 +55,7 @@ class Stock(Asset):
         self.trade = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
         self.symbol = symbol
 
-    def current_price(self) -> float:
+    def price(self) -> float:
         """gets the asking price of the symbol"""
         perms = StockLatestQuoteRequest(symbol_or_symbols=self.symbol)
         return float(self.history.get_stock_latest_quote(perms)[self.symbol].ask_price)
@@ -83,24 +90,32 @@ class Stock(Asset):
         return self._get_bars(start_date, end_date).dict()[self.symbol]
 
     def buy(self, qty: float) -> None:
+        """ Buy the asset,
+        qty is the number of the asset that you buy"""
         market_order = MarketOrderRequest(
             symbol=self.symbol,
             qty=qty,
             side=OrderSide.BUY,
             time_in_force=TimeInForce.DAY,
         )
+        logging.info(f"buy:{self.symbol}, qty:{qty}")
         self.trade.submit_order(market_order)
 
     def sell(self, qty: float) -> None:
+        """ Sell the asset,
+        qty is the number of the asset that you sell"""
         market_order = MarketOrderRequest(
             symbol=self.symbol,
             qty=qty,
             side=OrderSide.SELL,
             time_in_force=TimeInForce.DAY,
         )
+        logging.info(f"sell:{self.symbol}, qty:{qty}")
         self.trade.submit_order(market_order)
 
     def buy_at(self, qty: int, price: float) -> None:
+        """ Buy the asset at a given price,
+        qty is the number of the asset that you buy"""
         limit_order_data = LimitOrderRequest(
             symbol=self.symbol,
             limit_price=price,
@@ -110,7 +125,9 @@ class Stock(Asset):
         )
         self.trade.submit_order(order_data=limit_order_data)
 
-    def buy_at(self, qty: int, price: float) -> None:
+    def sell_at(self, qty: int, price: float) -> None:
+        """ Sell the asset at a given price,
+        qty is the number of the asset that you sell"""
         limit_order_data = LimitOrderRequest(
             symbol=self.symbol,
             limit_price=price,
@@ -160,7 +177,7 @@ class Cryptocurrency(Asset):
     ) -> pd.DataFrame:
         return self._get_bars(start_date, end_date).df
 
-    def current_price(self) -> float:
+    def price(self) -> float:
         """gets the asking price of the symbol"""
         perms = CryptoLatestQuoteRequest(symbol_or_symbols=self.symbol)
         return float(self.client.get_crypto_latest_quote(perms)[self.symbol].ask_price)
