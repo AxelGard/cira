@@ -3,6 +3,7 @@ import warnings
 from alpaca.trading.client import TradingClient
 from . import auth
 from . import config
+from .asset import Stock
 
 
 class Position:
@@ -33,10 +34,10 @@ class Position:
         }
 
     def __str__(self) -> str:
-        return self.symbol
+        return f"({self.symbol}, {self.quantity()})"
 
     def __repr__(self) -> str:
-        return self.symbol
+        return f"({self.symbol}, {self.quantity()})"
 
 
 class Portfolio:
@@ -61,6 +62,19 @@ class Portfolio:
         """gets the amount of cash currently available"""
         return float(self.account.cash)
 
+    def equity(self) -> float:
+        """ returns the amount of equity that users has """
+        return float(self.account.equity)
+
+    def equity_yesterday(self)-> float:
+        """ returns the amount of equity that was
+        available at market close yesterday """
+        return float(self.account.last_equity)
+
+    def equity_change(self):
+        """ returns the change in equity from yesterday to now """
+        return self.equity() - self.equity_yesterday()
+
     def all_positions(self) -> List[Position]:
         """Returns all positions of portfolio"""
         positions = self.trading.get_all_positions()
@@ -82,3 +96,17 @@ class Portfolio:
 
     def cancel_all_orders(self) -> None:
         self.trading.cancel_orders()
+
+    def sell_list(self, symbols:List[str])->None:
+        """ takes a list of Stocks and sells all stocks in that list """
+        for symbol in symbols:
+            q = self.position_in(symbol).quantity()         
+            if q == 0: continue
+            stk = Stock(symbol=symbol)
+            stk.sell(q)
+
+    def __repr__(self):
+        return f"portfolio({self.equity()})"
+
+    def __str__(self):
+        return f"{self.all_positions()}"
