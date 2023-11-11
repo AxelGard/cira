@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 import warnings
 from alpaca.trading.client import TradingClient
 from . import auth
@@ -104,6 +104,22 @@ class Portfolio:
             if q == 0: continue
             stk = Stock(symbol=symbol)
             stk.sell(q)
+
+    def owned_stock_qty(self, symbol:str) -> int:  # maby shuld be in stock.Stock
+        """ returns quantity of owned of a stock Stock (obj) """
+        assert isinstance(symbol, str), "symbol needs to be string"
+        return Position(symbol).quantity()
+    
+    def owned_stocks_qty(self) -> Dict[str,int]:
+        positions = self.trading.get_all_positions()
+        result = {}
+        for p in positions:
+            result[p.symbol] = Position(p.symbol).quantity()
+        return result
+
+    def owned_stocks(self) -> List[Stock]:
+        """ returns a list of owned stocks """
+        return [ Stock(p.symbol) for p in self.all_positions()]
 
     def __repr__(self):
         return f"portfolio({self.equity()})"

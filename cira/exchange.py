@@ -45,6 +45,30 @@ class Exchange:
         return self.stock_cache
 
 
+    def calendar(self, start='2018-12-01', end='2018-12-01'):
+        self._calendar = auth.api().get_calendar(start=start, end=end)[0].__dict__["_raw"]
+        return self._calendar
+
+
+    def assets_raw(self):
+        """ (legacy, should not be used) 
+        returns a list of all avilabel stocks in exchanges list """
+        all_assets = []
+        active_assets = auth.api().list_assets(status="active")
+        for exchange in self.exchanges:
+            all_assets += [a for a in active_assets if a.exchange == exchange]
+        self._assets = all_assets
+        return self._assets
+
+
+    def symbols(self):
+        """ returns a list of all symbols """
+        self._symbols = []
+        for asset in self.assets_raw():
+            self._symbols.append(asset.__dict__["_raw"]["symbol"])
+        return self._symbols
+
+
 class DemoExchange(Exchange):
     def __init__(self) -> None:
         """uses crypto client, so no need for keys, has limited usage"""

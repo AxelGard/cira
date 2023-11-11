@@ -1,6 +1,7 @@
 from typing import List
 from datetime import datetime
 import logging
+import warnings
 import alpaca
 from alpaca.data import CryptoHistoricalDataClient, StockHistoricalDataClient
 from alpaca.data.requests import StockLatestQuoteRequest
@@ -18,6 +19,7 @@ import pandas as pd
 
 from . import auth
 from . import config
+from . import util 
 
 class Asset:
     def __init__(self, symbol: str) -> None:
@@ -155,6 +157,192 @@ class Stock(Asset):
         data["timestamp"] = pd.to_datetime(data["timestamp"])
         data.set_index("timestamp", inplace=True)
         return data
+
+
+
+
+    def value(self) -> float:  # prev: value_of_stock
+        """ takes a string sym. Gets and returns the stock value at close """
+
+        warnings.warn(f"Warning: function is deprecated ({self.value})")
+
+        nr_days = 1
+        bars = self.barset(nr_days)
+        if bars is None:
+            self._value = 0.0
+        else:
+            self._value = bars[0].c  # get stock at close
+        return self._value
+
+
+    def order(self, qty: int, beh: str) -> float:
+        """ submit order and is a template for order """
+
+        warnings.warn(f"Warning: function is deprecated ({self.order})")
+
+        if not self.is_tradable():
+            raise Exception(f"Sorry, {self.symbol} is currantly not tradable on https://alpaca.markets/")
+        order = auth.api().submit_order(
+            symbol=self.symbol, qty=qty, side=beh,
+        type="market", time_in_force="gtc"
+        )
+        return order
+
+
+    def is_shortable(self) -> bool:
+        """ checks if stock can be shorted """
+        return bool(auth.api().get_asset(self.symbol).shortable)
+
+
+    def can_borrow(self) -> bool:
+        """check whether the name is currently
+        available to short at Alpaca"""
+        return auth.api().get_asset(self.symbol).easy_to_borrow
+
+
+    def barset(self, limit:int):
+        """ returns barset for stock for time period lim """
+        self._barset = alpaca.api().get_bars(self.symbol, TimeFrame.Minute, limit=int(limit))
+        return self._barset
+
+
+    def is_tradable(self) -> bool:
+        """ return if the stock can be traded  """
+        return bool(auth.api().get_asset(self.symbol).tradable)
+
+
+    def position(self):
+        """ returns position of stock """
+
+        warnings.warn(f"Warning: function is deprecated ({self.position})")
+
+        pos = auth.api().get_position(self.symbol)
+        self._position = util.reformat_position(pos)
+        return self._position
+
+
+    def today_plpc(self) -> float:
+        """ stock today's profit/loss percent """
+        self._today_plpc = self.position()[
+            "unrealized_intraday_plpc"
+        ]
+        return self._today_plpc
+
+
+    def plpc(self) -> float:
+        """ stock sym (str) Unrealized profit/loss percentage """
+        self._plpc = self.position()["unrealized_plpc"]
+        return self._plpc
+
+
+
+    # Operators
+
+    def __eq__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() == other
+        return self.price() == other.price
+
+
+    def __ne__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() != other
+        return self.price() != other.price
+
+
+    def __lt__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() < other
+        return self.price() < other.price
+
+
+    def __le__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() <= other
+        return self.price() <= other.price
+
+
+    def __gt__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() > other
+        return self.price() > other.price
+
+
+    def __ge__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() >= other
+        return self.price() >= other.price
+
+    # Arithmetic Operators
+
+    def __add__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() + other
+        return self.price() + other.price
+
+
+    def __radd__(self, other):
+        return self.price() + other
+
+
+    def __sub__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() - other
+        return self.price() - other.price
+
+
+    def __rsub__(self, other):
+        return self.price() - other
+
+
+    def __mul__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() * other
+        return self.price() * other.price
+
+
+    def __rmul__(self, other):
+        return self.price() * other
+
+
+    def __truediv__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() / other
+        return self.price() / other.price
+
+
+    def __rdiv__(self, other):
+        return self.price() / other
+
+
+    def __floordiv__(self, other):
+        if isinstance(other,(int,float)):
+            return self.price() // other
+        return self.price() // other.price
+
+
+    def __rfloordiv__(self, other):
+        return self.price() // other
+
+    # Type Conversion
+
+    def __abs__(self):
+        # dose not rely makes sense should not be able to
+        # be neg but might be good to have
+        return abs(self.price)
+
+
+    def __int__(self):
+        return int(self.price)
+
+
+    def __float__(self):
+        return float(self.price)
+
+
+    def __round__(self, nDigits):
+        return round(self.price, nDigits)
+
 
 
 class Cryptocurrency(Asset):
