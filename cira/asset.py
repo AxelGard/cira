@@ -189,7 +189,7 @@ class Stock(Asset):
         return order
 
 
-    def is_shortable(self) -> bool:
+    def is_sortable(self) -> bool:
         """ checks if stock can be shorted """
         return bool(auth.api().get_asset(self.symbol).shortable)
 
@@ -202,8 +202,7 @@ class Stock(Asset):
 
     def barset(self, limit:int):
         """ returns barset for stock for time period lim """
-        self._barset = alpaca.api().get_bars(self.symbol, TimeFrame.Minute, limit=int(limit))
-        return self._barset
+        return alpaca.api().get_bars(self.symbol, TimeFrame.Minute, limit=int(limit))
 
 
     def is_tradable(self) -> bool:
