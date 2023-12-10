@@ -9,7 +9,7 @@ class Scheduler:
     def add_daily_job(self, func_name) -> None:
         schedule.every(1).days.do(func_name)
 
-    def add_daily_job_at(self, func_name, time_HM:str = "12:00") -> None:
+    def add_daily_job_at(self, func_name, time_HM: str = "12:00") -> None:
         schedule.every().day.at(time_HM).do(func_name)
 
     def add_hour_job(self, func_name) -> None:

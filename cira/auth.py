@@ -45,7 +45,7 @@ def check_keys() -> bool:
         stock_client = StockHistoricalDataClient(APCA_ID, APCA_KEY)
         perms = StockLatestQuoteRequest(symbol_or_symbols="SPY")
         ask = float(stock_client.get_stock_latest_quote(perms)["SPY"].ask_price)
-        
+
         return True
     except:
         return False

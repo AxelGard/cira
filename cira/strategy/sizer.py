@@ -1,6 +1,6 @@
 class IPositionSizer:
     def __init__(self) -> None:
-        pass 
+        pass
 
     def size(
         self,
@@ -10,6 +10,7 @@ class IPositionSizer:
         current_position: int,
     ) -> int:
         raise NotImplementedError
+
 
 class PositionSizer(IPositionSizer):
     def __init__(

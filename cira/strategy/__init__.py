@@ -1,2 +1,1 @@
-
 from .strategy import Strategy

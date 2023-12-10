@@ -63,16 +63,16 @@ class Portfolio:
         return float(self.account.cash)
 
     def equity(self) -> float:
-        """ returns the amount of equity that users has """
+        """returns the amount of equity that users has"""
         return float(self.account.equity)
 
-    def equity_yesterday(self)-> float:
-        """ returns the amount of equity that was
-        available at market close yesterday """
+    def equity_yesterday(self) -> float:
+        """returns the amount of equity that was
+        available at market close yesterday"""
         return float(self.account.last_equity)
 
     def equity_change(self):
-        """ returns the change in equity from yesterday to now """
+        """returns the change in equity from yesterday to now"""
         return self.equity() - self.equity_yesterday()
 
     def all_positions(self) -> List[Position]:
@@ -90,27 +90,28 @@ class Portfolio:
 
     def position_in(self, symbol: str) -> Position:
         return Position(symbol)
-    
-    def get_allocation(self, symbol:str) -> int:
+
+    def get_allocation(self, symbol: str) -> int:
         return Position(symbol).quantity()
 
     def cancel_all_orders(self) -> None:
         self.trading.cancel_orders()
 
-    def sell_list(self, symbols:List[str])->None:
-        """ takes a list of Stocks and sells all stocks in that list """
+    def sell_list(self, symbols: List[str]) -> None:
+        """takes a list of Stocks and sells all stocks in that list"""
         for symbol in symbols:
-            q = self.position_in(symbol).quantity()         
-            if q == 0: continue
+            q = self.position_in(symbol).quantity()
+            if q == 0:
+                continue
             stk = Stock(symbol=symbol)
             stk.sell(q)
 
-    def owned_stock_qty(self, symbol:str) -> int:  # maby shuld be in stock.Stock
-        """ returns quantity of owned of a stock Stock (obj) """
+    def owned_stock_qty(self, symbol: str) -> int:  # maby shuld be in stock.Stock
+        """returns quantity of owned of a stock Stock (obj)"""
         assert isinstance(symbol, str), "symbol needs to be string"
         return Position(symbol).quantity()
-    
-    def owned_stocks_qty(self) -> Dict[str,int]:
+
+    def owned_stocks_qty(self) -> Dict[str, int]:
         positions = self.trading.get_all_positions()
         result = {}
         for p in positions:
@@ -118,8 +119,8 @@ class Portfolio:
         return result
 
     def owned_stocks(self) -> List[Stock]:
-        """ returns a list of owned stocks """
-        return [ Stock(p.symbol) for p in self.all_positions()]
+        """returns a list of owned stocks"""
+        return [Stock(p.symbol) for p in self.all_positions()]
 
     def __repr__(self):
         return f"portfolio({self.equity()})"

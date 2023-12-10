@@ -1,16 +1,21 @@
 from typing import List
 import pickle
+import pandas as pd
 import numpy as np
+import random
 
 
 class Strategy:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, name) -> None:
+        self.name = name
 
-    def fit(self, train_data: np.array) -> None:
+    def fit(self, train_data) -> None:
         raise NotImplementedError
 
-    def predict(self, data: np.ndarray) -> np.ndarray:
+    def predict(self, feature_data:pd.DataFrame, prices:pd.DataFrame, cash: float) -> np.ndarray:
+        """
+        Takes in feature data, then returns allocation prediction.
+        """
         raise NotImplementedError
 
     def size(
@@ -45,3 +50,35 @@ class Strategy:
         """
         with open(file_path, "rb") as file:
             return pickle.load(file)
+
+
+class Randomness(Strategy):
+    def __init__(self, a: int = -1, b: int = 1) -> None:
+        super().__init__(name="Randomness")
+        self.a = a
+        self.b = b
+
+    def fit(self, train_data) -> None:
+        pass
+
+    def predict(self, feature_data, prices, cash: float) -> np.ndarray:
+        return np.array(
+            [random.randint(self.a, self.b) for _ in range(len(feature_data.keys()))]
+        )
+
+
+class ByAndHold(Strategy):
+    def __init__(self) -> None:
+        super().__init__(name="ByAndHold")
+        self.is_first = True
+
+    def fit(self, train_data) -> None:
+        pass
+
+    def predict(self, feature_data, prices, cash: float) -> np.ndarray:
+        if self.is_first:
+            self.is_first = False
+            amount = cash / len(prices.keys())
+            amount *= 0.96
+            return (amount // prices.values).astype(np.int64)[0]
+        return np.array([0] * len(prices.keys()))

@@ -22,6 +22,7 @@ def log(log_data: list) -> None:
         writer = csv.writer(file)
         writer.writerow(log_data)
 
+
 def set_logging():
     if config.IS_LOGGING:
-        logging.basicConfig(filename='./cira.log', level=config.LOGGING_LEVEL)
+        logging.basicConfig(filename="./cira.log", level=config.LOGGING_LEVEL)
