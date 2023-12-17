@@ -53,24 +53,28 @@ class Strategy:
 
 
 class Randomness(Strategy):
-    def __init__(self, a: int = -1, b: int = 1) -> None:
+    def __init__(self, lower: int = -1, upper: int = 1) -> None:
         super().__init__(name="Randomness")
-        self.a = a
-        self.b = b
+        self.a = lower
+        self.b = upper
+        self.allocation = []
 
     def fit(self, train_data) -> None:
         pass
 
     def predict(self, feature_data, prices, cash: float) -> np.ndarray:
-        return np.array(
+        al =  np.array(
             [random.randint(self.a, self.b) for _ in range(len(feature_data.keys()))]
         )
+        self.allocation.append(al)
+        return al
 
 
 class ByAndHold(Strategy):
     def __init__(self) -> None:
         super().__init__(name="ByAndHold")
         self.is_first = True
+        self.allocation = []
 
     def fit(self, train_data) -> None:
         pass
@@ -80,5 +84,9 @@ class ByAndHold(Strategy):
             self.is_first = False
             amount = cash / len(prices.keys())
             amount *= 0.96
-            return (amount // prices.values).astype(np.int64)[0]
-        return np.array([0] * len(prices.keys()))
+            al = (amount // prices.values).astype(np.int64)[0]
+            self.allocation.append(al)
+            return al
+        al = np.array([0] * len(prices.keys()))
+        self.allocation.append(al)
+        return al
