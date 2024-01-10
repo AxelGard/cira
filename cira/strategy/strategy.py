@@ -18,15 +18,6 @@ class Strategy:
         """
         raise NotImplementedError
 
-    def size(
-        self,
-        entry_price: float,
-        prediction: np.ndarray,
-        current_position: int,
-        cash: float,
-    ) -> int:
-        raise NotImplementedError
-
     def get_features_names(self) -> List[str]:
         raise NotImplementedError
 
