@@ -44,8 +44,9 @@ class Strategy:
 
 
 class Randomness(Strategy):
-    def __init__(self, lower: int = -1, upper: int = 1) -> None:
+    def __init__(self, lower: int = -1, upper: int = 1, seed=0) -> None:
         super().__init__(name="Randomness")
+        random.seed(seed)
         self.a = lower
         self.b = upper
         self.allocation = []
