@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from typing import List
+import copy
 from cira.strategy.strategy import Strategy, ByAndHold
 
 fees = lambda prices, allocation: 0.004 * np.matmul(prices.T, allocation)
@@ -16,26 +17,30 @@ def back_test(
         "value": [],
         "timestamp": [],
     }
-
     assert len(feature_data) == len(asset_prices)
-    value = capital
+    total_value = capital
     nr_of_asset = np.zeros([len(asset_prices.keys())], int)
     i = 0
     for t, cur_price in asset_prices.iterrows():
         if len(asset_prices) == i + 1: break
-        if value > 0: 
+        if total_value > 0: 
             f_data = feature_data.iloc[: i + 1]
             p_data = asset_prices.iloc[: i + 1]
-            allocation = strat.predict(f_data, p_data, capital)
-            asking = np.matmul(cur_price.values.T, allocation) + use_fees*fees(cur_price.values, allocation)
-            if capital - asking > 0: 
-                capital -= asking
-                nr_of_asset += allocation
-                nr_of_asset = np.maximum(nr_of_asset, 0)
-                value = np.matmul(cur_price.values.T, nr_of_asset) + capital
-        
+            allocation = strat.iterate(f_data, p_data, nr_of_asset.copy(), capital)
+            assert len(allocation) == len(nr_of_asset), "tried to allocating more assets then is aviabel"
+            for a, _ in enumerate(allocation):
+                if nr_of_asset[a] + allocation[a] < 0.0:
+                    allocation[a] = -nr_of_asset[a]
+            asking = float(np.matmul(cur_price.values.T, allocation) + use_fees*fees(cur_price.values, allocation) - capital)
+            capital -= asking
+            nr_of_asset += allocation
+            total_value = np.matmul(cur_price.values.T, nr_of_asset) #+ capital 
         portfolio_history["timestamp"].append(t)
-        portfolio_history["value"].append(value)
+        portfolio_history["value"].append(total_value)
+        i+= 1
+        if total_value + 100 > 2**32: 
+            print("WARNING about to hit max int of portfolio value")
+            break
  
     df = pd.DataFrame(portfolio_history)
     df = df.set_index("timestamp")
@@ -72,7 +77,8 @@ def back_test_against_buy_and_hold(
     capital=100_000.0,
     use_fees: bool = True
 ):
-    return multi_strategy_backtest( strats=[strat, ByAndHold()],                         
+    buy_and_hold = ByAndHold()
+    return multi_strategy_backtest( strats=[strat, buy_and_hold],                         
                                     feature_data=feature_data,
                                     asset_prices=asset_prices,
                                     capital=capital,

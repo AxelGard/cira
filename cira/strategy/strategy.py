@@ -9,16 +9,10 @@ class Strategy:
     def __init__(self, name) -> None:
         self.name = name
 
-    def fit(self, train_data) -> None:
-        raise NotImplementedError
-
-    def predict(self, feature_data:pd.DataFrame, prices:pd.DataFrame, cash: float) -> np.ndarray:
+    def iterate(self, feature_data:pd.DataFrame, prices:pd.DataFrame, portfolio: np.ndarray, cash=float) -> np.ndarray:
         """
         Takes in feature data, then returns allocation prediction.
         """
-        raise NotImplementedError
-
-    def get_features_names(self) -> List[str]:
         raise NotImplementedError
 
     def save(self, file_path):
@@ -51,10 +45,7 @@ class Randomness(Strategy):
         self.b = upper
         self.allocation = []
 
-    def fit(self, train_data) -> None:
-        pass
-
-    def predict(self, feature_data, prices, cash: float) -> np.ndarray:
+    def iterate(self, feature_data: pd.DataFrame, prices: pd.DataFrame, portfolio: np.ndarray, cash=float) -> np.ndarray:
         al =  np.array(
             [random.randint(self.a, self.b) for _ in range(len(feature_data.keys()))]
         )
@@ -68,10 +59,7 @@ class ByAndHold(Strategy):
         self.is_first = True
         self.allocation = []
 
-    def fit(self, train_data) -> None:
-        pass
-
-    def predict(self, feature_data, prices, cash: float) -> np.ndarray:
+    def iterate(self, feature_data: pd.DataFrame, prices: pd.DataFrame, portfolio: np.ndarray, cash=float) -> np.ndarray:
         if self.is_first:
             self.is_first = False
             amount = cash / len(prices.keys())
