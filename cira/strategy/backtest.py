@@ -13,6 +13,13 @@ def back_test(
     capital=100_000.0,
     use_fees: bool = True
 )->pd.DataFrame:
+    """
+    DISCLAIMER: 
+    The results of this backtest are based on historical data and do not guarantee future performance. 
+    The financial markets are inherently uncertain, and various factors can influence actual trading results. 
+    This backtest is provided for educational and informational purposes only. 
+    Users should exercise caution and conduct additional research before applying any trading strategy in live markets. 
+    """
     portfolio_history = {
         "value": [],
         "timestamp": [],
