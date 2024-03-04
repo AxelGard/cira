@@ -76,6 +76,7 @@ class Stock(Asset):
             timeframe=TimeFrame.Day,
             start=start_date,
             end=end_date,
+            adjustment="all"
         )
         return self.history.get_stock_bars(params)
 
@@ -317,12 +318,13 @@ class Stock(Asset):
 class Cryptocurrency(Asset):
     def __init__(self, symbol: str) -> None:
         """Exchange for trading cryptocurrencies"""
-        self.client = CryptoHistoricalDataClient()
+        APCA_ID, APCA_SECRET = auth.get_api_keys()
+        self.client = CryptoHistoricalDataClient(APCA_ID, APCA_SECRET)
         self.symbol = symbol
 
     def _get_bars(self, start_date: datetime, end_date: datetime):
         params = CryptoBarsRequest(
-            symbol_or_symbols=self.symbol,
+            symbol_or_symbols=[self.symbol],
             timeframe=TimeFrame.Day,
             start=start_date,
             end=end_date,

@@ -12,7 +12,7 @@ def back_test(
     asset_prices: pd.DataFrame,
     capital=100_000.0,
     use_fees: bool = True
-):
+)->pd.DataFrame:
     portfolio_history = {
         "value": [],
         "timestamp": [],
@@ -23,20 +23,27 @@ def back_test(
     i = 0
     for t, cur_price in asset_prices.iterrows():
         if len(asset_prices) == i + 1: break
-        if total_value > 0: 
+        if total_value > 0:
             f_data = feature_data.iloc[: i + 1]
             p_data = asset_prices.iloc[: i + 1]
             allocation = strat.iterate(f_data, p_data, nr_of_asset.copy(), capital)
             assert len(allocation) == len(nr_of_asset), "tried to allocating more assets then is aviabel"
             for a, _ in enumerate(allocation):
+                if capital <= 0.0 and allocation[a] < 0.0:
+                    allocation[a] = 0
                 if nr_of_asset[a] + allocation[a] < 0.0:
                     allocation[a] = -nr_of_asset[a]
-            asking = float(np.matmul(cur_price.values.T, allocation) + use_fees*fees(cur_price.values, allocation) - capital)
-            capital -= asking
-            nr_of_asset += allocation
-            total_value = np.matmul(cur_price.values.T, nr_of_asset) #+ capital 
+            asking = float(np.matmul(cur_price.values.T, allocation) + use_fees*fees(cur_price.values, allocation))#- capital)
+            if asking < capital:
+                capital -= asking
+                nr_of_asset += allocation
+            total_value = np.matmul(cur_price.values.T, nr_of_asset) + capital
+        else: 
+            total_value = np.matmul(cur_price.values.T, nr_of_asset) + capital
+
         portfolio_history["timestamp"].append(t)
-        portfolio_history["value"].append(total_value)
+        portfolio_history["value"].append(total_value) 
+
         i+= 1
         if total_value + 100 > 2**32: 
             print("WARNING about to hit max int of portfolio value")
