@@ -4,7 +4,7 @@ Cira algorithmic trading made easy. A [Façade library](https://refactoring.guru
 
 Cira is available on [pip](https://pypi.org/project/cira/). **Please give it a star if you like it!**
 
-![a cira](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F236x%2Fb6%2F42%2F3c%2Fb6423cfea7f6fcfeceeb9f852fa52ced--llama-drawing-drawing-art.jpg&f=1&nofb=1)
+<img src="./docs/img/cira.jpeg" alt="drawing" style="width:300px;"/>
 
 ![GitHub stars](https://img.shields.io/github/stars/AxelGard/Cira?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/AxelGard/cira?style=social)
@@ -19,6 +19,12 @@ The name **cira** is a miss spelling of the word for a [baby alpaca cria](https:
 
 [Axel Gard](https://github.com/AxelGard) is main developer for cira.
 
+## News 
+
+**cira v3.0.0 is now out!!**
+
+If you want to know more about v3 check, the details are [here](./docs/news/v3_realse.md). 
+
 ## Getting Started
 
 You can get started fast by using the **[cira-group boilerplate](https://github.com/cira-group/cira-boilerplate)**.
@@ -32,18 +38,16 @@ pip install cira
 
 ### Usage
 Since the Alpaca trade API need a API key, you need to generate your own key at [alpaca markets website](https://app.alpaca.markets/signup). If you want to play around with it you can try paper trading (recommended for beginners). I recommend keep it in a **JSON file** which cira needs the **path** to.
-You can also set the variables directly or use an environment variable, see the [wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key) for diffrent the ways. However, it is recommended that you store it in a file just make sure not to upload that file on any public repositories. <br>
-**key.json**
-```json
-{
-  "APCA-API-KEY-ID":"your_pub_key",
-  "APCA-API-SECRET-KEY":"your_private_key"
-}
-```
-then you can start using the lib
+You can also set the variables directly or use an environment variable, see the **[wiki](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)** for diffrent the ways. However, it is **recommended** that you store it in a file just make sure not to upload that file on any public repositories. 
+
+You can set the Alpaca keys directly 
+
 ```python
 import cira
-cira.alpaca.KEY_FILE = "../mypath/key.json"
+
+cira.auth.APCA_API_KEY_ID = "my key" 
+cira.auth.APCA_API_SECRET_KEY = "my secret key"
+
 stock = cira.Stock("TSLA")
 stock.buy(1)
 stock.sell(1)
@@ -58,10 +62,12 @@ stock = cira.Stock("TSLA") # a class for one stock
 
 ### Sci-kit learn + cira 
 
-I have made a simple example on how to use cira together with Sci-kit learn, using linear regression.
-This model is just a toy example and should not be used. 
+> only for v3
 
-Checkout the [./example.ipynb](./example.ipynb)
+I have made a simple example on how to use cira together with Sci-kit learn, using linear regression.
+This model is just a toy example. 
+
+**Checkout it out [./examples/linear.ipynb](./examples/linear.ipynb)**
 
 ### A simple algorithm  
 
@@ -89,6 +95,59 @@ while True:
 
 you can find more examples on the **[wiki/examples](https://github.com/AxelGard/cira/wiki/Examples)** and the **[wiki/tutorial](https://github.com/AxelGard/cira/wiki/Tutorial)** for even more information. 
 
+### Cira Stratergies
+
+Cira have also now (v3) support for strategies.  
+An **full example** of how to use the strategy is [example/linear](../../examples/linear.ipynb). 
+
+With strategies you can run a cira backtests.
+
+```python
+from cira.strategy import Strategy
+
+class MyStrat(Strategy):
+    def __init__(self) -> None:
+        super().__init__(name="MyStrat")
+
+    def iterate(self, feature_data: DataFrame, prices: DataFrame, portfolio: np.ndarray, cash:float) -> np.ndarray:
+        # this mehod will be called for each row of data in the backtest 
+        # the function should return the change of your portfolio. 
+        # -1 means sell one stock, 0 means hold, 1 means buy one stock
+        return np.array([ portfolio_change_as_int ]) 
+```
+
+#### Backtest
+
+If your model is put into a strategy you can run a backtest on you own data.
+This is a minimal setup for a backtest using the Randomness strategy included in cira.
+You should of course use your own strategy, but as an example.
+
+```python
+import cira
+from cira.strategy.strategy import Randomness
+from cira.strategy.backtest import back_test
+from datetime import datetime
+import pandas as pd
+
+cira.auth.KEY_FILE = "../../alpc_key.json"
+assert cira.auth.check_keys(), "the set keys dose not work"
+
+stock = cira.Stock("AAPL")
+df = stock.historical_data_df(datetime(2022, 1, 1), datetime(2024, 1, 1))
+prices = pd.DataFrame()
+prices["AAPL"] = df["close"]
+
+strat = Randomness(-10,10, seed=23323)
+bt = back_test(strat, df.copy(), prices.copy(), 10_000, use_fees=True)
+bt.plot()
+```
+
+If you want more full example of how to use the backtest checkout 
+[multiassets](../../examples/multi_assets.ipynb) and 
+[linear](../../examples/linear.ipynb).
+
+
+
 ## Things to checkout
 
 * [News](https://github.com/AxelGard/cira/discussions/categories/news)
@@ -97,7 +156,6 @@ you can find more examples on the **[wiki/examples](https://github.com/AxelGard/
 * [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
 * [Examples of how to use cira](https://github.com/AxelGard/cira/wiki/Examples)
 * [Discussions](https://github.com/AxelGard/cira/discussions)
-* [Cira-group](https://github.com/cira-group)
 
 ## [Wiki](https://github.com/AxelGard/cira/wiki) and docs
 

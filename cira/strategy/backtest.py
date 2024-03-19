@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
 from typing import List
-import copy
-from cira.strategy.strategy import Strategy, ByAndHold
+from .strategy import Strategy, ByAndHold
+from ..config import FEE_RATE
 
-fees = lambda prices, allocation: 0.004 * np.matmul(prices.T, allocation)
+fees = lambda prices, allocation: FEE_RATE * np.matmul(prices.T, allocation)
 
 def back_test(
     strat: Strategy,
@@ -50,12 +50,8 @@ def back_test(
 
         portfolio_history["timestamp"].append(t)
         portfolio_history["value"].append(total_value) 
+        i+= 1 
 
-        i+= 1
-        if total_value + 100 > 2**32: 
-            print("WARNING about to hit max int of portfolio value")
-            break
- 
     df = pd.DataFrame(portfolio_history)
     df = df.set_index("timestamp")
     df.index = pd.to_datetime(df.index.get_level_values("timestamp"))

@@ -47,7 +47,7 @@ class Randomness(Strategy):
 
     def iterate(self, feature_data: pd.DataFrame, prices: pd.DataFrame, portfolio: np.ndarray, cash=float) -> np.ndarray:
         al =  np.array(
-            [random.randint(self.a, self.b) for _ in range(len(feature_data.keys()))]
+            [random.randint(self.a, self.b) for _ in range(len(prices.keys()))]
         )
         self.allocation.append(al)
         return al
