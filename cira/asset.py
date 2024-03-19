@@ -321,6 +321,7 @@ class Cryptocurrency(Asset):
         APCA_ID, APCA_SECRET = auth.get_api_keys()
         self.client = CryptoHistoricalDataClient(APCA_ID, APCA_SECRET)
         self.symbol = symbol
+        print("WARNING: this is very broken and will be fixed later")
 
     def _get_bars(self, start_date: datetime, end_date: datetime):
         params = CryptoBarsRequest(
