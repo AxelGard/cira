@@ -20,6 +20,7 @@ import pandas as pd
 from . import auth
 from . import config
 from . import util
+from . import log
 
 
 class Asset:
@@ -103,7 +104,8 @@ class Stock(Asset):
             side=OrderSide.BUY,
             time_in_force=TimeInForce.DAY,
         )
-        logging.info(f"buy:{self.symbol}, qty:{qty}")
+        if config.IS_LOGGING:
+            log.log("BUY", self.symbol, qty)
         self.trade.submit_order(market_order)
 
     def sell(self, qty: float) -> None:
@@ -116,6 +118,8 @@ class Stock(Asset):
             time_in_force=TimeInForce.DAY,
         )
         logging.info(f"sell:{self.symbol}, qty:{qty}")
+        if config.IS_LOGGING:
+            log.log("SELL", self.symbol, qty)
         self.trade.submit_order(market_order)
 
     def buy_at(self, qty: int, price: float) -> None:
@@ -128,6 +132,8 @@ class Stock(Asset):
             side=OrderSide.BUY,
             time_in_force=TimeInForce.FOK,
         )
+        if config.IS_LOGGING:
+            log.log("BUY", self.symbol, qty)
         self.trade.submit_order(order_data=limit_order_data)
 
     def sell_at(self, qty: int, price: float) -> None:
@@ -140,6 +146,8 @@ class Stock(Asset):
             side=OrderSide.SELL,
             time_in_force=TimeInForce.FOK,
         )
+        if config.IS_LOGGING:
+            log.log("SELL", self.symbol, qty)
         self.trade.submit_order(order_data=limit_order_data)
 
     def save_historical_data(

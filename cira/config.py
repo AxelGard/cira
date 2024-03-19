@@ -7,7 +7,7 @@ import logging
 
 # logging
 IS_LOGGING = False
-LOG_FILE = "cira.log"
+LOG_FILE = "./cira-log.csv"
 LOGGING_LEVEL = logging.WARNING
 
 # debugging
