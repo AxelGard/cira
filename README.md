@@ -29,8 +29,8 @@ If you find an issue with the new relase, open an [issue](https://github.com/Axe
 
 ## Getting Started
 
-You can get started fast by using the **[cira-group boilerplate](https://github.com/cira-group/cira-boilerplate)**.
 If you are new to cira checkout the [tutorial](https://github.com/AxelGard/cira/wiki/Tutorial).
+Or checkout an [example](https://github.com/AxelGard/cira/blob/master/examples/linear.ipynb). 
 
 ### Installation
 You can install it using [pip](https://pypi.org/project/cira/).
