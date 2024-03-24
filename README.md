@@ -25,6 +25,8 @@ The name **cira** is a miss spelling of the word for a [baby alpaca cria](https:
 
 If you want to know more about v3 check, the details are [here](./docs/news/v3_realse.md). 
 
+If you find an issue with the new relase, open an [issue](https://github.com/AxelGard/cira/issues/new/choose). 
+
 ## Getting Started
 
 You can get started fast by using the **[cira-group boilerplate](https://github.com/cira-group/cira-boilerplate)**.
