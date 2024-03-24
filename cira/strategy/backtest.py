@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from typing import List
-from . import Strategy, ByAndHold
+from .strategy import Strategy, ByAndHold
 
 
 FEE_RATE = 0.004 # this is what alpaca takes 
