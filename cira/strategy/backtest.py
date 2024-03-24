@@ -1,8 +1,10 @@
 import pandas as pd
 import numpy as np
 from typing import List
-from .strategy import Strategy, ByAndHold
-from ..config import FEE_RATE
+from . import Strategy, ByAndHold
+
+
+FEE_RATE = 0.004 # this is what alpaca takes 
 
 fees = lambda prices, allocation: FEE_RATE * np.matmul(prices.T, allocation)
 
