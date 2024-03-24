@@ -1,123 +1,129 @@
-from . import alpaca
-from . import util
-from . import stock
+from typing import List, Dict
+import warnings
+from alpaca.trading.client import TradingClient
+from . import auth
+from . import config
+from .asset import Stock
+
+
+class Position:
+    def __init__(self, symbol) -> None:
+        APCA_ID, APCA_SECRET = auth.get_api_keys()
+        self.client = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
+        self.symbol = symbol
+
+    def quantity(self) -> int:
+        """returns the number of the assets that is owned"""
+        qty: int = 0
+        try:
+            qty = int(self.client.get_open_position(self.symbol).qty)
+        except:
+            qty = 0
+        return qty
+
+    def market_value(self) -> float:
+        """Returns market value of symbol in portfolio"""
+        return float(self.client.get_open_position(self.symbol).market_value)
+
+    def to_dict(self) -> dict:
+        """Returns a dict of the position"""
+        return {
+            "symbol": self.symbol,
+            "market_value": self.market_value(),
+            "quantity": self.quantity(),
+        }
+
+    def __str__(self) -> str:
+        return f"({self.symbol}, {self.quantity()})"
+
+    def __repr__(self) -> str:
+        return f"({self.symbol}, {self.quantity()})"
 
 
 class Portfolio:
-    """
-    The class Portfolio, is for
-    interacting with your own protfolio.
-    """
+    def __init__(self) -> None:
+        APCA_ID, APCA_SECRET = auth.get_api_keys()
+        self.trading = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
+        self.account = self.trading.get_account()
+        self.positions: List[Position] = []
+        self.account.portfolio_value
 
-    def __init__(self):
-        self._equity = 0.0
-        self._equity_yesterday = 0.0
-        self._equity_change = 0.0
-        self._cash = 0.0
-        self._buying_power = 0.0
-        self._list_orders = []
-        self._owned_stocks = []
-        self._position = []
-        self._account = {}
+    def total_value(self) -> float:
+        return float(self.account.portfolio_value)
 
+    def is_blocked(self) -> bool:
+        return self.account.account_blocked
 
-    @property
-    def orders(self):
-        """ returns a list of all open orders with all diffult args """
-        self._list_orders = alpaca.api().list_orders()
-        return self._list_orders
+    def buying_power(self) -> float:
+        """gets the amount of cash currently available"""
+        return float(self.account.buying_power)
 
+    def cash(self) -> float:
+        """gets the amount of cash currently available"""
+        return float(self.account.cash)
 
-    @property
-    def position(self):  # PREV: get_position # TODO: change to positions
-        """ create a list of all owned position """
-        portfolio = alpaca.api().list_positions()
-        self._position = []
-        for position in portfolio:
-            position_dict = util.reformat_position(position)
-            position_dict["symbol"] = position.symbol
-            self._position.append(position_dict)
-        return self._position
+    def equity(self) -> float:
+        """returns the amount of equity that users has"""
+        return float(self.account.equity)
 
+    def equity_yesterday(self) -> float:
+        """returns the amount of equity that was
+        available at market close yesterday"""
+        return float(self.account.last_equity)
 
-    def owned_stock_qty(self, stock):  # maby shuld be in stock.Stock
-        """ returns quantity of owned of a stock Stock (obj) """
-        position = stock.position
-        return position["qty"]
-
-
-    @property
-    def owned_stocks(self):
-        """ returns a list of owned stocks """
-        lst = self.position
-        self._owned_stocks = []
-        for dict_ in lst:
-            self._owned_stocks.append(stock.Stock(dict_["symbol"]))
-        return self._owned_stocks
-
-
-    def sell_list(self, lst):
-        """ takes a list of Stocks and sells all stocks in that list """
-        owned_stocks = self.owned_stocks
-        for stock_ in lst:
-            # if stock_ in owned_stocks:
-            qty = self.owned_stock_qty(stock_)
-            # if not stock.symbol == 'GOOGL':
-            # # BUG: fix, google has problem selling!
-            stock_.sell(qty)
-
-
-    @property
-    def account(self):
-        """ returns the dict of user account details"""
-        self._account = util.reformat_position(alpaca.api().get_account())
-        return self._account
-
-
-    @property
-    def buying_power(self):
-        """ returns the amount of current buying_power that the user have"""
-        self._buying_power = self.account["buying_power"]
-        return self._buying_power
-
-
-    def is_blocked(self):
-        """ checks if the users has been blocked from trading """
-        return self.account["trading_blocked"]
-
-
-    @property
-    def cash(self):
-        """ returns the amount of a available liquid chash in account """
-        self._cash = self.account["cash"]
-        return self._cash
-
-
-    @property
-    def equity(self):
-        """ returns the amount of equity that users has """
-        self._equity = self.account["equity"]
-        return self._equity
-
-
-    @property
-    def equity_yesterday(self):
-        """ returns the amount of equity that was
-        available at market close yesterday """
-        self._equity_yesterday = self.account["last_equity"]
-        return self._equity_yesterday
-
-
-    @property
     def equity_change(self):
-        """ returns the change in equity from yesterday to now """
-        self._equity_change = self.equity - self.equity_yesterday
-        return self._equity
+        """returns the change in equity from yesterday to now"""
+        return self.equity() - self.equity_yesterday()
 
+    def all_positions(self) -> List[Position]:
+        """Returns all positions of portfolio"""
+        positions = self.trading.get_all_positions()
+        self.positions = []
+        for p in positions:
+            self.positions.append(Position(p.symbol))
+        return self.positions
+
+    def close_all_positions(self) -> None:
+        """WARNING: This closes all your open positions"""
+        warnings.warn("Warning: will close all open positions ")
+        self.trading.close_all_positions(cancel_orders=True)
+
+    def position_in(self, symbol: str) -> Position:
+        return Position(symbol)
+
+    def get_allocation(self, symbol: str) -> int:
+        return Position(symbol).quantity()
+
+    def cancel_all_orders(self) -> None:
+        self.trading.cancel_orders()
+
+    def sell_list(self, symbols: List[str]) -> None:
+        """takes a list of Stocks and sells all stocks in that list"""
+        for symbol in symbols:
+            q = self.position_in(symbol).quantity()
+            if q == 0:
+                continue
+            stk = Stock(symbol=symbol)
+            stk.sell(q)
+
+    def owned_stock_qty(self, symbol: str) -> int:  # maby shuld be in stock.Stock
+        """returns quantity of owned of a stock Stock (obj)"""
+        assert isinstance(symbol, str), "symbol needs to be string"
+        return Position(symbol).quantity()
+
+    def owned_stocks_qty(self) -> Dict[str, int]:
+        positions = self.trading.get_all_positions()
+        result = {}
+        for p in positions:
+            result[p.symbol] = Position(p.symbol).quantity()
+        return result
+
+    def owned_stocks(self) -> List[Stock]:
+        """returns a list of owned stocks"""
+        return [Stock(p.symbol) for p in self.all_positions()]
 
     def __repr__(self):
-        return f"portfolio({self.equity})"
-
+        return f"portfolio({self.equity()})"
 
     def __str__(self):
-        return f"{self.position}"
+        return f"{self.all_positions()}"

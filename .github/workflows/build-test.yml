@@ -1,4 +1,4 @@
-name: Build and Test [Python 3.6, 3.7 3.8]
+name: Build and Test [Python 3.8]
 
 
 on:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.8]
         os: [ubuntu-latest]
 
     steps:

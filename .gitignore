@@ -1,6 +1,8 @@
 #vscode
 .vscode/
 
+*.csv
+
 # test
 tests/test_key.json
 test_key.json
