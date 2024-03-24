@@ -77,7 +77,7 @@ class Stock(Asset):
             timeframe=TimeFrame.Day,
             start=start_date,
             end=end_date,
-            adjustment="all"
+            adjustment="all",
         )
         return self.history.get_stock_bars(params)
 
