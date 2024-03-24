@@ -126,8 +126,8 @@ You should of course use your own strategy, but as an example.
 
 ```python
 import cira
-from cira.strategy.strategy import Randomness
-from cira.strategy.backtest import back_test
+from cira.strategy import Randomness
+from cira.strategy import back_test
 from datetime import datetime
 import pandas as pd
 
