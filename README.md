@@ -4,7 +4,7 @@ Cira algorithmic trading made easy. A [Façade library](https://refactoring.guru
 
 Cira is available on [pip](https://pypi.org/project/cira/). **Please give it a star if you like it!**
 
-<img src="./docs/img/cira.jpeg" alt="drawing" style="width:300px;"/>
+<img src="https://raw.githubusercontent.com/AxelGard/cira/master/docs/img/cira.jpeg" alt="drawing" style="width:300px;"/>
 
 ![GitHub stars](https://img.shields.io/github/stars/AxelGard/Cira?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/AxelGard/cira?style=social)
