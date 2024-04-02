@@ -30,9 +30,16 @@ def test_backtest():
     prices = feature_data["close"].to_frame()
     prices["close"] = [10, 100, 10_000, 100, 10]
 
-    resutlt = cira.strategy.back_test(strat, feature_data, prices, 10_000)
+    resutlt = cira.strategy.back_test_against_buy_and_hold(strat, feature_data, prices, 10_000)
+    resutlt = resutlt.dropna()
 
     res = resutlt[strat.name].values.tolist()
     res = [int(r) for r in res]
 
     assert res == [9999, 10089, 20029, 20029]
+
+    s = cira.strategy.ByAndHold()
+    res = resutlt[s.name].values.tolist()
+    res = [int(r) for r in res]
+
+    assert res == [9961, 96361, 9600361, 96361]

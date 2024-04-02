@@ -69,7 +69,7 @@ class Randomness(Strategy):
 
 class ByAndHold(Strategy):
     def __init__(self) -> None:
-        super().__init__(name="ByAndHold")
+        super().__init__(name="BuyAndHold")
         self.is_first = True
         self.allocation = []
 
