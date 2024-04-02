@@ -22,3 +22,17 @@ def test_storing_strategy():
     assert CHECK == new_strat.test_name
 
     os.system(f"rm {FILE}")
+
+
+def test_backtest():
+    feature_data = util.stock_data
+    strat = cira.strategy.Randomness(seed=2**14)
+    prices = feature_data["close"].to_frame()
+    prices["close"] = [10, 100, 10_000, 100, 10]
+
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 10_000)
+
+    res = resutlt[strat.name].values.tolist()
+    res = [int(r) for r in res]
+
+    assert res == [9999, 10089, 20029, 20029]
