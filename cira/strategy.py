@@ -92,7 +92,7 @@ class ByAndHold(Strategy):
         return al
 
 
-FEE_RATE = 0.004 # this is what alpaca takes 
+FEE_RATE = 0.004  # this is what alpaca takes
 
 fees = lambda prices, allocation: FEE_RATE * np.matmul(prices.T, allocation)
 

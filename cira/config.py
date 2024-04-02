@@ -18,4 +18,3 @@ PAPER_TRADING = True
 
 # data that will not very often change is cached
 USE_CASHING = True
-
