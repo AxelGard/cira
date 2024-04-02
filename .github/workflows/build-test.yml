@@ -27,9 +27,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest
         pip install -r requirements.txt
-        pip install -e .[dev]
+        pip install -e .
     - name: Test with pytest
       run: |
         export APCA_ID='${{ secrets.APCA_ID }}'
         export APCA_KEY='${{ secrets.APCA_KEY }}'
-        python -m pytest
+        pytest
