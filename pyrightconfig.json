@@ -1,5 +1,0 @@
-{
-    "include": ["tests", "cira"],
-    "venv":"env",
-    "venvPath": ".env/",
-}
