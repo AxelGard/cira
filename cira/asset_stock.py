@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-# Alpaca 
+# Alpaca
 import alpaca
 from alpaca.trading.requests import GetAssetsRequest
 from alpaca.trading.enums import AssetClass, OrderType, AssetStatus
@@ -12,7 +12,7 @@ from alpaca.trading.requests import LimitOrderRequest, StopLimitOrderRequest
 from alpaca.trading.client import TradingClient
 
 
-# stock 
+# stock
 from alpaca.data import StockHistoricalDataClient
 from alpaca.data.requests import StockLatestQuoteRequest
 from alpaca.data.requests import StockBarsRequest
@@ -20,7 +20,7 @@ from alpaca.trading.requests import MarketOrderRequest
 from alpaca.data.live import StockDataStream
 
 
-# cira 
+# cira
 from .asset import Asset
 from . import auth
 from . import config
@@ -38,7 +38,6 @@ class Stock(Asset):
         self.trade = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
         self.latest_quote_request = StockLatestQuoteRequest
         self.bars_request = StockBarsRequest
-    
 
     def price(self) -> float:
         """gets the asking price of the symbol"""
@@ -49,5 +48,7 @@ class Stock(Asset):
     def get_all_assets(self):
         APCA_ID, APCA_SECRET = auth.get_api_keys()
         trade = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
-        search_params = GetAssetsRequest(asset_class=AssetClass.US_EQUITY, status=AssetStatus.ACTIVE)
+        search_params = GetAssetsRequest(
+            asset_class=AssetClass.US_EQUITY, status=AssetStatus.ACTIVE
+        )
         return [a.symbol for a in trade.get_all_assets(search_params)]

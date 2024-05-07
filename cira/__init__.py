@@ -10,7 +10,7 @@ from . import util
 from . import log
 from . import strategy
 
-# Assets 
+# Assets
 from .asset import Asset
 from .assset_cryptocurrency import Cryptocurrency
 from .asset_stock import Stock

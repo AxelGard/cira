@@ -3,7 +3,7 @@ from datetime import datetime
 import logging
 import warnings
 
-# Alpaca 
+# Alpaca
 import alpaca
 from alpaca.trading.requests import GetAssetsRequest
 from alpaca.trading.enums import AssetClass, OrderType, AssetStatus
@@ -13,18 +13,18 @@ from alpaca.data.timeframe import TimeFrame
 from alpaca.trading.requests import LimitOrderRequest, StopLimitOrderRequest
 from alpaca.trading.client import TradingClient
 
-# stock 
+# stock
 from alpaca.data import StockHistoricalDataClient
 from alpaca.data.requests import StockLatestQuoteRequest
 from alpaca.data.requests import StockBarsRequest
 from alpaca.trading.requests import MarketOrderRequest
 from alpaca.data.live import StockDataStream
 
-# crypto 
-from alpaca.data import CryptoHistoricalDataClient 
+# crypto
+from alpaca.data import CryptoHistoricalDataClient
 from alpaca.data.live.crypto import CryptoDataStream
 from alpaca.data.requests import CryptoLatestQuoteRequest
-from alpaca.data.requests import CryptoBarsRequest 
+from alpaca.data.requests import CryptoBarsRequest
 
 import pandas as pd
 
@@ -38,11 +38,11 @@ class Asset:
     def __init__(self, symbol: str) -> None:
         """Interface class"""
         self.symbol = symbol
-        self.live_client:StockDataStream = None 
-        self.history:StockHistoricalDataClient = None 
-        self.trade:TradingClient = None 
-        self.latest_quote_request:StockLatestQuoteRequest = None 
-        self.bars_request:StockBarsRequest = None 
+        self.live_client: StockDataStream = None
+        self.history: StockHistoricalDataClient = None
+        self.trade: TradingClient = None
+        self.latest_quote_request: StockLatestQuoteRequest = None
+        self.bars_request: StockBarsRequest = None
 
     def price(self) -> float:
         raise NotImplementedError
@@ -50,7 +50,6 @@ class Asset:
     @classmethod
     def get_all_assets(self):
         raise NotImplementedError
-
 
     def live_data(self, async_function_to_resolve_to, run: bool = True) -> None:
         self.live_client.subscribe_quotes(async_function_to_resolve_to, self.symbol)
@@ -115,7 +114,7 @@ class Asset:
         limit_order_data = LimitOrderRequest(
             symbol=self.symbol,
             limit_price=price,
-            qty = qty,
+            qty=qty,
             side=OrderSide.BUY,
             time_in_force=TimeInForce.FOK,
         )
