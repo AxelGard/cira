@@ -44,22 +44,13 @@ class Asset:
         self.latest_quote_request:StockLatestQuoteRequest = None 
         self.bars_request:StockBarsRequest = None 
 
-    def __str__(self) -> str:
-        return self.symbol
-
-    def __repr__(self) -> str:
-        return self.symbol
-
-    def __eq__(self, other):
-        if not isinstance(other, Asset):
-            raise ValueError
-        return self.symbol == other.symbol
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
     def price(self) -> float:
         raise NotImplementedError
+
+    @classmethod
+    def get_all_assets(self):
+        raise NotImplementedError
+
 
     def live_data(self, async_function_to_resolve_to, run: bool = True) -> None:
         self.live_client.subscribe_quotes(async_function_to_resolve_to, self.symbol)
@@ -169,7 +160,7 @@ class Asset:
         return data
 
     def value(self) -> float:  # prev: value_of_stock
-        """takes a string sym. Gets and returns the stock value at close"""
+        """takes a string sym. Gets and returns the asset value at close"""
 
         warnings.warn(f"Warning: function is deprecated ({self.value})")
 
@@ -196,7 +187,7 @@ class Asset:
         return order
 
     def is_sortable(self) -> bool:
-        """checks if stock can be shorted"""
+        """checks if asset can be shorted"""
         return bool(auth.api().get_asset(self.symbol).shortable)
 
     def can_borrow(self) -> bool:
@@ -205,15 +196,15 @@ class Asset:
         return auth.api().get_asset(self.symbol).easy_to_borrow
 
     def barset(self, limit: int):
-        """returns barset for stock for time period lim"""
+        """returns barset for asset for time period lim"""
         return alpaca.api().get_bars(self.symbol, TimeFrame.Minute, limit=int(limit))
 
     def is_tradable(self) -> bool:
-        """return if the stock can be traded"""
+        """return if the asset can be traded"""
         return bool(auth.api().get_asset(self.symbol).tradable)
 
     def position(self):
-        """returns position of stock"""
+        """returns position of asset"""
 
         warnings.warn(f"Warning: function is deprecated ({self.position})")
 
@@ -222,12 +213,12 @@ class Asset:
         return self._position
 
     def today_plpc(self) -> float:
-        """stock today's profit/loss percent"""
+        """asset today's profit/loss percent"""
         self._today_plpc = self.position()["unrealized_intraday_plpc"]
         return self._today_plpc
 
     def plpc(self) -> float:
-        """stock sym (str) Unrealized profit/loss percentage"""
+        """asset sym (str) Unrealized profit/loss percentage"""
         self._plpc = self.position()["unrealized_plpc"]
         return self._plpc
 
@@ -236,39 +227,39 @@ class Asset:
     def __eq__(self, other):
         if isinstance(other, (int, float)):
             return self.price() == other
-        return self.price() == other.price
+        return self.price() == other.price()
 
     def __ne__(self, other):
         if isinstance(other, (int, float)):
             return self.price() != other
-        return self.price() != other.price
+        return self.price() != other.price()
 
     def __lt__(self, other):
         if isinstance(other, (int, float)):
             return self.price() < other
-        return self.price() < other.price
+        return self.price() < other.price()
 
     def __le__(self, other):
         if isinstance(other, (int, float)):
             return self.price() <= other
-        return self.price() <= other.price
+        return self.price() <= other.price()
 
     def __gt__(self, other):
         if isinstance(other, (int, float)):
             return self.price() > other
-        return self.price() > other.price
+        return self.price() > other.price()
 
     def __ge__(self, other):
         if isinstance(other, (int, float)):
             return self.price() >= other
-        return self.price() >= other.price
+        return self.price() >= other.price()
 
     # Arithmetic Operators
 
     def __add__(self, other):
         if isinstance(other, (int, float)):
             return self.price() + other
-        return self.price() + other.price
+        return self.price() + other.price()
 
     def __radd__(self, other):
         return self.price() + other
@@ -276,7 +267,7 @@ class Asset:
     def __sub__(self, other):
         if isinstance(other, (int, float)):
             return self.price() - other
-        return self.price() - other.price
+        return self.price() - other.price()
 
     def __rsub__(self, other):
         return self.price() - other
@@ -284,7 +275,7 @@ class Asset:
     def __mul__(self, other):
         if isinstance(other, (int, float)):
             return self.price() * other
-        return self.price() * other.price
+        return self.price() * other.price()
 
     def __rmul__(self, other):
         return self.price() * other
@@ -292,7 +283,7 @@ class Asset:
     def __truediv__(self, other):
         if isinstance(other, (int, float)):
             return self.price() / other
-        return self.price() / other.price
+        return self.price() / other.price()
 
     def __rdiv__(self, other):
         return self.price() / other
@@ -300,7 +291,7 @@ class Asset:
     def __floordiv__(self, other):
         if isinstance(other, (int, float)):
             return self.price() // other
-        return self.price() // other.price
+        return self.price() // other.price()
 
     def __rfloordiv__(self, other):
         return self.price() // other
@@ -320,3 +311,17 @@ class Asset:
 
     def __round__(self, nDigits):
         return round(self.price, nDigits)
+
+    def __str__(self) -> str:
+        return self.symbol
+
+    def __repr__(self) -> str:
+        return self.symbol
+
+    def __eq__(self, other):
+        if not isinstance(other, Asset):
+            raise ValueError
+        return self.symbol == other.symbol
+
+    def __ne__(self, other):
+        return not self.__eq__(other)

@@ -81,6 +81,21 @@ class Cryptocurrency(Asset):
                     stop_price = sell_at 
                     )
         self.trade.submit_order(req)
+    
+
+    def buy_at(self, qty: int, price: float) -> None:
+        """Buy the asset at a given price,
+        qty is the number of the asset that you buy"""
+        limit_order_data = LimitOrderRequest(
+            symbol=self.symbol,
+            limit_price=price,
+            qty = qty,
+            side=OrderSide.BUY,
+            time_in_force=TimeInForce.GTC,
+        )
+        if config.IS_LOGGING:
+            log.log("BUY", self.symbol, qty)
+        self.trade.submit_order(order_data=limit_order_data)
  
     def sell(self, qty: float) -> None:
         """Sell the asset,
@@ -96,6 +111,21 @@ class Cryptocurrency(Asset):
         if config.IS_LOGGING:
             log.log("SELL", self.symbol, qty)
         self.trade.submit_order(market_order)
+ 
+
+    def sell_at(self, qty: int, price: float) -> None:
+        """Sell the asset at a given price,
+        qty is the number of the asset that you sell"""
+        limit_order_data = LimitOrderRequest(
+            symbol=self.symbol,
+            limit_price=price,
+            qty=qty,
+            side=OrderSide.SELL,
+            time_in_force=TimeInForce.GTC,
+        )
+        if config.IS_LOGGING:
+            log.log("SELL", self.symbol, qty)
+        self.trade.submit_order(order_data=limit_order_data)
 
 
     def _get_bars(self, start_date: datetime, end_date: datetime):
