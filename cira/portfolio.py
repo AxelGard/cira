@@ -3,7 +3,7 @@ import warnings
 from alpaca.trading.client import TradingClient
 from . import auth
 from . import config
-from .asset import Stock
+from .asset_stock import Stock
 
 
 class Position:

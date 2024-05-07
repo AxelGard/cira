@@ -32,7 +32,7 @@ class Exchange:
 
     def get_all_stocks(
         self, is_tradeable: bool = True, force_reload: bool = False
-    ) -> List[asset.Stock]:
+    ) -> List[asset.Asset]:
         """Returns a list of all stocks as cira asset,
         objects will be cached, can be turn off in config."""
         if config.USE_CASHING and self.stock_cache != [] and not force_reload:
