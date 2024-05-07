@@ -1,4 +1,4 @@
-alpaca-py==0.5.4
+alpaca-py==0.21.0
 alpaca-trade-api==2.3.0
 black==23.7.0
 ipykernel==6.25.0

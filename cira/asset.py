@@ -2,18 +2,29 @@ from typing import List
 from datetime import datetime
 import logging
 import warnings
+
+# Alpaca 
 import alpaca
-from alpaca.data import CryptoHistoricalDataClient, StockHistoricalDataClient
-from alpaca.data.requests import StockLatestQuoteRequest
-from alpaca.data.requests import CryptoLatestQuoteRequest
-from alpaca.data.requests import CryptoBarsRequest, StockBarsRequest
-from alpaca.data.timeframe import TimeFrame
-from alpaca.trading.requests import MarketOrderRequest
-from alpaca.trading.enums import OrderSide, TimeInForce
-from alpaca.data.live import StockDataStream
-from alpaca.trading.client import TradingClient
-from alpaca.trading.requests import LimitOrderRequest
+from alpaca.trading.requests import GetAssetsRequest
+from alpaca.trading.enums import AssetClass, OrderType, AssetStatus
 from alpaca.data.models import Bar
+from alpaca.trading.enums import OrderSide, TimeInForce
+from alpaca.data.timeframe import TimeFrame
+from alpaca.trading.requests import LimitOrderRequest, StopLimitOrderRequest
+from alpaca.trading.client import TradingClient
+
+# stock 
+from alpaca.data import StockHistoricalDataClient
+from alpaca.data.requests import StockLatestQuoteRequest
+from alpaca.data.requests import StockBarsRequest
+from alpaca.trading.requests import MarketOrderRequest
+from alpaca.data.live import StockDataStream
+
+# crypto 
+from alpaca.data import CryptoHistoricalDataClient 
+from alpaca.data.live.crypto import CryptoDataStream
+from alpaca.data.requests import CryptoLatestQuoteRequest
+from alpaca.data.requests import CryptoBarsRequest 
 
 import pandas as pd
 
@@ -27,14 +38,11 @@ class Asset:
     def __init__(self, symbol: str) -> None:
         """Interface class"""
         self.symbol = symbol
-
-    def historical_data_df(
-        self, start_date: datetime, end_date: datetime
-    ) -> pd.DataFrame:
-        raise NotImplementedError
-
-    def price(self) -> float:
-        raise NotImplementedError
+        self.live_client:StockDataStream = None 
+        self.history:StockHistoricalDataClient = None 
+        self.trade:TradingClient = None 
+        self.latest_quote_request:StockLatestQuoteRequest = None 
+        self.bars_request:StockBarsRequest = None 
 
     def __str__(self) -> str:
         return self.symbol
@@ -50,20 +58,8 @@ class Asset:
     def __ne__(self, other):
         return not self.__eq__(other)
 
-
-class Stock(Asset):
-    def __init__(self, symbol: str) -> None:
-        """Exchange for trading stocks"""
-        APCA_ID, APCA_SECRET = auth.get_api_keys()
-        self.live_client = StockDataStream(APCA_ID, APCA_SECRET)
-        self.history = StockHistoricalDataClient(APCA_ID, APCA_SECRET)
-        self.trade = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
-        self.symbol = symbol
-
     def price(self) -> float:
-        """gets the asking price of the symbol"""
-        perms = StockLatestQuoteRequest(symbol_or_symbols=self.symbol)
-        return float(self.history.get_stock_latest_quote(perms)[self.symbol].ask_price)
+        raise NotImplementedError
 
     def live_data(self, async_function_to_resolve_to, run: bool = True) -> None:
         self.live_client.subscribe_quotes(async_function_to_resolve_to, self.symbol)
@@ -72,7 +68,7 @@ class Stock(Asset):
 
     def _get_bars(self, start_date: datetime, end_date: datetime):
         """returns aplc bars from the given dates"""
-        params = StockBarsRequest(
+        params = self.bars_request(
             symbol_or_symbols=self.symbol,
             timeframe=TimeFrame.Day,
             start=start_date,
@@ -128,7 +124,7 @@ class Stock(Asset):
         limit_order_data = LimitOrderRequest(
             symbol=self.symbol,
             limit_price=price,
-            notional=qty,
+            qty = qty,
             side=OrderSide.BUY,
             time_in_force=TimeInForce.FOK,
         )
@@ -142,13 +138,16 @@ class Stock(Asset):
         limit_order_data = LimitOrderRequest(
             symbol=self.symbol,
             limit_price=price,
-            notional=qty,
+            qty=qty,
             side=OrderSide.SELL,
             time_in_force=TimeInForce.FOK,
         )
         if config.IS_LOGGING:
             log.log("SELL", self.symbol, qty)
         self.trade.submit_order(order_data=limit_order_data)
+
+    def cancel_orders(self):
+        return self.trade.cancel_orders()
 
     def save_historical_data(
         self, file_path, start_date: datetime, end_date: datetime
@@ -321,31 +320,3 @@ class Stock(Asset):
 
     def __round__(self, nDigits):
         return round(self.price, nDigits)
-
-
-class Cryptocurrency(Asset):
-    def __init__(self, symbol: str) -> None:
-        """Exchange for trading cryptocurrencies"""
-        APCA_ID, APCA_SECRET = auth.get_api_keys()
-        self.client = CryptoHistoricalDataClient(APCA_ID, APCA_SECRET)
-        self.symbol = symbol
-        warnings.warn("WARNING: this is very broken and will be fixed later")
-
-    def _get_bars(self, start_date: datetime, end_date: datetime):
-        params = CryptoBarsRequest(
-            symbol_or_symbols=[self.symbol],
-            timeframe=TimeFrame.Day,
-            start=start_date,
-            end=end_date,
-        )
-        return self.client.get_crypto_bars(params)
-
-    def historical_data_df(
-        self, start_date: datetime, end_date: datetime
-    ) -> pd.DataFrame:
-        return self._get_bars(start_date, end_date).df
-
-    def price(self) -> float:
-        """gets the asking price of the symbol"""
-        perms = CryptoLatestQuoteRequest(symbol_or_symbols=self.symbol)
-        return float(self.client.get_crypto_latest_quote(perms)[self.symbol].ask_price)
