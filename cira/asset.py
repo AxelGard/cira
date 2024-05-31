@@ -5,6 +5,8 @@ import warnings
 
 # Alpaca
 import alpaca
+import alpaca.trading
+import alpaca.trading.models
 from alpaca.trading.requests import GetAssetsRequest
 from alpaca.trading.enums import AssetClass, OrderType, AssetStatus
 from alpaca.data.models import Bar
@@ -174,25 +176,20 @@ class Asset:
     def order(self, qty: int, beh: str) -> float:
         """submit order and is a template for order"""
 
-        warnings.warn(f"Warning: function is deprecated ({self.order})")
-
-        if not self.is_tradable():
-            raise Exception(
-                f"Sorry, {self.symbol} is currantly not tradable on https://alpaca.markets/"
-            )
-        order = auth.api().submit_order(
-            symbol=self.symbol, qty=qty, side=beh, type="market", time_in_force="gtc"
+        warnings.warn(
+            f"Warning: function is deprecated ({self.order}), will return {None}"
         )
-        return order
+
+        return None
 
     def is_sortable(self) -> bool:
         """checks if asset can be shorted"""
-        return bool(auth.api().get_asset(self.symbol).shortable)
+        return self.trade.get_asset(self.symbol).shortable
 
     def can_borrow(self) -> bool:
         """check whether the name is currently
         available to short at Alpaca"""
-        return auth.api().get_asset(self.symbol).easy_to_borrow
+        return self.trade.get_asset(self.symbol).easy_to_borrow
 
     def barset(self, limit: int):
         """returns barset for asset for time period lim"""
@@ -200,26 +197,38 @@ class Asset:
 
     def is_tradable(self) -> bool:
         """return if the asset can be traded"""
-        return bool(auth.api().get_asset(self.symbol).tradable)
+        return self.trade.get_asset(self.symbol).tradable
 
     def position(self):
-        """returns position of asset"""
+        """returns position of asset,
+        if symbols is not in all your positions then it will return None"""
 
-        warnings.warn(f"Warning: function is deprecated ({self.position})")
+        def reformat_position(position):
+            """reformat position to be float values"""
+            for key, value in position.items():
+                try:
+                    if isinstance(value, str):
+                        if "." in value:
+                            position[key] = float(value)
+                        else:
+                            position[key] = int(value)
+                except ValueError:
+                    continue
+            return position
 
-        pos = auth.api().get_position(self.symbol)
-        self._position = util.reformat_position(pos)
-        return self._position
+        all_pos = self.trade.get_all_positions()
+        for pos in all_pos:
+            if pos.symbol == self.symbol:
+                return reformat_position(dict(pos))
+        return None
 
     def today_plpc(self) -> float:
         """asset today's profit/loss percent"""
-        self._today_plpc = self.position()["unrealized_intraday_plpc"]
-        return self._today_plpc
+        return float(self.position().unrealized_intraday_plpc)
 
     def plpc(self) -> float:
         """asset sym (str) Unrealized profit/loss percentage"""
-        self._plpc = self.position()["unrealized_plpc"]
-        return self._plpc
+        return float(self.position().unrealized_plpc)
 
     # Operators
 

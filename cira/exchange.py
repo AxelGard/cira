@@ -1,4 +1,8 @@
 from typing import List
+
+import alpaca.trading
+import alpaca.trading.enums
+import alpaca.trading.requests
 from . import asset
 from . import auth
 from . import config
@@ -6,7 +10,10 @@ from alpaca.trading.client import TradingClient
 from alpaca.trading.requests import GetAssetsRequest
 from alpaca.data import CryptoHistoricalDataClient, StockHistoricalDataClient
 from alpaca.trading.enums import AssetClass
+from alpaca.trading.models import Clock
+import alpaca
 import warnings
+import datetime
 
 
 class Exchange:
@@ -18,7 +25,7 @@ class Exchange:
 
     def is_open(self) -> bool:
         """Checks if the exchange is open and able to trade"""
-        return auth.api().get_clock().is_open
+        return bool(self.alpc_client.get_clock().is_open)
 
     def to_assets(self, symbols: List[str]) -> List[asset.Asset]:
         """Takes a list of symbols and returns
@@ -44,28 +51,59 @@ class Exchange:
         ]
         return self.stock_cache
 
-    def calendar(self, start="2018-12-01", end="2018-12-01"):
-        self._calendar = (
-            auth.api().get_calendar(start=start, end=end)[0].__dict__["_raw"]
-        )
-        return self._calendar
+    def calendar(
+        self, start: datetime.date = None, end: datetime.date = None
+    ) -> List[alpaca.trading.Calendar]:
+        _calendar: List[alpaca.trading.Calendar] = None
+        if start and end:
+            req = alpaca.trading.requests.GetCalendarRequest(start=start, end=end)
+            _calendar = TradingClient.get_calendar(filters=req)
+        else:
+            _calendar = TradingClient.get_calendar()
+        return _calendar
 
     def assets_raw(self):
         """(legacy, should not be used)
         returns a list of all avilabel stocks in exchanges list"""
-        all_assets = []
-        active_assets = auth.api().list_assets(status="active")
-        for exchange in self.exchanges:
-            all_assets += [a for a in active_assets if a.exchange == exchange]
-        self._assets = all_assets
-        return self._assets
+        warnings.warn(
+            f"Warning: function is deprecated ({self.assets_raw}), will return {None}"
+        )
+        return None
 
-    def symbols(self):
+    def symbols_stocks(self) -> List[str]:
+        """returns a list of all symbols (stocks)"""
+        _req = alpaca.trading.GetAssetsRequest(
+            status=alpaca.trading.enums.AssetStatus.ACTIVE,
+            asset_class=alpaca.trading.enums.AssetClass.US_EQUITY,
+        )
+        all_asts = self.alpc_client.get_all_assets(_req)
+        return [ast.symbol for ast in all_asts]
+
+    def symbols_crypto(self) -> List[str]:
+        """returns a list of all symbols (crypto)"""
+        _req = alpaca.trading.GetAssetsRequest(
+            status=alpaca.trading.enums.AssetStatus.ACTIVE,
+            asset_class=alpaca.trading.enums.AssetClass.CRYPTO,
+        )
+        all_asts = self.alpc_client.get_all_assets(_req)
+        return [ast.symbol for ast in all_asts]
+
+    def symbols_options(self) -> List[str]:
+        """returns a list of all symbols (crypto)"""
+        _req = alpaca.trading.GetAssetsRequest(
+            status=alpaca.trading.enums.AssetStatus.ACTIVE,
+            asset_class=alpaca.trading.enums.AssetClass.US_OPTION,
+        )
+        all_asts = self.alpc_client.get_all_assets(_req)
+        return [ast.symbol for ast in all_asts]
+
+    def symbols(self) -> List[str]:
         """returns a list of all symbols"""
-        self._symbols = []
-        for asset in self.assets_raw():
-            self._symbols.append(asset.__dict__["_raw"]["symbol"])
-        return self._symbols
+        _req = alpaca.trading.GetAssetsRequest(
+            status=alpaca.trading.enums.AssetStatus.ACTIVE
+        )
+        all_asts = self.alpc_client.get_all_assets(_req)
+        return [ast.symbol for ast in all_asts]
 
 
 class DemoExchange(Exchange):

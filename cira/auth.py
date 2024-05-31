@@ -1,5 +1,5 @@
 import json
-import alpaca_trade_api as tradeapi
+import warnings
 import os
 
 from alpaca.data import StockHistoricalDataClient, StockLatestQuoteRequest
@@ -61,9 +61,5 @@ def authentication_header():
 
 def api(version="v2"):
     """returns object for api"""
-    APCA_ID, APCA_KEY = get_api_keys()
-    # Open the API connection
-    api = tradeapi.REST(APCA_ID, APCA_KEY, "https://paper-api.alpaca.markets", version)
-    # Get account info
-    api.get_account()
-    return api
+    warnings.warn("This function has been deepracted by Alpaca Markets")
+    return None

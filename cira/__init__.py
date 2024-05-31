@@ -21,6 +21,6 @@ from .exchange import Exchange, DemoExchange
 
 import alpaca
 
-__version__ = "3.1.0"
+__version__ = "3.2.0"
 __author__ = "Axel Gard"
 __credits__ = "alpaca.markets"

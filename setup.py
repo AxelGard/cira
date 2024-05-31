@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="cira",
-    version="3.1.0",
+    version="3.2.0",
     description="A simpler library for the alapaca trade api",
     url="https://github.com/AxelGard/cira",
     author="Axel Gard",
@@ -16,7 +16,6 @@ setup(
     long_description_content_type="text/markdown",
     install_requires=[
         "alpaca-py==0.21.0",
-        "alpaca-trade-api==2.3.0",
         "schedule==1.2.0",
     ],
     extras_requires={"dev": ["pytest"]},
