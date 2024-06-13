@@ -39,11 +39,16 @@ from .asset import Asset
 class Cryptocurrency(Asset):
     def __init__(self, symbol: str) -> None:
         """Exchange for trading cryptocurrencies"""
-        APCA_ID, APCA_SECRET = auth.get_api_keys()
+        try:
+            APCA_ID, APCA_SECRET = auth.get_api_keys()
+        except ValueError:
+            APCA_ID, APCA_SECRET = "", ""
         self.symbol = symbol
         self.live_client = CryptoDataStream(APCA_ID, APCA_SECRET)
-        self.history: CryptoHistoricalDataClient = CryptoHistoricalDataClient()
-        if APCA_ID != "":
+        self.history: CryptoHistoricalDataClient = CryptoHistoricalDataClient(
+            None, None
+        )
+        if APCA_ID != "" and APCA_SECRET != "":
             self.history = CryptoHistoricalDataClient(APCA_ID, APCA_SECRET)
             self.trade = TradingClient(APCA_ID, APCA_SECRET, paper=config.PAPER_TRADING)
         self.latest_quote_request = CryptoLatestQuoteRequest

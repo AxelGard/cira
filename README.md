@@ -62,6 +62,35 @@ exchange = cira.Exchange() # methods for exchange
 stock = cira.Stock("TSLA") # a class for one stock
 ```
 
+### DEMO, no keys needed 
+
+Crypto market data can be accessed [without any alpaca keys](https://alpaca.markets/sdks/python/market_data.html#api-keys).
+So there for you can try cira out with out needing to get alpaca keys. 
+
+Needs `cira>=3.2.1`.
+
+```python
+import cira
+from datetime import datetime
+
+assert not cira.auth.check_keys() # No keys are needed
+
+SYMBOL = "BTC/USD"
+ast = cira.Cryptocurrency(SYMBOL)
+
+print(f"The current asking price for {SYMBOL} is {ast.price()}")
+
+
+# alpaca only have BTC data from 2021 and forward 
+data = ast.historical_data_df(datetime(2021, 6, 1), datetime(2024, 6, 1))
+print(data.head())
+
+# All of strategies and backtesting works with out keys as well. 
+strat = cira.strategy.Randomness()
+cira.strategy.back_test_against_buy_and_hold(strat, data, data["open"].to_frame(), 100_000).plot()
+```
+
+
 ### Sci-kit learn + cira 
 
 > only for v3
@@ -106,12 +135,14 @@ With strategies you can run a cira backtests.
 
 ```python
 from cira.strategy import Strategy
+import numpy as np
+import pandas as pd
 
 class MyStrat(Strategy):
     def __init__(self) -> None:
         super().__init__(name="MyStrat")
 
-    def iterate(self, feature_data: DataFrame, prices: DataFrame, portfolio: np.ndarray, cash:float) -> np.ndarray:
+    def iterate(self, feature_data: pd.DataFrame, prices: pd.DataFrame, portfolio: np.ndarray, cash:float) -> np.ndarray:
         # this mehod will be called for each row of data in the backtest 
         # the function should return the change of your portfolio. 
         # -1 means sell one stock, 0 means hold, 1 means buy one stock
