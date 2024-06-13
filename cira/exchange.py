@@ -11,6 +11,7 @@ from alpaca.trading.requests import GetAssetsRequest
 from alpaca.data import CryptoHistoricalDataClient, StockHistoricalDataClient
 from alpaca.trading.enums import AssetClass
 from alpaca.trading.models import Clock
+from .asset_stock import Stock
 import alpaca
 import warnings
 import datetime
@@ -21,7 +22,7 @@ class Exchange:
         APCA_ID, APCA_SECRET = auth.get_api_keys()
         self.alpc_client = TradingClient(APCA_ID, APCA_SECRET)
         self.alpc_historical = StockHistoricalDataClient(APCA_ID, APCA_SECRET)
-        self.stock_cache: List[asset.Stock] = []
+        self.stock_cache: List[Stock] = []
 
     def is_open(self) -> bool:
         """Checks if the exchange is open and able to trade"""
@@ -35,7 +36,7 @@ class Exchange:
     def to_asset(self, symbol: str) -> asset.Asset:
         """Takes a symbols and returns
         it as a cira Assets objects"""
-        return asset.Stock(symbol)
+        return Stock(symbol)
 
     def get_all_stocks(
         self, is_tradeable: bool = True, force_reload: bool = False
@@ -47,7 +48,7 @@ class Exchange:
         search_params = GetAssetsRequest(asset_class=AssetClass.US_EQUITY)
         alpc_assets = self.alpc_client.get_all_assets(search_params)
         self.stock_cache = [
-            asset.Stock(a.symbol) for a in alpc_assets if a.tradable == is_tradeable
+            Stock(a.symbol) for a in alpc_assets if a.tradable == is_tradeable
         ]
         return self.stock_cache
 
