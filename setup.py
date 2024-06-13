@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="cira",
-    version="3.2.1",
+    version="3.2.2",
     description="A simpler library for the alapaca trade api",
     url="https://github.com/AxelGard/cira",
     author="Axel Gard",
@@ -17,6 +17,9 @@ setup(
     install_requires=[
         "alpaca-py==0.21.0",
         "schedule==1.2.0",
+        "matplotlib",
+        "pandas",
+        "numpy",
     ],
     extras_requires={"dev": ["pytest"]},
     classifiers=[

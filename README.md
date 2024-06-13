@@ -67,11 +67,12 @@ stock = cira.Stock("TSLA") # a class for one stock
 Crypto market data can be accessed [without any alpaca keys](https://alpaca.markets/sdks/python/market_data.html#api-keys).
 So there for you can try cira out with out needing to get alpaca keys. 
 
-Needs `cira>=3.2.1`.
+Needs `cira>=3.2.2`.
 
 ```python
 import cira
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 assert not cira.auth.check_keys() # No keys are needed
 
@@ -88,6 +89,7 @@ print(data.head())
 # All of strategies and backtesting works with out keys as well. 
 strat = cira.strategy.Randomness()
 cira.strategy.back_test_against_buy_and_hold(strat, data, data["open"].to_frame(), 100_000).plot()
+plt.savefig('./result.png')
 ```
 
 
