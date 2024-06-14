@@ -19,14 +19,6 @@ The name **cira** is a miss spelling of the word for a [baby alpaca cria](https:
 
 [Axel Gard](https://github.com/AxelGard) is main developer for cira.
 
-## News 
-
-**cira v3.0.0 is now out!!**
-
-If you want to know more about v3 check, the details are [here](./docs/news/v3_realse.md). 
-
-If you find an issue with the new relase, open an [issue](https://github.com/AxelGard/cira/issues/new/choose). 
-
 ## Getting Started
 
 If you are new to cira checkout the [tutorial](https://github.com/AxelGard/cira/wiki/Tutorial).
@@ -51,21 +43,23 @@ cira.auth.APCA_API_KEY_ID = "my key"
 cira.auth.APCA_API_SECRET_KEY = "my secret key"
 
 stock = cira.Stock("TSLA")
-stock.buy(1)
-stock.sell(1)
+stock.buy(1) # buy 1 TSLA stock on alpaca 
+stock.sell(1) # sell 1 TSLA stock on alpaca 
 ```
 
-New classes with cira v.2!
+For interactons with alpaca you can:  
 ```python
 portfolio = cira.Portfolio() # methods for your portfolio
 exchange = cira.Exchange() # methods for exchange
 stock = cira.Stock("TSLA") # a class for one stock
+crypto = cira.Cryptocurrency("BTC/USD") # method for one cryptocurrency 
 ```
 
 ### DEMO, no keys needed 
 
 Crypto market data can be accessed [without any alpaca keys](https://alpaca.markets/sdks/python/market_data.html#api-keys).
 So there for you can try cira out with out needing to get alpaca keys. 
+To put you model in production where you buy and sell you will need alpaca keys. 
 
 Needs `cira>=3.2.2`.
 
@@ -83,7 +77,7 @@ print(f"The current asking price for {SYMBOL} is {ast.price()}")
 
 
 # alpaca only have BTC data from 2021 and forward 
-data = ast.historical_data_df(datetime(2021, 6, 1), datetime(2024, 6, 1))
+data = ast.historical_data_df(datetime(2021, 1, 1), datetime.now().date())
 print(data.head())
 
 # All of strategies and backtesting works with out keys as well. 
@@ -92,45 +86,11 @@ cira.strategy.back_test_against_buy_and_hold(strat, data, data["open"].to_frame(
 plt.savefig('./result.png')
 ```
 
-
-### Sci-kit learn + cira 
-
-> only for v3
-
-I have made a simple example on how to use cira together with Sci-kit learn, using linear regression.
-This model is just a toy example. 
-
-**Checkout it out [./examples/linear.ipynb](./examples/linear.ipynb)**
-
-### A simple algorithm  
-
-In just a couple of lines you are up and running, with a super simple algorithm. 
-
-```python 
-import cira
-import random
-import time
-
-cira.alpaca.KEY_FILE = "../mypath/key.json"
-
-portfolio = cira.Portfolio()
-exchange = cira.Exchange()
-
-qty = 1 # choose how many stocks should be handled in one session 
-while True:
-    while exchange.is_open:
-        for stock in random.choices(exchange.get_all_stocks(), k=qty):
-            stock.buy(1)
-        for stock in random.choices(portfolio.owned_stocks(), k=qty):
-            stock.sell(1)
-        time.sleep(60*30) # 30 min timer    
-```
-
-you can find more examples on the **[wiki/examples](https://github.com/AxelGard/cira/wiki/Examples)** and the **[wiki/tutorial](https://github.com/AxelGard/cira/wiki/Tutorial)** for even more information. 
+you can find more examples on the **[examples repo](https://github.com/AxelGard/cira-examples)** and the **[wiki/tutorial](https://github.com/AxelGard/cira/wiki/Tutorial)** for even more information. 
 
 ### Cira Stratergies
 
-Cira have also now (v3) support for strategies.  
+Cira have also support for strategies.  
 An **full example** of how to use the strategy is [example/linear](../../examples/linear.ipynb). 
 
 With strategies you can run a cira backtests.
@@ -148,33 +108,36 @@ class MyStrat(Strategy):
         # this mehod will be called for each row of data in the backtest 
         # the function should return the change of your portfolio. 
         # -1 means sell one stock, 0 means hold, 1 means buy one stock
-        return np.array([ portfolio_change_as_int ]) 
+        return np.array([ portfolio_change_as_int_or_float ]) 
 ```
 
 #### Backtest
 
 If your model is put into a strategy you can run a backtest on you own data.
-This is a minimal setup for a backtest using the Randomness strategy included in cira.
-You should of course use your own strategy, but as an example.
+This is a backtest using some of the included strategy in cira.
+You can run a backtest aginst multiple strategies using the same data, this requires however that all features for all models are in the given data to the backtest.
+You should of course add your own strategy, but as an example.
 
 ```python
 import cira
-from cira.strategy import Randomness
-from cira.strategy import back_test
 from datetime import datetime
-import pandas as pd
+import matplotlib.pyplot as plt
 
-cira.auth.KEY_FILE = "../../alpc_key.json"
-assert cira.auth.check_keys(), "the set keys dose not work"
+assert not cira.auth.check_keys() # back testing against crypto do not need keys 
 
-stock = cira.Stock("AAPL")
-df = stock.historical_data_df(datetime(2022, 1, 1), datetime(2024, 1, 1))
-prices = pd.DataFrame()
-prices["AAPL"] = df["close"]
+SYMBOL = "ETH/USD"
+ast = cira.Cryptocurrency(SYMBOL)
 
-strat = Randomness(-10,10, seed=23323)
-bt = back_test(strat, df.copy(), prices.copy(), 10_000, use_fees=True)
-bt.plot()
+data = ast.historical_data_df(datetime(2021, 1, 1), datetime.now().date())
+
+strats = [
+            cira.strategy.ByAndHold(),
+            cira.strategy.DollarCostAveraging(0.8),
+            cira.strategy.Randomness(-100, 100, seed=None, use_float=True),
+            # add your own strategy and compare your model against other models
+        ]
+cira.strategy.multi_strategy_backtest(strats, data, data["open"].to_frame(), 100_000).plot()
+plt.savefig("./result.png")
 ```
 
 If you want more full example of how to use the backtest checkout 
@@ -189,20 +152,18 @@ If you want more full example of how to use the backtest checkout
 * [Wiki](https://github.com/AxelGard/cira/wiki/)
 * [Tutorial](https://github.com/AxelGard/cira/wiki/Tutorial)
 * [Storing the Alpaca API key](https://github.com/AxelGard/cira/wiki/Storing-the-Alpaca-API-key)
-* [Examples of how to use cira](https://github.com/AxelGard/cira/wiki/Examples)
+* [Examples of how to use cira](https://github.com/AxelGard/cira-examples)
 * [Discussions](https://github.com/AxelGard/cira/discussions)
 
-## [Wiki](https://github.com/AxelGard/cira/wiki) and docs
+### [Wiki](https://github.com/AxelGard/cira/wiki) and docs
 
 To see what more you can do check out the [wiki](https://github.com/AxelGard/cira/wiki).
-
-I also have an example of how to build a [index fund trader with cira](https://github.com/AxelGard/cira/wiki/Examples#simple-index-fund).
 
 ### Want the old version?
 
 For backwards compatibility I made sure to fork cira in to [cira-classic](https://github.com/AxelGard/cira-classic) and cira-classic is also available on [pypi with pip](https://pypi.org/project/cira-classic/).
 
-if you find bug plz let me know with a issue. If you know how to solve the problem then you can of course make a pull request and I will take a look at it.
+**If you find bug plz let me know with a issue.** If you know how to solve the problem then you can of course make a pull request and I will take a look at it.
 
 ### Have a question?
 
@@ -230,20 +191,23 @@ and know you need to
 python3 -m venv env
 source env/bin/activate
 pip install -e .
+pip install -r requirements.txt
 ```
 Run tests using pytest. Ensure that you are in the cira dir.
 But you will need a new key. This key should not only be used for testing or if you don't mind if all of the assets in the portfolio being sold.   
 ```bash
-touch tests/test_key.json
-pytest
+pytest -rP
 ```
 
 ### Coding style
 I'm trying to follow the [pep8](https://pep8.org/) standard notation.
 I try to make the library to be so intuitive as possible for easy of use.
 
+I enforce [black formater](https://github.com/psf/black) when you commit code, by [pre-commit githooks](https://git-scm.com/docs/githooks#_pre_commit) to keep it some what well formated.
+
 ## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details. 
 
 
 ## Acknowledgments
