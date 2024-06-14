@@ -80,7 +80,7 @@ class Randomness(Strategy):
 
 
 class DollarCostAveraging(Strategy):
-    def __init__(self, amount: int | float = 1) -> None:
+    def __init__(self, amount: float = 1) -> None:
         super().__init__(name="DollarCostAveraging")
         self.amount = amount
         self.allocation = []
