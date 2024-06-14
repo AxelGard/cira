@@ -48,8 +48,8 @@ class Strategy:
 class Randomness(Strategy):
     def __init__(
         self,
-        lower: float | int = -1,
-        upper: float | int = 1,
+        lower: float = -1,
+        upper: float = 1,
         seed=0,
         use_float: bool = False,
     ) -> None:
