@@ -1,11 +1,12 @@
 import cira
 from . import util
 import os
+import numpy as np
 
 
 def test_iterate():
     feature_data = util.stock_data
-    strat = cira.strategy.Randomness(seed=2**12)
+    strat = cira.strategy.DollarCostAveraging(amount=1)
     prices = feature_data["close"].to_frame()
     change_in_portfolio = strat.iterate(feature_data, prices.iloc[-1], 10_000)
     assert change_in_portfolio.tolist() == [1]
@@ -26,20 +27,36 @@ def test_storing_strategy():
 
 def test_backtest():
     feature_data = util.stock_data
-    strat = cira.strategy.Randomness(seed=2**14)
+    strat = cira.strategy.DollarCostAveraging(amount=1)
     prices = feature_data["close"].to_frame()
-    prices["close"] = [10, 100, 10_000, 100, 10]
+    prices["close"] = [10, 10, 5, 20, 10]
 
-    resutlt = cira.strategy.back_test_against_buy_and_hold(strat, feature_data, prices, 10_000)
-    resutlt = resutlt.dropna()
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 20, use_fees=False)
 
-    res = resutlt[strat.name].values.tolist()
-    res = [int(r) for r in res]
+    res = resutlt[strat.name].values.astype(int).tolist()
+    assert res == [20, 20, 10, 40, 20]
 
-    assert res == [9999, 10089, 20029, 20029]
 
-    s = cira.strategy.ByAndHold()
-    res = resutlt[s.name].values.tolist()
-    res = [int(r) for r in res]
+def test_backtest_float():
+    feature_data = util.stock_data
+    strat = cira.strategy.DollarCostAveraging(amount=0.5)
+    prices = feature_data["close"].to_frame()
+    prices["close"] = [10, 10, 5, 20, 10]
 
-    assert res == [9961, 96361, 9600361, 96361]
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 10, use_fees=False)
+
+    res = resutlt[strat.name].values.astype(int).tolist()
+    assert res == [10, 10, 5, 20, 10]
+
+
+def test_backtest_fees():
+    feature_data = util.stock_data
+    strat = cira.strategy.DollarCostAveraging(amount=1)
+    prices = feature_data["close"].to_frame()
+    prices["close"] = [10, 10, 10, 10, 10]
+
+    cira.strategy.FEE_RATE = 0.1
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 100, use_fees=True)
+
+    res = resutlt[strat.name].values.astype(int).tolist()
+    assert res == [99, 98, 97, 96, 95]

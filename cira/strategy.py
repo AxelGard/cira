@@ -46,12 +46,19 @@ class Strategy:
 
 
 class Randomness(Strategy):
-    def __init__(self, lower: int = -1, upper: int = 1, seed=0) -> None:
+    def __init__(
+        self,
+        lower: float | int = -1,
+        upper: float | int = 1,
+        seed=0,
+        use_float: bool = False,
+    ) -> None:
         super().__init__(name="Randomness")
         random.seed(seed)
         self.a = lower
         self.b = upper
         self.allocation = []
+        self.use_float = use_float
 
     def iterate(
         self,
@@ -61,8 +68,31 @@ class Randomness(Strategy):
         cash=float,
     ) -> np.ndarray:
         al = np.array(
-            [random.randint(self.a, self.b) for _ in range(len(prices.keys()))]
+            [
+                random.uniform(float(self.a), float(self.b))
+                for _ in range(len(prices.keys()))
+            ]
         )
+        if not self.use_float:
+            al = al.astype(int)
+        self.allocation.append(al)
+        return al
+
+
+class DollarCostAveraging(Strategy):
+    def __init__(self, amount: int | float = 1) -> None:
+        super().__init__(name="DollarCostAveraging")
+        self.amount = amount
+        self.allocation = []
+
+    def iterate(
+        self,
+        feature_data: pd.DataFrame,
+        prices: pd.DataFrame,
+        portfolio: np.ndarray,
+        cash=float,
+    ) -> np.ndarray:
+        al = np.array([self.amount for _ in range(len(prices.keys()))])
         self.allocation.append(al)
         return al
 
@@ -117,11 +147,11 @@ def back_test(
     }
     assert len(feature_data) == len(asset_prices)
     total_value = capital
-    nr_of_asset = np.zeros([len(asset_prices.keys())], int)
+    nr_of_asset = np.zeros([len(asset_prices.keys())], float)
     i = 0
     for t, cur_price in asset_prices.iterrows():
-        if len(asset_prices) == i + 1:
-            break
+        # if len(asset_prices) == i + 1:
+        #    break
         if total_value > 0:
             f_data = feature_data.iloc[: i + 1]
             p_data = asset_prices.iloc[: i + 1]
@@ -138,7 +168,7 @@ def back_test(
                 np.matmul(cur_price.values.T, allocation)
                 + use_fees * fees(cur_price.values, allocation)
             )  # - capital)
-            if asking < capital:
+            if asking <= capital:
                 capital -= asking
                 nr_of_asset += allocation
             total_value = np.matmul(cur_price.values.T, nr_of_asset) + capital
