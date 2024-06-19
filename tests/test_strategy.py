@@ -93,3 +93,27 @@ def test_backtest_multi_asset():
 
     res = resutlt[strat.name].values.astype(int).tolist()
     assert res == [40, 45, 14, 99, 0] 
+
+
+def test_backtest_not_enugh_cash():
+    feature_data = util.stock_data
+    strat = cira.strategy.DollarCostAveraging(amount=1)
+    prices = feature_data["close"].to_frame()
+    prices["close"] = [10, 11, 12, 13, 14]
+
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 9, use_fees=True)
+
+    res = resutlt[strat.name].values.astype(int).tolist()
+    assert res == [9, 9, 9, 9, 9]
+
+
+def test_backtest_sell_no_allocation():
+    feature_data = util.stock_data
+    strat = cira.strategy.DollarCostAveraging(amount=-1)
+    prices = feature_data["close"].to_frame()
+    prices["close"] = [10, 11, 12, 13, 14]
+
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 100, use_fees=True)
+
+    res = resutlt[strat.name].values.astype(int).tolist()
+    assert res == [100, 100, 100, 100, 100]
