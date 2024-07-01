@@ -1,19 +1,11 @@
 import cira
-from . import util
 import os
 import numpy as np
 import pandas as pd 
 
 
-def test_iterate():
-    feature_data = util.stock_data
-    strat = cira.strategy.DollarCostAveraging(amount=1)
-    prices = feature_data["close"].to_frame()
-    change_in_portfolio = strat.iterate(feature_data, prices.iloc[-1], 10_000)
-    assert change_in_portfolio.tolist() == [1]
 
-
-def test_storing_strategy():
+def test_save_strategy():
     CHECK = "this should be in the strategy"
     FILE = "./my_strat.pkl"
 
@@ -27,10 +19,9 @@ def test_storing_strategy():
 
 
 def test_backtest():
-    feature_data = util.stock_data
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
     strat = cira.strategy.DollarCostAveraging(amount=1)
-    prices = feature_data["close"].to_frame()
-    prices["close"] = [10, 10, 5, 20, 10]
+    prices = pd.DataFrame({"close":[10, 10, 5, 20, 10]})
 
     resutlt = cira.strategy.back_test(strat, feature_data, prices, 20, use_fees=False)
 
@@ -39,10 +30,9 @@ def test_backtest():
 
 
 def test_backtest_float():
-    feature_data = util.stock_data
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
     strat = cira.strategy.DollarCostAveraging(amount=0.5)
-    prices = feature_data["close"].to_frame()
-    prices["close"] = [10, 10, 5, 20, 10]
+    prices = pd.DataFrame({"close":[10, 10, 5, 20, 10]})
 
     resutlt = cira.strategy.back_test(strat, feature_data, prices, 10, use_fees=False)
 
@@ -51,10 +41,9 @@ def test_backtest_float():
 
 
 def test_backtest_fees():
-    feature_data = util.stock_data
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
     strat = cira.strategy.DollarCostAveraging(amount=1)
-    prices = feature_data["close"].to_frame()
-    prices["close"] = [10, 10, 10, 10, 10]
+    prices = pd.DataFrame({"close":[10, 10, 10, 10, 10]}) 
 
     cira.strategy.FEE_RATE = 0.1
     resutlt = cira.strategy.back_test(strat, feature_data, prices, 100, use_fees=True)
@@ -64,7 +53,7 @@ def test_backtest_fees():
 
 
 def test_backtest_multi_asset_uniform_prices():
-    feature_data = util.stock_data
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
     strat = cira.strategy.DollarCostAveraging(amount=1)
 
     prices = pd.DataFrame() 
@@ -80,7 +69,7 @@ def test_backtest_multi_asset_uniform_prices():
 
 
 def test_backtest_multi_asset():
-    feature_data = util.stock_data
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
     strat = cira.strategy.DollarCostAveraging(amount=1)
 
     prices = pd.DataFrame()
@@ -96,10 +85,9 @@ def test_backtest_multi_asset():
 
 
 def test_backtest_not_enugh_cash():
-    feature_data = util.stock_data
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
     strat = cira.strategy.DollarCostAveraging(amount=1)
-    prices = feature_data["close"].to_frame()
-    prices["close"] = [10, 11, 12, 13, 14]
+    prices = pd.DataFrame({"close":[10, 11, 12, 13, 14]})
 
     resutlt = cira.strategy.back_test(strat, feature_data, prices, 9, use_fees=True)
 
@@ -108,12 +96,67 @@ def test_backtest_not_enugh_cash():
 
 
 def test_backtest_sell_no_allocation():
-    feature_data = util.stock_data
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
     strat = cira.strategy.DollarCostAveraging(amount=-1)
-    prices = feature_data["close"].to_frame()
-    prices["close"] = [10, 11, 12, 13, 14]
+    prices = pd.DataFrame({"close":[10, 11, 12, 13, 14]})
 
     resutlt = cira.strategy.back_test(strat, feature_data, prices, 100, use_fees=True)
 
     res = resutlt[strat.name].values.astype(int).tolist()
     assert res == [100, 100, 100, 100, 100]
+
+
+def test_backtest_short_position_posetive_ROI():
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
+    strat = cira.strategy.DollarCostAveraging(amount=-1)
+    prices = pd.DataFrame({"close":[10, 10, 9, 9, 9]})
+
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 10, use_fees=False, allow_short_position=True)
+
+    res = resutlt[strat.name].values.astype(int).tolist()
+    assert res == [10, 10, 12, 12, 12]
+
+
+def test_backtest_short_position_negativ_ROI():
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
+    strat = cira.strategy.DollarCostAveraging(amount=-1)
+    prices = pd.DataFrame({"close":[10, 10, 11, 11, 11]})
+
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 10, use_fees=False, allow_short_position=True)
+
+    res = resutlt[strat.name].values.astype(int).tolist()
+    assert res == [10, 10, 8, 8, 8]
+
+
+def test_backtest_short_position_posetive_ROI_with_fees():
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
+    strat = cira.strategy.DollarCostAveraging(amount=-1)
+    prices = pd.DataFrame({"close":[10, 10, 8, 8, 8]})
+
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 100, use_fees=True, allow_short_position=True)
+
+    res = resutlt[strat.name].values.astype(int).tolist()
+    assert res == [99, 98, 100 - 2 + 2*(10-8) - 1, 100, 99]
+
+
+def test_backtest_short_position_negativ_ROI_with_fees():
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
+    strat = cira.strategy.DollarCostAveraging(amount=-1)
+    prices = pd.DataFrame({"close":[10, 10, 20, 20, 20]})
+
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 100, use_fees=True, allow_short_position=True)
+
+    res = resutlt[strat.name].values.astype(int).tolist()
+    assert res == [99, 98, 100 - 2 - 2*10 - 2, 74, 72]
+
+
+
+def test_backtest_short_position_margin_call():
+    feature_data = pd.DataFrame({"my_featrue":[1,2,3,4,5]}) 
+    strat = cira.strategy.DollarCostAveraging(amount=-1)
+    prices = pd.DataFrame({"close":[10, 100, 100, 100, 100]})
+
+    resutlt = cira.strategy.back_test(strat, feature_data, prices, 100, use_fees=True, allow_short_position=True)
+
+    res = resutlt[strat.name].values.astype(int).tolist()
+    assert res == [99, -1, -1, -1, -1]

@@ -81,7 +81,7 @@ class Randomness(Strategy):
 
 class DollarCostAveraging(Strategy):
     def __init__(self, amount: float = 1) -> None:
-        super().__init__(name="DollarCostAveraging")
+        super().__init__(name=f"DollarCostAveraging({amount})")
         self.amount = amount
         self.allocation = []
 
@@ -133,6 +133,7 @@ def back_test(
     asset_prices: pd.DataFrame,
     capital=100_000.0,
     use_fees: bool = True,
+    allow_short_position: bool = False,
 ) -> pd.DataFrame:
     """
     DISCLAIMER:
@@ -162,13 +163,13 @@ def back_test(
             for a, _ in enumerate(allocation):
                 if capital <= 0.0 and allocation[a] < 0.0:
                     allocation[a] = 0
-                if nr_of_asset[a] + allocation[a] < 0.0:
+                elif nr_of_asset[a] + allocation[a] < 0.0 and not allow_short_position:
                     allocation[a] = -nr_of_asset[a]
             asking = float(
                 np.matmul(cur_price.values.T, allocation)
-                + use_fees * fees(cur_price.values, allocation)
-            )  # - capital)
-            if asking <= capital:
+                + use_fees * fees(cur_price.values, np.abs(allocation))
+            )
+            if asking <= capital and capital > 0.0:
                 capital -= asking
                 nr_of_asset += allocation
             total_value = np.matmul(cur_price.values.T, nr_of_asset) + capital
@@ -192,6 +193,7 @@ def multi_strategy_backtest(
     asset_prices: pd.DataFrame,
     capital=100_000.0,
     use_fees: bool = True,
+    allow_short_position: bool = False,
 ):
     result = pd.DataFrame()
     result.index = asset_prices.index
@@ -202,6 +204,7 @@ def multi_strategy_backtest(
             asset_prices=asset_prices,
             capital=capital,
             use_fees=use_fees,
+            allow_short_position=allow_short_position,
         )
         result[s.name] = s_result[s.name]
     return result
@@ -213,6 +216,7 @@ def back_test_against_buy_and_hold(
     asset_prices: pd.DataFrame,
     capital=100_000.0,
     use_fees: bool = True,
+    allow_short_position: bool = False,
 ):
     buy_and_hold = ByAndHold()
     return multi_strategy_backtest(
@@ -221,6 +225,7 @@ def back_test_against_buy_and_hold(
         asset_prices=asset_prices,
         capital=capital,
         use_fees=use_fees,
+        allow_short_position=allow_short_position,
     )
 
 

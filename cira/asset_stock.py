@@ -1,4 +1,5 @@
 import pandas as pd
+import warnings
 
 
 # Alpaca
@@ -52,3 +53,23 @@ class Stock(Asset):
             asset_class=AssetClass.US_EQUITY, status=AssetStatus.ACTIVE
         )
         return [a.symbol for a in trade.get_all_assets(search_params)]
+
+    def short(self, qty: float) -> None:
+        if not self.is_sortable():
+            warnings.warn(
+                f"tryied to short {self.symbol}, but alpaca markets dose not allow for short position in {self.symbol}"
+            )
+            return
+        if self.position() != None:
+            warnings.warn(
+                f"tryied to short {self.symbol}, but a long position is being held there for short just result in a sale of the same qty {qty}"
+            )
+        self.sell(qty)
+
+    def short_exit(self, qty: float) -> None:
+        if not self.is_sortable():
+            warnings.warn(
+                f"tryied to exit short {self.symbol}, but alpaca markets dose not allow for short position in {self.symbol}"
+            )
+            return
+        self.buy(qty)
