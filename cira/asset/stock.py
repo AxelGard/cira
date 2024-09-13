@@ -21,14 +21,12 @@ from alpaca.data.live import StockDataStream
 
 
 # cira
-from .asset import Asset
-from . import auth
-from . import config
-from . import util
-from . import log
+from cira.asset import asset
+from cira import auth, config
 
 
-class Stock(Asset):
+
+class Stock(asset.Asset):
     def __init__(self, symbol: str) -> None:
         """Exchange for trading stocks"""
         APCA_ID, APCA_SECRET = auth.get_api_keys()

@@ -30,10 +30,8 @@ from alpaca.data.requests import CryptoBarsRequest
 
 import pandas as pd
 
-from . import auth
-from . import config
-from . import util
-from . import log
+from cira import config
+from cira import log
 
 
 class Asset:

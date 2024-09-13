@@ -4,23 +4,22 @@ Cira
 A simpler libray for alpaca-trade-api from Alpaca Markets.
 """
 
-from . import auth
-from . import config
-from . import util
-from . import log
-from . import strategy
+from cira import auth
+from cira import config
+from cira import util
+from cira import log
 
-# Assets
-from .asset import Asset
-from .assset_cryptocurrency import Cryptocurrency
-from .asset_stock import Stock
-from .asset_option import OptionContract
+from cira import strategy
 
-from .portfolio import Portfolio, Position
-from .exchange import Exchange, DemoExchange
+from cira.asset.stock import Stock
+from cira.asset.cryptocurrency import Cryptocurrency
+from cira.asset.option import OptionContract
+
+from cira.portfolio import Portfolio, Position
+from cira.exchange import Exchange, DemoExchange
 
 import alpaca
 
-__version__ = "3.3.0"
+__version__ = "4.0.0"
 __author__ = "Axel Gard"
 __credits__ = "alpaca.markets"

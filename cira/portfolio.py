@@ -1,9 +1,9 @@
 from typing import List, Dict
 import warnings
 from alpaca.trading.client import TradingClient
-from . import auth
-from . import config
-from .asset_stock import Stock
+from cira import auth
+from cira import config
+from cira.asset import stock
 
 
 class Position:
@@ -103,11 +103,11 @@ class Portfolio:
             q = self.position_in(symbol).quantity()
             if q == 0:
                 continue
-            stk = Stock(symbol=symbol)
+            stk = stock.Stock(symbol=symbol)
             stk.sell(q)
 
     def owned_stock_qty(self, symbol: str) -> int:  # maby shuld be in stock.Stock
-        """returns quantity of owned of a stock Stock (obj)"""
+        """returns quantity of owned of a stock stock.Stock (obj)"""
         assert isinstance(symbol, str), "symbol needs to be string"
         return Position(symbol).quantity()
 
@@ -118,9 +118,9 @@ class Portfolio:
             result[p.symbol] = Position(p.symbol).quantity()
         return result
 
-    def owned_stocks(self) -> List[Stock]:
+    def owned_stocks(self) -> List[stock.Stock]:
         """returns a list of owned stocks"""
-        return [Stock(p.symbol) for p in self.all_positions()]
+        return [stock.Stock(p.symbol) for p in self.all_positions()]
 
     def __repr__(self):
         return f"portfolio({self.equity()})"

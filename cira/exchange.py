@@ -3,15 +3,15 @@ from typing import List
 import alpaca.trading
 import alpaca.trading.enums
 import alpaca.trading.requests
-from . import asset
-from . import auth
-from . import config
+from cira.asset import asset
+from cira import auth
+from cira import config
 from alpaca.trading.client import TradingClient
 from alpaca.trading.requests import GetAssetsRequest
 from alpaca.data import CryptoHistoricalDataClient, StockHistoricalDataClient
 from alpaca.trading.enums import AssetClass
 from alpaca.trading.models import Clock
-from .asset_stock import Stock
+from cira.asset.stock import Stock
 import alpaca
 import warnings
 import datetime

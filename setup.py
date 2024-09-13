@@ -11,7 +11,11 @@ setup(
     author="Axel Gard",
     author_email="axel.gard@tutanota.com",
     license="MIT",
-    packages=["cira"],
+    packages=[
+        "cira",
+        "cira.asset",
+        "cira.strategy",
+    ],
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=[
