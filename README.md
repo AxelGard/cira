@@ -141,8 +141,8 @@ plt.savefig("./result.png")
 ```
 
 If you want more full example of how to use the backtest checkout 
-[multiassets](../../examples/multi_assets.ipynb) and 
-[linear](../../examples/linear.ipynb).
+[multiassets](https://github.com/AxelGard/cira/blob/master/examples/multi_assets.ipynb) and 
+[linear](https://github.com/AxelGard/cira/blob/master/examples/linear.ipynb).
 
 
 
@@ -207,7 +207,7 @@ I enforce [black formater](https://github.com/psf/black) when you commit code, b
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details. 
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/AxelGard/cira/blob/master/LICENSE.txt) file for details. 
 
 
 ## Acknowledgments
