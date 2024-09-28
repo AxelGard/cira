@@ -1,5 +1,5 @@
-from typing import List
-from datetime import datetime
+from typing import List, Union
+from datetime import datetime, date
 import logging
 import warnings
 
@@ -70,17 +70,21 @@ class Asset:
         return self.history.get_stock_bars(params)
 
     def historical_data_df(
-        self, start_date: datetime, end_date: datetime
+        self, start_date: Union[datetime, date], end_date: Union[datetime, date]
     ) -> pd.DataFrame:
-        """takes two dates, and returns a data frame with bars from the given dates"""
+        """takes two dates or datetimes (date will only matter), and returns a data frame with bars from the given dates"""
+        if isinstance(start_date, datetime): start_date = start_date.date()
+        if isinstance(end_date, datetime): end_date = end_date.date()
         data = self._get_bars(start_date, end_date).df
         data = data.reset_index(level="symbol")
         data["timestamp"] = pd.to_datetime(data.index.get_level_values("timestamp"))
         data.set_index("timestamp", inplace=True)
         return data
 
-    def historical_data(self, start_date: datetime, end_date: datetime) -> List[dict]:
-        """takes two dates, and returns a list of dicts with bars from the given dates"""
+    def historical_data(self, start_date: Union[datetime, date], end_date: Union[datetime, date]) -> List[dict]:
+        """takes two datetime, and returns a list of dicts with bars from the given dates"""
+        if isinstance(start_date, datetime): start_date = start_date.date()
+        if isinstance(end_date, datetime): end_date = end_date.date()
         return self._get_bars(start_date, end_date).dict()[self.symbol]
 
     def buy(self, qty: float) -> None:

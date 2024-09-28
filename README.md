@@ -71,13 +71,13 @@ import matplotlib.pyplot as plt
 assert not cira.auth.check_keys() # No keys are needed
 
 SYMBOL = "BTC/USD"
-ast = cira.Cryptocurrency(SYMBOL)
+ast = cira.Cryptocurrency(SYMBOL) # Crypto market data can be accessed without any alpaca keys
 
 print(f"The current asking price for {SYMBOL} is {ast.price()}")
 
 
 # alpaca only have BTC data from 2021 and forward 
-data = ast.historical_data_df(datetime(2021, 1, 1), datetime.now().date())
+data = ast.historical_data_df(datetime(2021, 1, 1), datetime.now())
 print(data.head())
 
 # All of strategies and backtesting works with out keys as well. 
