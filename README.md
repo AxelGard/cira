@@ -190,8 +190,7 @@ and know you need to
 ```bash
 python3 -m venv env
 source env/bin/activate
-pip install -e .
-pip install -r requirements.txt
+pip install -e .[dev]
 ```
 Run tests using pytest. Ensure that you are in the cira dir.
 But you will need a new key. This key should not only be used for testing or if you don't mind if all of the assets in the portfolio being sold.   

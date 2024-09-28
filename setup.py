@@ -25,7 +25,12 @@ setup(
         "pandas",
         "numpy",
     ],
-    extras_requires={"dev": ["pytest"]},
+    extras_require={
+        'dev': [
+            'pytest',
+            "black",
+        ]
+    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Topic :: Office/Business :: Financial",
