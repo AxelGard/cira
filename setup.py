@@ -5,13 +5,17 @@ with open("README.md", "r") as fh:
 
 setup(
     name="cira",
-    version="3.3.0",
+    version="4.0.0",
     description="A simpler library for the alapaca trade api",
     url="https://github.com/AxelGard/cira",
     author="Axel Gard",
     author_email="axel.gard@tutanota.com",
     license="MIT",
-    packages=["cira"],
+    packages=[
+        "cira",
+        "cira.asset",
+        "cira.strategy",
+    ],
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=[
@@ -21,7 +25,12 @@ setup(
         "pandas",
         "numpy",
     ],
-    extras_requires={"dev": ["pytest"]},
+    extras_require={
+        'dev': [
+            'pytest',
+            "black",
+        ]
+    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Topic :: Office/Business :: Financial",

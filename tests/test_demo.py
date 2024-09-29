@@ -17,6 +17,6 @@ def test_demo():
     assert data.shape == (5, 8)
     assert data.keys().to_list() == ['symbol', 'open', 'high', 'low', 'close', 'volume', 'trade_count', 'vwap']
 
-    strat = cira.strategy.Randomness()
-    bt = cira.strategy.back_test_against_buy_and_hold(strat, data, data["open"].to_frame(), 100_000, True)
-    assert np.allclose(bt[cira.strategy.ByAndHold().name].head(3).to_numpy(), np.array([99635.369248528, 100062.791380528, 100568.8959120505]))
+    strat = cira.strategy.strategies.Randomness()
+    bt = cira.strategy.backtest.back_test_against_buy_and_hold(strat, data, data["open"].to_frame(), 100_000, True)
+    assert np.allclose(bt[cira.strategy.strategies.BuyAndHold().name].head(3).to_numpy(), np.array([99635.369248528, 100062.791380528, 100568.8959120505]))

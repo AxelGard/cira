@@ -1,7 +1,7 @@
 import csv
 import time
 import logging
-from . import config
+from cira import config
 
 """
 This functions is logging trades

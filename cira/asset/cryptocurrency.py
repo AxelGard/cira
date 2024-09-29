@@ -28,15 +28,15 @@ from alpaca.data.requests import CryptoBarsRequest
 
 import pandas as pd
 
-from . import auth
-from . import config
-from . import util
-from . import log
+from cira import auth
+from cira import config
+from cira import util
+from cira import log
 
-from .asset import Asset
+from cira.asset import asset 
 
 
-class Cryptocurrency(Asset):
+class Cryptocurrency(asset.Asset):
     def __init__(self, symbol: str) -> None:
         """Exchange for trading cryptocurrencies"""
         try:
