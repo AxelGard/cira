@@ -64,10 +64,11 @@ class DollarCostAveraging(strategy.Strategy):
 class BuyAndHold(strategy.Strategy):
     """An example strategy that buys as much as possible of each asset on the first iteration then holds"""
 
-    def __init__(self) -> None:
+    def __init__(self, fee_rate=0.04) -> None:
         super().__init__(name="BuyAndHold")
         self.is_first = True
         self.allocation = []
+        self.fee_rate = fee_rate
 
     def iterate(
         self,
@@ -79,7 +80,7 @@ class BuyAndHold(strategy.Strategy):
         if self.is_first:
             self.is_first = False
             amount = cash / len(prices.keys())
-            amount *= 0.96  # fees
+            amount *= 1.0 - self.fee_rate 
             al = (amount // prices.values).astype(np.int64)[0]
             self.allocation.append(al)
             return al

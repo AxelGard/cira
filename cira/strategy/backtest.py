@@ -105,7 +105,8 @@ def back_test_against_buy_and_hold(
     fee_rate: float = 0.004,
     allow_short_position: bool = False,
 ):
-    buy_and_hold = strategies.BuyAndHold()
+    use_fees *= use_fees # for buy and hold 
+    buy_and_hold = strategies.BuyAndHold(fee_rate=fee_rate)
     return multi_strategy_backtest(
         strats=[strat, buy_and_hold],
         feature_data=feature_data,
