@@ -33,7 +33,7 @@ from cira import config
 from cira import util
 from cira import log
 
-from cira.asset import asset 
+from cira.asset import asset
 
 
 class Cryptocurrency(asset.Asset):

@@ -1,6 +1,7 @@
 import schedule
 import time
 
+
 class Scheduler:
     def __init__(self) -> None:
         pass

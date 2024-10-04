@@ -1,11 +1,13 @@
 from typing import List
 import pandas as pd
 import numpy as np
-from cira.strategy import strategies 
+from cira.strategy import strategies
 from cira.strategy import strategy
 
-def fees(prices:np.ndarray, allocation:np.ndarray, fee_rate:float = 0.004) -> float:
+
+def fees(prices: np.ndarray, allocation: np.ndarray, fee_rate: float = 0.004) -> float:
     return fee_rate * np.matmul(prices.T, allocation)
+
 
 def back_test(
     strat: strategy.Strategy,
@@ -13,14 +15,14 @@ def back_test(
     asset_prices: pd.DataFrame,
     capital=100_000.0,
     use_fees: bool = True,
-    fee_rate:float = 0.004,
+    fee_rate: float = 0.004,
     allow_short_position: bool = False,
 ) -> pd.DataFrame:
     """
     DISCLAIMER:
-    The results of this backtest are based on historical data and do not guarantee future performance.
+    The results of this back test are based on historical data and do not guarantee future performance.
     The financial markets are inherently uncertain, and various factors can influence actual trading results.
-    This backtest is provided for educational and informational purposes only.
+    This back test is provided for educational and informational purposes only.
     Users should exercise caution and conduct additional research before applying any trading strategy in live markets.
     """
     portfolio_history = {
@@ -40,7 +42,7 @@ def back_test(
             allocation = strat.iterate(f_data, p_data, nr_of_asset.copy(), capital)
             assert len(allocation) == len(
                 nr_of_asset
-            ), "tried to allocating more assets then is aviabel"
+            ), "tried to allocating more assets then is available"
             for a, _ in enumerate(allocation):
                 if capital <= 0.0 and allocation[a] < 0.0:
                     allocation[a] = 0
@@ -48,7 +50,8 @@ def back_test(
                     allocation[a] = -nr_of_asset[a]
             asking = float(
                 np.matmul(cur_price.values.T, allocation)
-                + use_fees * fees(cur_price.values, np.abs(allocation), fee_rate=fee_rate)
+                + use_fees
+                * fees(cur_price.values, np.abs(allocation), fee_rate=fee_rate)
             )
             if asking <= capital and capital > 0.0:
                 capital -= asking
@@ -74,7 +77,7 @@ def multi_strategy_backtest(
     asset_prices: pd.DataFrame,
     capital=100_000.0,
     use_fees: bool = True,
-    fee_rate:float = 0.004,
+    fee_rate: float = 0.004,
     allow_short_position: bool = False,
 ):
     result = pd.DataFrame()
@@ -99,7 +102,7 @@ def back_test_against_buy_and_hold(
     asset_prices: pd.DataFrame,
     capital=100_000.0,
     use_fees: bool = True,
-    fee_rate:float = 0.004, 
+    fee_rate: float = 0.004,
     allow_short_position: bool = False,
 ):
     buy_and_hold = strategies.BuyAndHold()

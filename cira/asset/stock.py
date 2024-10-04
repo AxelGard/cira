@@ -26,7 +26,6 @@ from cira.asset import asset
 from cira import auth, config
 
 
-
 class Stock(asset.Asset):
     def __init__(self, symbol: str) -> None:
         """Exchange for trading stocks"""
