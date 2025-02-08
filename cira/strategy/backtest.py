@@ -19,6 +19,9 @@ def back_test(
     allow_short_position: bool = False,
 ) -> pd.DataFrame:
     """
+    Method to back test a strategy on historical data.
+    Method my rasing an error if something goes wrong in the strategy.
+    
     DISCLAIMER:
     The results of this back test are based on historical data and do not guarantee future performance.
     The financial markets are inherently uncertain, and various factors can influence actual trading results.
@@ -29,7 +32,10 @@ def back_test(
         "value": [],
         "timestamp": [],
     }
-    assert len(feature_data) == len(asset_prices)
+    if len(feature_data) != len(asset_prices):
+        raise ValueError(
+            f"feature_data and asset_prices must be of same length, got {len(feature_data)} and {len(asset_prices)}"
+        )
     total_value = capital
     nr_of_asset = np.zeros([len(asset_prices.keys())], float)
     i = 0
@@ -39,10 +45,15 @@ def back_test(
         if total_value > 0:
             f_data = feature_data.iloc[: i + 1]
             p_data = asset_prices.iloc[: i + 1]
-            allocation = strat.iterate(f_data, p_data, nr_of_asset.copy(), capital)
-            assert len(allocation) == len(
-                nr_of_asset
-            ), "tried to allocating more assets then is available"
+            allocation = np.zeros([len(asset_prices.keys())], float)
+            try:
+                allocation = strat.iterate(f_data, p_data, nr_of_asset.copy(), capital)
+            except Exception as e:
+                raise ValueError(
+                    f"Error in strategy.{strat.name}.iterate() at timestamp {t}: {e}"
+                ) 
+            if len(allocation) != len(nr_of_asset): 
+                raise ValueError("tried to allocating more assets then is available")
             for a, _ in enumerate(allocation):
                 if capital <= 0.0 and allocation[a] < 0.0:
                     allocation[a] = 0
