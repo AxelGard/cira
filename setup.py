@@ -24,6 +24,7 @@ setup(
         "matplotlib",
         "pandas",
         "numpy",
+        "fredapi",
     ],
     extras_require={
         'dev': [
